@@ -157,5 +157,5 @@ If you find WhichClaw useful, please consider giving it a ⭐ on GitHub — it h
 
 <p align="center">
   Made with 💚 by the WhichClaw Team<br/>
-  <sub>📧 <a href="mailto:hi@whichclaw.com">hi@whichclaw.com</a></sub>
+  <sub>🌐 <a href="https://www.whichclaw.com">www.whichclaw.com</a></sub>
 </p>
