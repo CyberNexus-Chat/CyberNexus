@@ -5,98 +5,134 @@
 <h1 align="center">WhichClaw</h1>
 
 <p align="center">
-  <strong>AI 模型可视化切换与配置管理中心</strong>
+  <strong>One Hub. All Models. Every Coding Tool.</strong><br/>
+  <sub>WhichClaw 是一款桌面应用，为你的 AI 编程工具提供</sub>
 </p>
 
 <p align="center">
   <a href="https://github.com/ebenxp707-boop/WhichClaw/releases">
     <img src="https://img.shields.io/github/v/release/ebenxp707-boop/WhichClaw?style=flat-square&color=00FF9D" alt="Release" />
   </a>
-  <img src="https://img.shields.io/badge/平台-Windows%20%7C%20macOS%20%7C%20Linux-blue?style=flat-square" alt="Platform" />
+  <img src="https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-blue?style=flat-square" alt="Platform" />
+  <img src="https://img.shields.io/github/license/ebenxp707-boop/WhichClaw?style=flat-square" alt="License" />
 </p>
 
 <p align="center">
-  <a href="../README.md">English</a> ·
-  <a href="./README.zh-CN.md">简体中文</a> ·
-  <a href="./README.ja.md">日本語</a> ·
-  <a href="./README.ko.md">한국어</a>
+  <a href="../README.md">English</a> · **简体中文** · <a href="./README.zh-TW.md">繁體中文</a> · <a href="./README.ja.md">日本語</a> · <a href="./README.ko.md">한국어</a> · <a href="./README.es.md">Español</a> · <a href="./README.fr.md">Français</a> · <a href="./README.de.md">Deutsch</a> · <a href="./README.pt.md">Português</a> · <a href="./README.ru.md">Русский</a> · <a href="./README.ar.md">العربية</a>
 </p>
 
 ---
 
 ## ✨ WhichClaw 是什么？
 
-WhichClaw 是一个桌面应用程序，为你的编程工具提供**可视化、统一的** AI 模型管理界面。告别手动编辑配置文件，告别 Token 焦虑——点击即切换。
+WhichClaw 是一款桌面应用，为你的 AI 编程工具提供**可视化、统一的模型管理界面**。无需再手动翻配置文件 —— 点一下，就能切换。
 
 ### 痛点
 
 - 😫 在 OpenClaw 等工具中切换模型需要手动编辑配置文件
-- 💸 无法直观了解各工具的 Token 消耗情况
-- 🔄 每个工具的模型配置格式都不一样
-- 🔑 API Key 散落在多个配置文件中
+- 🔄 每个工具都有自己的模型配置格式
+- 🧩 没有方便的方式管理技能和扩展
 
 ### 解决方案
 
-WhichClaw 作为所有 AI 编程工具的**统一控制面板**：
+WhichClaw 是你所有 AI 编程工具的**中央控制面板**：
 
-- 🎯 **一键切换模型** — 可视化界面，为任意工具切换 AI 模型
-- 📊 **Token 用量监控** — 实时追踪消耗和费用
-- 🔐 **安全密钥管理** — 加密存储 API Key，硬件绑定保护
-- 🖥️ **本地模型支持** — 通过 llama.cpp 本地运行开源模型（Llama、Mistral 等）
-- 🎮 **内置 AI 试验场** — 用 AI 黑白棋等互动游戏测试模型效果
+- 🎯 **一键切换模型** — 可视化切换任何支持工具的 AI 模型
+- 🔀 **双协议支持** — OpenAI & Anthropic API 支持，随时随地切换模型
+- 🚇 **智能隧道代理** — 无需全局 VPN 即可访问受限 API，仅代理 API 流量
+- 🧩 **技能浏览器** — 发现、安装和管理 AI 技能
+- 🖥️ **本地模型服务器** — 通过 llama.cpp 本地运行开源模型（Qwen、DeepSeek、Llama）
+- 🌍 **28 种语言** — 完整国际化支持
+- 🎮 **内置 AI 应用** — 交互式 AI 游戏和工具，如 Reversi 和 AI 翻译
+- 🌃 **赛博朋克黑客 UI** — 炫酷的霓虹绿终端美学，让编程充满未来感
+
+## 🖼️ 截图
+
+### Model Nexus — 在一处管理所有 AI 模型
+![Model Nexus](1.png)
+
+### App Manager — 一键为所有编程工具切换模型
+![App Manager](2.png)
+
+### Local Server — 通过 llama.cpp 本地运行开源模型
+![Local Server](3.png)
+
+### Skill Browser — 发现和安装 AI 技能
+![Skill Browser](4.png)
 
 ## 🚀 快速开始
 
 ### 下载
 
-| 平台 | 下载 |
-|------|------|
-| Windows | [WhichClaw-Setup.exe](https://github.com/ebenxp707-boop/WhichClaw/releases/latest) |
-| macOS | [WhichClaw.dmg](https://github.com/ebenxp707-boop/WhichClaw/releases/latest) |
-| Linux | [WhichClaw.AppImage](https://github.com/ebenxp707-boop/WhichClaw/releases/latest) |
+获取适合你平台的最新版本：
 
-### Linux 用户注意
+| 平台 | 下载 |
+|----------|----------|
+| Windows  | [WhichClaw-Setup.exe](https://github.com/ebenxp707-boop/WhichClaw/releases/latest) |
+| macOS    | [WhichClaw.dmg](https://github.com/ebenxp707-boop/WhichClaw/releases/latest) |
+| Linux    | [WhichClaw.AppImage](https://github.com/ebenxp707-boop/WhichClaw/releases/latest) |
+
+### Linux 说明
 
 ```bash
 chmod +x WhichClaw-*.AppImage
 ./WhichClaw-*.AppImage
 ```
 
-> 如遇 FUSE 错误：`sudo apt install libfuse2`
+> 如果遇到 FUSE 错误： `sudo apt install libfuse2`
 
 ## 🔧 支持的工具
 
 | 工具 | 状态 | 模型切换 | 协议 |
-|------|------|---------|------|
+|------|--------|----------------|----------|
 | OpenClaw | ✅ 已支持 | ✅ | OpenAI / Anthropic |
 | Claude Code | ✅ 已支持 | ✅ | Anthropic |
-| Cline | ✅ 已支持 | ✅ | OpenAI / Anthropic |
+| Cline | ✅ 已支持 | ✅ | OpenAI |
 | Continue | ✅ 已支持 | ✅ | OpenAI |
-| Aider | ✅ 已支持 | ✅ | OpenAI |
 | OpenCode | ✅ 已支持 | ✅ | OpenAI |
 | Codex | ✅ 已支持 | ✅ | OpenAI |
-| Roo Code | 🔜 即将支持 | — | — |
+| Roo Code | ✅ 已支持 | ✅ | OpenAI |
 
 ## 🏗️ 技术栈
 
 - **Electron** — 跨平台桌面框架
 - **React + TypeScript** — UI 框架
-- **Tailwind CSS** — 样式
+- **Vanilla CSS** — 自定义赛博朋克设计系统
 - **Vite** — 构建工具
-- **llama.cpp** — 本地模型推理
+- **llama.cpp** — 本地模型推理引擎
 
 ## 🛠️ 开发
 
 ```bash
-# 安装依赖
 npm install
-
-# 启动开发服务器
 npm run dev
-
-# 构建生产版本
 npm run build
 ```
+
+## 🤝 贡献
+
+欢迎贡献！随时提交 Issue 或 Pull Request。
+
+We're especially looking for help with:
+- 🍎 **macOS 测试** — 我们还没有完全测试 macOS 构建
+- 🔧 **新工具集成** — 帮助我们支持更多 AI 编程工具
+- 🌐 **翻译改进** — 欢迎母语使用者！
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'feat: add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📬 Contact
+
+- 📧 Email: [hi@whichclaw.com](mailto:hi@whichclaw.com)
+- 🐛 Bug Reports: [GitHub Issues](https://github.com/ebenxp707-boop/WhichClaw/issues)
+- 💬 Discussions: [GitHub Discussions](https://github.com/ebenxp707-boop/WhichClaw/discussions)
+
+## ⭐ 支持
+
+如果 WhichClaw 对你有帮助，请在 GitHub 上给个 ⭐ —— 让更多人发现这个项目！
 
 ## 📄 许可证
 
@@ -105,5 +141,6 @@ npm run build
 ---
 
 <p align="center">
-  Made with 💚 by the WhichClaw Team
+  由 WhichClaw 团队用 💚 打造<br/>
+  <sub>📧 <a href="mailto:hi@whichclaw.com">hi@whichclaw.com</a></sub>
 </p>

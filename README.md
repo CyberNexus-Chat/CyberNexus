@@ -5,7 +5,8 @@
 <h1 align="center">WhichClaw</h1>
 
 <p align="center">
-  <strong>Visual AI Model Switching & Configuration Hub for Coding Tools</strong>
+  <strong>One Hub. All Models. Every Coding Tool.</strong><br/>
+  <sub>Visual AI Model Switching & Management for Developers</sub>
 </p>
 
 <p align="center">
@@ -17,34 +18,43 @@
 </p>
 
 <p align="center">
-  <a href="./README.md">English</a> ·
+  <strong>English</strong> ·
   <a href="./docs/README.zh-CN.md">简体中文</a> ·
+  <a href="./docs/README.zh-TW.md">繁體中文</a> ·
   <a href="./docs/README.ja.md">日本語</a> ·
-  <a href="./docs/README.ko.md">한국어</a>
+  <a href="./docs/README.ko.md">한국어</a> ·
+  <a href="./docs/README.es.md">Español</a> ·
+  <a href="./docs/README.fr.md">Français</a> ·
+  <a href="./docs/README.de.md">Deutsch</a> ·
+  <a href="./docs/README.pt.md">Português</a> ·
+  <a href="./docs/README.ru.md">Русский</a> ·
+  <a href="./docs/README.ar.md">العربية</a>
 </p>
 
 ---
 
 ## ✨ What is WhichClaw?
 
-WhichClaw is a desktop application that provides a **visual, unified interface** for managing AI models across your coding tools. No more digging through config files or worrying about token usage — just point, click, and switch.
+WhichClaw is a desktop application that provides a **visual, unified interface** for managing AI models across your coding tools. No more digging through config files — just point, click, and switch.
 
 ### The Problem
 
 - 😫 Switching AI models in tools like OpenClaw requires editing config files manually
-- 💸 No visibility into token consumption across different tools
 - 🔄 Each tool has its own model configuration format
-- 🔑 API keys scattered across multiple config files
+- 🧩 No easy way to manage skills and extensions across tools
 
 ### The Solution
 
 WhichClaw acts as a **central control panel** for all your AI-powered coding tools:
 
 - 🎯 **One-Click Model Switching** — Visually switch AI models for any supported tool
-- 📊 **Token Usage Monitoring** — Track consumption and costs in real-time
-- 🔐 **Secure Key Management** — Encrypted API key storage with hardware binding
-- 🖥️ **Local Model Support** — Run open-source models (Llama, Mistral) locally via llama.cpp
-- 🎮 **Built-in AI Playground** — Test models with interactive games like AI Reversi
+- 🔀 **Dual Protocol** — OpenAI & Anthropic API support, switch models anytime anywhere
+- 🚇 **Smart Tunnel Proxy** — Access geo-restricted APIs without a full VPN; only API traffic is proxied
+- 🧩 **Skill Browser** — Discover, install, and manage AI skills across tools
+- 🖥️ **Local Model Server** — Run open-source models (Qwen, DeepSeek, Llama) locally via llama.cpp
+- 🌍 **28 Languages** — Full i18n support for a global audience
+- 🎮 **Built-in AI Apps** — Interactive AI games and utilities like Reversi and AI Translate
+- 🌃 **Cyberpunk Hacker UI** — Stunning neon-green terminal aesthetic that makes coding feel futuristic
 
 ## 🖼️ Screenshots
 
@@ -87,20 +97,19 @@ chmod +x WhichClaw-*.AppImage
 |------|--------|----------------|----------|
 | OpenClaw | ✅ Supported | ✅ | OpenAI / Anthropic |
 | Claude Code | ✅ Supported | ✅ | Anthropic |
-| Cline | ✅ Supported | ✅ | OpenAI / Anthropic |
+| Cline | ✅ Supported | ✅ | OpenAI |
 | Continue | ✅ Supported | ✅ | OpenAI |
-| Aider | ✅ Supported | ✅ | OpenAI |
 | OpenCode | ✅ Supported | ✅ | OpenAI |
 | Codex | ✅ Supported | ✅ | OpenAI |
-| Roo Code | 🔜 Coming | — | — |
+| Roo Code | ✅ Supported | ✅ | OpenAI |
 
 ## 🏗️ Tech Stack
 
 - **Electron** — Cross-platform desktop framework
 - **React + TypeScript** — UI framework
-- **Tailwind CSS** — Styling
+- **Vanilla CSS** — Custom cyberpunk design system with CSS variables
 - **Vite** — Build tool
-- **llama.cpp** — Local model inference
+- **llama.cpp** — Local model inference engine
 
 ## 🛠️ Development
 
@@ -115,6 +124,31 @@ npm run dev
 npm run build
 ```
 
+## 🤝 Contributing
+
+Contributions are welcome! Feel free to open issues or submit pull requests.
+
+We're especially looking for help with:
+- 🍎 **macOS testing** — We haven't fully tested macOS builds yet
+- 🔧 **New tool integrations** — Help us add support for more AI coding tools
+- 🌐 **Translation improvements** — Native speakers welcome!
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'feat: add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📬 Contact
+
+- 📧 Email: [hi@whichclaw.com](mailto:hi@whichclaw.com)
+- 🐛 Bug Reports: [GitHub Issues](https://github.com/ebenxp707-boop/WhichClaw/issues)
+- 💬 Discussions: [GitHub Discussions](https://github.com/ebenxp707-boop/WhichClaw/discussions)
+
+## ⭐ Support
+
+If you find WhichClaw useful, please consider giving it a ⭐ on GitHub — it helps others discover the project!
+
 ## 📄 License
 
 [MIT](LICENSE)
@@ -122,5 +156,6 @@ npm run build
 ---
 
 <p align="center">
-  Made with 💚 by the WhichClaw Team
+  Made with 💚 by the WhichClaw Team<br/>
+  <sub>📧 <a href="mailto:hi@whichclaw.com">hi@whichclaw.com</a></sub>
 </p>
