@@ -48,8 +48,17 @@ WhichClaw acts as a **central control panel** for all your AI-powered coding too
 
 ## 🖼️ Screenshots
 
-<!-- Add screenshots here when available -->
-<!-- ![Dashboard](docs/screenshots/dashboard.png) -->
+### Model Nexus — Manage all your AI models in one place
+![Model Nexus](docs/1.png)
+
+### App Manager — One-click model switching for all coding tools
+![App Manager](docs/2.png)
+
+### Local Server — Run open-source models locally with llama.cpp
+![Local Server](docs/3.png)
+
+### Skill Browser — Discover and install AI skills
+![Skill Browser](docs/4.png)
 
 ## 🚀 Quick Start
 

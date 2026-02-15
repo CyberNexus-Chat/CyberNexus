@@ -107,7 +107,7 @@ jobs:
       - name: Delete existing release (if any)
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release delete ${{ github.ref_name }} --yes --cleanup-tag || true
+        run: gh release delete ${{ github.ref_name }} --yes || true
 
       - name: Create GitHub Release
         env:
@@ -115,7 +115,14 @@ jobs:
         run: |
           gh release create ${{ github.ref_name }} \
             --title "WhichClaw ${{ github.ref_name }}" \
-            --generate-notes \
+            --generate-notes
+
+      - name: Upload release assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release upload ${{ github.ref_name }} --clobber \
             artifacts/WhichClaw-win/* \
             artifacts/WhichClaw-mac/* \
             artifacts/WhichClaw-linux/*
+
