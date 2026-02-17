@@ -1,6 +1,6 @@
 {
-    "version": "1.0.2",
+    "version": "1.0.3",
     "releaseDate": "2026-02-17",
-    "releaseNotes": "Added 160 automated tests, 27-language installer, SS crypto extraction, MIT license",
+    "releaseNotes": "Skills remote API, branding update, NSIS installer UI improvements",
     "downloadUrl": "https://github.com/WhichClawTeam/WhichClaw/releases/latest"
 }
