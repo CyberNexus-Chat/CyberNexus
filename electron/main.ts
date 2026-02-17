@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain, shell, Menu, Tray, nativeImage } from 'electron';
+import { app, BrowserWindow, ipcMain, shell, Menu, Tray, nativeImage, session } from 'electron';
 import path from 'path';
 import fs from 'fs';
 import { toolManager } from './toolManager.js';
@@ -110,6 +110,19 @@ function createWindow() {
         // 生产模式：直接加载打包后的 HTML
         mainWindow.loadFile(path.join(__dirname, '../dist/index.html'));
     }
+
+    // Fix WebSocket origin for production builds
+    // Dev mode uses http://localhost:5173 (accepted by tools like OpenClaw)
+    // Prod mode uses file:// (rejected by many WebSocket servers)
+    mainWindow.webContents.session.webRequest.onBeforeSendHeaders(
+        { urls: ['ws://*/*', 'wss://*/*'] },
+        (details, callback) => {
+            if (details.requestHeaders['Origin'] === 'file://') {
+                details.requestHeaders['Origin'] = `http://${new URL(details.url).hostname}`;
+            }
+            callback({ requestHeaders: details.requestHeaders });
+        }
+    );
 
     // 关闭窗口时隐藏到托盘而非退出
     mainWindow.on('close', (e) => {
