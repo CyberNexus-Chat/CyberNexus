@@ -88,7 +88,20 @@
       "allowToChangeInstallationDirectory": true,
       "installerIcon": "build/icon.ico",
       "uninstallerIcon": "build/icon.ico",
-      "uninstallDisplayName": "WhichClaw"
+      "uninstallDisplayName": "WhichClaw",
+      "installerLanguages": [
+        "en_US",
+        "zh_CN",
+        "zh_TW",
+        "ja",
+        "ko",
+        "es_ES",
+        "fr",
+        "de",
+        "pt_BR",
+        "ru",
+        "ar"
+      ]
     },
     "mac": {
       "target": [
