@@ -1,6 +1,6 @@
 {
-    "version": "1.0.3",
+    "version": "1.0.4",
     "releaseDate": "2026-02-17",
-    "releaseNotes": "Skills remote API, branding update, NSIS installer UI improvements",
+    "releaseNotes": "Fixed NSIS installer header, fixed Skills GitHub 404 links",
     "downloadUrl": "https://github.com/WhichClawTeam/WhichClaw/releases/latest"
 }
