@@ -1,6 +1,6 @@
 {
-    "version": "1.0.7",
-    "releaseDate": "2026-02-18",
-    "releaseNotes": "Fixed WebSocket token auth for remote OpenClaw connections (operator.write scope)",
+    "version": "1.0.8",
+    "releaseDate": "2026-02-20",
+    "releaseNotes": "Rebrand to CyberNexus, updated UI branding with cyberpunk font styling",
     "downloadUrl": "https://github.com/CyberNexus-Chat/CyberNexus/releases/latest"
 }

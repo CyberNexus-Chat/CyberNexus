@@ -1,6 +1,6 @@
 {
   "name": "cybernexus",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "AI Model & Skill Management Desktop Application",
   "author": "CyberNexus Team",
   "main": "dist-electron/main.cjs",
