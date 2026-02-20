@@ -7,6 +7,7 @@ import { DownloadBar } from './components/DownloadBar';
 import { TitleBar } from './components/TitleBar';
 import { SettingsDialog } from './components/SettingsDialog';
 import { Channels } from './components/Channels';
+import { CircuitFlow } from './components/CircuitFlow';
 import { GatewayProvider } from './contexts/GatewayContext';
 import { useI18n } from './hooks/useI18n';
 
@@ -666,12 +667,13 @@ function App() {
                         <div className="flex flex-col h-screen w-full bg-cyber-bg">
                             {/* 自定义标题栏 */}
                             <TitleBar onSettingsClick={() => setShowSettings(true)} />
-                            <div className="flex flex-1 overflow-hidden text-cyber-accent font-mono p-4 gap-4 grid-bg">
-                                {/* Sidebar */}
+                            <div className="flex flex-1 overflow-hidden text-cyber-accent font-mono p-4 gap-4 grid-bg relative">
+                                <CircuitFlow />
+                                {/* Content layer - above circuit canvas */}
                                 <Sidebar activePage={activePage} onPageChange={setActivePage} showLogsPage={showLogsPage} />
 
                                 {/* Main content wrapper */}
-                                <div className="flex-1 flex flex-col overflow-hidden">
+                                <div className="flex-1 flex flex-col overflow-hidden relative z-[1]">
                                     {/* Main + Right panel row */}
                                     <div className="flex-1 flex gap-3 overflow-hidden">
                                         <main className="flex-1 flex flex-col overflow-hidden">

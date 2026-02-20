@@ -34,7 +34,7 @@ export const Sidebar = ({ activePage, onPageChange, showLogsPage = true }: Sideb
     }, []);
 
     return (
-        <nav className="w-64 flex flex-col px-6 pb-6">
+        <nav className="w-64 flex flex-col px-6 pb-6 relative z-[1]">
             <div className="font-bold mb-10 tracking-wide flex items-center gap-2">
                 <img src={activePage === 'skills' ? './ico-yellow.svg' : './ico.svg'} alt="" className="w-6 h-6" />
                 <span className={activePage === 'skills' ? 'text-cyber-warning' : 'text-cyber-accent'} style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 700, letterSpacing: '1px', fontSize: '22px', lineHeight: 1 }}>CYBER NEXUS</span>
