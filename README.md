@@ -5,7 +5,7 @@
 <h1 align="center">CyberNexus</h1>
 
 <p align="center">
-  <strong>One Hub. All Models. Every Coding Tool.</strong><br/>
+  <strong>The Nexus for Models, Agents & Vibe Coding.</strong><br/>
   <sub>A cyberpunk control panel for the AI era.</sub>
 </p>
 
