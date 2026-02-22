@@ -5,7 +5,7 @@
 <h1 align="center">CyberNexus</h1>
 
 <p align="center">
-  The Nexus for **Models**, **Agents** & **Vibe Coding**.<br/>
+  The Nexus for <strong>Models</strong>, <strong>Agents</strong> & <strong>Vibe Coding</strong>.<br/>
   <sub>CyberNexus هو تطبيق سطح مكتب يوفر</sub>
 </p>
 

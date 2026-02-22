@@ -5,7 +5,7 @@
 <h1 align="center">CyberNexus</h1>
 
 <p align="center">
-  The Nexus for **Models**, **Agents** & **Vibe Coding**.<br/>
+  The Nexus for <strong>Models</strong>, <strong>Agents</strong> & <strong>Vibe Coding</strong>.<br/>
   <sub>CyberNexus는 AI 코딩 도구 전반에 걸쳐 모델을 관리하기 위한</sub>
 </p>
 
