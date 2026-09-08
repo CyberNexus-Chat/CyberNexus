@@ -248,6 +248,8 @@ const zhHans: Partial<Translations> = {
   'toolCat.science': '科研',
   'agent.modelsTab': '模型',
   'aiDesktop.notInstalled': '未安装',
+  'aiDesktop.officialWebsite': '官方网站：',
+  'aiDesktop.githubRepository': 'GitHub 仓库：',
   'aiDesktop.hideUninstalled': '隐藏未安装',
   'aiDesktop.showUninstalled': '显示未安装',
   'agent.codexRelayLabel': 'API Router',

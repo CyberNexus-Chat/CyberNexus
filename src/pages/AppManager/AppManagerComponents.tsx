@@ -23,6 +23,7 @@ import {
   Box as BoxIcon,
   Eye,
   EyeOff,
+  ExternalLink,
   RefreshCw,
   Settings,
 } from 'lucide-react';
@@ -974,15 +975,38 @@ export const AppManagerPanel: React.FC = () => {
 
       <div className="flex-1 p-2 overflow-y-auto">
         {selectedToolData ? (
-          // Not installed yet — no model to configure; the bottom bar's
-          // "一键安装" already covers the action, so just state the state.
+          // Not installed yet — offer the tool's website or repository
+          // alongside the bottom bar's one-click install action.
           !selectedToolData.installed ? (
-            <div className="h-full flex flex-col items-center justify-center gap-3 text-center">
-              <BoxIcon size={28} className="text-cyber-text opacity-25" />
-              <p className="text-base text-cyber-text-secondary font-mono leading-relaxed">
-                {t('aiDesktop.notInstalled')}
-              </p>
-            </div>
+            selectedToolData.website && (
+              <div className="h-full flex flex-col items-center justify-center gap-2 px-3 text-center">
+                <p className="text-sm text-cyber-text-secondary leading-relaxed">
+                  {t(
+                    /^https?:\/\/(?:www\.)?github\.com(?:\/|$)/i.test(selectedToolData.website)
+                      ? 'aiDesktop.githubRepository'
+                      : 'aiDesktop.officialWebsite'
+                  )}
+                </p>
+                <a
+                  href={selectedToolData.website}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={(event) => {
+                    event.preventDefault();
+                    const url = event.currentTarget.href;
+                    void api.openExternal(url).catch(() => {
+                      window.open(url, '_blank', 'noopener,noreferrer');
+                    });
+                  }}
+                  className="inline-flex max-w-full items-center gap-2 rounded-md border border-cyber-border/50 bg-cyber-surface px-3 py-2 text-xs text-cyber-text-secondary transition-colors hover:border-cyber-accent/40 hover:bg-cyber-accent/5 hover:text-cyber-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyber-accent"
+                >
+                  <span className="min-w-0 break-all">
+                    {selectedToolData.website.replace(/^https?:\/\//, '').replace(/\/$/, '')}
+                  </span>
+                  <ExternalLink size={13} className="flex-shrink-0" aria-hidden="true" />
+                </a>
+              </div>
+            )
           ) : selectedToolData.noModelConfig ? (
             <div className="h-full flex flex-col items-center justify-center gap-3 text-center">
               <BoxIcon size={28} className="text-cyber-text opacity-25" />

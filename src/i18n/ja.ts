@@ -276,6 +276,8 @@ const ja: Partial<Translations> = {
   'toolCat.science': 'サイエンス',
   'agent.modelsTab': 'モデル',
   'aiDesktop.notInstalled': '未インストール',
+  'aiDesktop.officialWebsite': '公式サイト：',
+  'aiDesktop.githubRepository': 'GitHub リポジトリ：',
   'aiDesktop.hideUninstalled': '未インストールを隠す',
   'aiDesktop.showUninstalled': '未インストールを表示',
   'agent.codexRelayLabel': 'API Router',

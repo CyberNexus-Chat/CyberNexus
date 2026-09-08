@@ -210,6 +210,8 @@ const en: Translations = {
   'model.enterSave': 'SAVE',
   // App Manager
   'aiDesktop.notInstalled': 'Not Installed',
+  'aiDesktop.officialWebsite': 'Official website:',
+  'aiDesktop.githubRepository': 'GitHub repository:',
   'aiDesktop.hideUninstalled': 'Hide Not Installed',
   'aiDesktop.showUninstalled': 'Show Not Installed',
   'agent.badge.smart': 'Smart',

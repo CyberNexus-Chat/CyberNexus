@@ -1742,6 +1742,25 @@ pub fn is_vscode_extension(tool_id: &str) -> bool {
 
 // ─── Main entry point ───
 
+/// Prefer the install catalog's homepage over legacy website values, which
+/// sometimes point at a repository. A repository is the final fallback.
+fn resolve_tool_website(website: Option<&str>, install_ref: Option<&str>) -> Option<String> {
+    let install = install_ref.and_then(|json| serde_json::from_str::<serde_json::Value>(json).ok());
+    let url = [
+        install
+            .as_ref()
+            .and_then(|value| value["homepage"].as_str()),
+        website,
+        install.as_ref().and_then(|value| value["github"].as_str()),
+    ]
+    .into_iter()
+    .flatten()
+    .map(str::trim)
+    .find(|url| !url.is_empty())
+    .map(str::to_owned);
+    url
+}
+
 /// Scan a single tool definition — runs detection, skills, version, and model reads.
 /// Extracted so scan_tools() can run all tools concurrently via tokio::spawn.
 async fn scan_single_tool(def: ToolDefinition) -> DetectedTool {
@@ -1841,7 +1860,10 @@ async fn scan_single_tool(def: ToolDefinition) -> DetectedTool {
         version,
         installed_skills_count: Some(skills_count),
         active_model,
-        website: pc.website.clone().or(Some(pc.docs.clone())),
+        website: resolve_tool_website(
+            pc.website.as_deref(),
+            super::bundled_assets::get_install_ref(&def.id),
+        ),
         api_protocol: if pc.api_protocol.is_empty() {
             None
         } else {
@@ -1910,6 +1932,51 @@ mod tests {
     #[cfg(windows)]
     use super::is_windows_exe;
     use crate::models::tool::PathsConfig;
+
+    #[test]
+    fn tool_website_prefers_homepage_over_legacy_repository() {
+        assert_eq!(
+            super::resolve_tool_website(
+                Some("https://github.com/owner/tool"),
+                Some(r#"{"homepage":"https://tool.example/","github":"https://github.com/owner/tool"}"#),
+            ).as_deref(),
+            Some("https://tool.example/")
+        );
+    }
+
+    #[test]
+    fn tool_website_keeps_configured_site_without_catalog_homepage() {
+        assert_eq!(
+            super::resolve_tool_website(
+                Some("https://tool.example/"),
+                Some(r#"{"github":"https://github.com/owner/tool"}"#),
+            )
+            .as_deref(),
+            Some("https://tool.example/")
+        );
+    }
+
+    #[test]
+    fn tool_website_falls_back_to_github_when_homepage_is_missing_or_blank() {
+        for install_ref in [
+            r#"{"github":"https://github.com/owner/tool"}"#,
+            r#"{"homepage":"  ","github":"https://github.com/owner/tool"}"#,
+        ] {
+            assert_eq!(
+                super::resolve_tool_website(Some(" "), Some(install_ref)).as_deref(),
+                Some("https://github.com/owner/tool")
+            );
+        }
+    }
+
+    #[test]
+    fn tool_website_has_no_link_without_website_or_repository() {
+        assert_eq!(super::resolve_tool_website(None, None), None);
+        assert_eq!(
+            super::resolve_tool_website(None, Some(r#"{"docs":"https://docs.example/"}"#)),
+            None
+        );
+    }
 
     #[cfg(windows)]
     #[test]

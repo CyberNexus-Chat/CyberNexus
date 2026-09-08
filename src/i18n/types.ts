@@ -218,6 +218,8 @@ export type TKey =
 
   // App Manager
   | 'aiDesktop.notInstalled'
+  | 'aiDesktop.officialWebsite'
+  | 'aiDesktop.githubRepository'
   | 'aiDesktop.hideUninstalled'
   | 'aiDesktop.showUninstalled'
   | 'agent.badge.smart'
