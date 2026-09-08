@@ -134,6 +134,7 @@ pub const INSTALLABLE_TOOL_IDS: &[&str] = &[
     "qwencode",
     "aider",
     "pi",
+    "omp",
     "hermes",
     "openclaw",
     "opencode",

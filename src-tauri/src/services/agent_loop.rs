@@ -1200,6 +1200,7 @@ async fn build_system_prompt(request: &AgentRequest, ssh_pool: &SSHPool) -> Stri
         When the user says 'install MiMo Code', install `@mimo-ai/cli` (or `curl -fsSL https://mimo.xiaomi.com/install | bash` on macOS/Linux). It is a fork of OpenCode but a SEPARATE product — do NOT install `opencode-ai`.\n\
         When the user says 'install Kilo Code', install `@kilocode/cli` (or `curl -fsSL https://kilo.ai/cli/install | bash` on macOS/Linux). It is a fork of OpenCode but a SEPARATE product — do NOT install `opencode-ai`.\n\
         When the user says 'install Kimi Code', install `@moonshot-ai/kimi-code` (or `curl -fsSL https://code.kimi.com/kimi-code/install.sh | bash` on macOS/Linux). It is built on Pi's pi-tui but a SEPARATE product — do NOT install `pi` or `@earendil-works/pi-coding-agent`.\n\
+        When the user says 'install OMP' or 'Oh My Pi', follow the `omp` install reference. Its binary is `omp`, package is `@oh-my-pi/pi-coding-agent`, and config is under ~/.omp/agent. It is separate from Pi; do NOT install Pi or write ~/.pi/agent for this request.\n\
         ALWAYS read the tool's install JSON first from the **Embedded Install References** section appended below — do NOT `web_fetch` echobird.ai for these (they are already in this prompt).\n\n\
         ## Rules\n\
         - Work autonomously. Do NOT ask the user unnecessary questions.\n\

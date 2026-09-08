@@ -8,6 +8,8 @@ use std::path::{Path, PathBuf};
 use crate::services::codex_catalog;
 use crate::services::tool_manager;
 
+mod omp;
+
 /// Model info to apply to a tool
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -361,6 +363,7 @@ pub async fn apply_model_to_tool(tool_id: &str, model_info: ModelInfo) -> ApplyR
 
         // Pi (earendil-works/pi): writes ~/.pi/agent/{models,settings}.json
         "pi" => return apply_pi(&model_info),
+        "omp" => return omp::apply(&model_info),
 
         // Kimi Code (Moonshot AI): TOML at ~/.kimi-code/config.toml
         "kimicode" => return apply_kimicode(&model_info),
@@ -444,6 +447,9 @@ pub async fn restore_tool_to_official(tool_id: &str) -> ApplyResult {
     if tool_id == "pi" {
         return restore_pi_to_official();
     }
+    if tool_id == "omp" {
+        return omp::restore();
+    }
     if tool_id == "kimicode" {
         return restore_kimicode_to_official();
     }
@@ -513,6 +519,7 @@ pub async fn get_tool_model_info(tool_id: &str) -> Option<ModelInfo> {
         "grok" => return read_grok(),
         "qwencode" => return read_qwen_code(),
         "pi" => return read_pi(),
+        "omp" => return omp::read(),
         "kimicode" => return read_kimicode(),
         "vibe-trading" => return read_vibe_trading(),
         "workbuddy" => return read_workbuddy(),

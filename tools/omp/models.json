@@ -1,0 +1,6 @@
+{
+    "docs": "https://github.com/can1357/oh-my-pi/blob/main/docs/models.md",
+    "configFile": "~/.omp/agent/config.yml",
+    "format": "yaml",
+    "custom": false
+}

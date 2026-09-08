@@ -1,0 +1,34 @@
+{
+    "name": "Oh My Pi",
+    "category": "CLI Code",
+    "apiProtocol": ["openai", "anthropic"],
+    "docs": "https://omp.sh/docs",
+    "website": "https://omp.sh/",
+    "command": "omp",
+    "startCommand": "omp",
+    "configDir": "~/.omp/agent",
+    "configFile": "~/.omp/agent/config.yml",
+    "requireConfigFile": false,
+    "detectByConfigDir": false,
+    "paths": {
+        "win32": [
+            "%LOCALAPPDATA%\\omp\\omp.exe",
+            "%USERPROFILE%\\.bun\\bin\\omp.exe",
+            "%USERPROFILE%\\.bun\\bin\\omp.cmd"
+        ],
+        "darwin": [
+            "~/.local/bin/omp",
+            "~/.bun/bin/omp",
+            "/opt/homebrew/bin/omp",
+            "/usr/local/bin/omp"
+        ],
+        "linux": [
+            "~/.local/bin/omp",
+            "~/.bun/bin/omp",
+            "/usr/local/bin/omp",
+            "/usr/bin/omp",
+            "/home/linuxbrew/.linuxbrew/bin/omp",
+            "~/.nix-profile/bin/omp"
+        ]
+    }
+}

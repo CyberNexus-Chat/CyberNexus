@@ -1,0 +1,38 @@
+{
+    "id": "omp",
+    "displayName": "Oh My Pi",
+    "homepage": "https://omp.sh/",
+    "docs": "https://omp.sh/docs",
+    "github": "https://github.com/can1357/oh-my-pi",
+    "kind": "cli",
+    "platforms": ["windows", "macos", "linux"],
+    "install": {
+        "curl (macOS / Linux)": "curl -fsSL https://omp.sh/install | sh",
+        "powershell (Windows)": "irm https://omp.sh/install.ps1 | iex",
+        "brew (macOS / Linux)": "brew install can1357/tap/omp",
+        "bun (all platforms)": "bun install -g @oh-my-pi/pi-coding-agent",
+        "note": "Official scripts prefer Bun when available, otherwise a standalone binary. The Bun path requires Bun >= 1.3.14; a standalone binary needs neither Node nor Bun. Use --binary / -Binary to explicitly select the binary. Alpine / musl requires libstdc++ and libgcc. The binary is omp, distinct from pi."
+    },
+    "install_flow": {
+        "summary": "Official installer or Bun / Homebrew → refresh PATH → verify omp.",
+        "agent_steps": [
+            "Detect OS and architecture. Use the matching official installer; do not impose Pi's Node requirement on OMP.",
+            "To force standalone installation, use `curl -fsSL https://omp.sh/install | sh -s -- --binary` or `& ([scriptblock]::Create((irm https://omp.sh/install.ps1))) -Binary`. If using Bun, verify `bun --version` meets the current package engine requirement first.",
+            "If omp.sh rejects automated downloads or is unreachable, the same official source scripts are at https://raw.githubusercontent.com/can1357/oh-my-pi/main/scripts/install.sh and https://raw.githubusercontent.com/can1357/oh-my-pi/main/scripts/install.ps1. Keep the same arguments. Both standalone paths download from the official GitHub Releases.",
+            "Refresh PATH and run `omp --version`. Windows standalone installs to %LOCALAPPDATA%\\omp\\omp.exe; Unix standalone installs to ~/.local/bin/omp. PI_INSTALL_DIR can override those directories; Bun uses its global bin directory.",
+            "Start `omp` in the user's terminal for any first-run setup or legacy settings migration. Do not run an interactive TUI through shell_exec. EchoBird manages the default OMP configuration separately from Pi, using models.yml / models.yaml and config.yml / config.yaml under ~/.omp/agent.",
+            "Preserve the user's other providers, model roles, sessions and credentials. Do not write Pi's defaultProvider/defaultModel JSON schema into OMP."
+        ],
+        "tell_user": [
+            "Verified OMP version and actual installation path",
+            "Any unfinished first-run setup or shell PATH refresh"
+        ]
+    },
+    "network_requirements": {
+        "test_urls": ["https://omp.sh", "https://github.com/can1357/oh-my-pi", "https://registry.npmjs.org/@oh-my-pi/pi-coding-agent"],
+        "note": "Diagnose the failing download host. Use the user's configured proxy or selected package mirror; do not assume Bun or Homebrew bypasses GitHub for every dependency."
+    },
+    "identity_guard": {
+        "description": "Oh My Pi is can1357/oh-my-pi, a fork of Pi. Its package is @oh-my-pi/pi-coding-agent, executable omp, and default config root ~/.omp/agent. Do not install @earendil-works/pi-coding-agent or modify ~/.pi/agent when asked for OMP."
+    }
+}

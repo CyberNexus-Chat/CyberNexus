@@ -60,6 +60,7 @@ static BUNDLED: BundledAssets = BundledAssets {
             include_str!("../../docs/api/tools/install/aider.json"),
         ),
         ("pi", include_str!("../../docs/api/tools/install/pi.json")),
+        ("omp", include_str!("../../docs/api/tools/install/omp.json")),
         (
             "hermes",
             include_str!("../../docs/api/tools/install/hermes.json"),
