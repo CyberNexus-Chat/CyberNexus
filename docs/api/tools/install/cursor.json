@@ -9,7 +9,7 @@
         "windows_winget": "winget install --id Anysphere.Cursor --accept-package-agreements --accept-source-agreements",
         "windows_download": "Open https://cursor.com/download in the browser, click the Windows installer. Saves to %USERPROFILE%\\Downloads by default.",
         "macos_download": "Open https://cursor.com/download in the browser, click the macOS download (.dmg). Saves to ~/Downloads by default.",
-        "linux_download": "Open https://cursor.com/download for the Linux AppImage. Save it to ~/Applications, `chmod +x`, and run.",
+        "linux_download": "Open https://cursor.com/download and select the .deb, .rpm, or AppImage for x64 or ARM64. Install a downloaded .deb with apt or .rpm with the distro package manager. For AppImage, save under ~/Applications, make it executable, and run it.",
         "note": "GUI IDE — VS Code fork by Anysphere. AI features and model selection are built into the app; Echobird does not switch its model."
     },
     "install_flow": {

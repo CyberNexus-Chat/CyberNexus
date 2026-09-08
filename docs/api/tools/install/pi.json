@@ -16,8 +16,8 @@
         "summary": "curl install or npm global → verify → Echobird writes ~/.pi/agent/models.json + settings.json on apply",
         "agent_steps": [
             "Detect OS first.",
-            "macOS / Linux: prefer `curl -fsSL https://pi.dev/install.sh | sh` — handles binary download and PATH setup. NOTE: the running Echobird process won't see PATH from a not-yet-reloaded shell, so always tell the user to click REFRESH in App Manager (or restart Echobird) after install.",
-            "Windows: use `npm install -g --ignore-scripts @earendil-works/pi-coding-agent` (verify Node.js ≥ 18 first; install via winget OpenJS.NodeJS / nvm if missing).",
+            "macOS / Linux: prefer `curl -fsSL https://pi.dev/install.sh | sh` — performs a managed package installation and PATH setup. It requires Node.js ≥ 22.19.0 and npm; in a non-interactive shell it cannot prompt to install missing prerequisites. NOTE: the running Echobird process won't see PATH from a not-yet-reloaded shell, so always tell the user to click REFRESH in App Manager (or restart Echobird) after install.",
+            "Windows: use `npm install -g --ignore-scripts @earendil-works/pi-coding-agent` (verify Node.js ≥ 22.19.0 first; install via winget OpenJS.NodeJS / nvm if missing).",
             "After install, run `pi --version` to confirm. If the command isn't found, instruct the user to restart their shell.",
             "Tell the user that model selection happens via Echobird's App Manager — clicking 'Update model config' writes ~/.pi/agent/models.json (registers an 'echobird' provider) and ~/.pi/agent/settings.json (sets defaultProvider/defaultModel). Pi auto-reloads models.json on next /model command — no restart needed."
         ],
@@ -31,7 +31,7 @@
     "network_requirements": {
         "test_urls": ["https://pi.dev", "https://registry.npmjs.org/@earendil-works/pi-coding-agent"],
         "mirrors": {
-            "npm (China)": "npm install -g @earendil-works/pi-coding-agent --registry=https://registry.npmmirror.com"
+            "npm (China)": "npm install -g --ignore-scripts @earendil-works/pi-coding-agent --registry=https://registry.npmmirror.com"
         }
     },
     "identity_guard": {

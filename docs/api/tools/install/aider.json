@@ -2,32 +2,31 @@
     "id": "aider",
     "displayName": "Aider (CLI)",
     "homepage": "https://aider.chat/",
-    "docs": "https://aider.chat/docs/",
+    "docs": "https://aider.chat/docs/install.html",
     "github": "https://github.com/Aider-AI/aider",
     "kind": "cli",
     "platforms": ["windows", "macos", "linux"],
     "install": {
-        "pipx (all platforms — recommended)": "python -m pip install pipx && pipx install aider-chat",
         "pip (all platforms — fallback)": "python -m pip install -U --upgrade-strategy only-if-needed aider-chat",
         "curl (macOS / Linux)": "curl -LsSf https://aider.chat/install.sh | sh",
         "powershell (Windows)": "powershell -ExecutionPolicy ByPass -c \"irm https://aider.chat/install.ps1 | iex\"",
         "aider-install (official one-shot bootstrap)": "python -m pip install aider-install && aider-install",
-        "WARNING": "Aider requires Python 3.10–3.12. If `python` is missing or older, install it first (winget Python.Python.3.12 / brew install python@3.12 / apt install python3-pip). Official docs do NOT recommend package-manager installs (`brew install aider`) — they can pull incorrect dependencies. pipx is preferred over plain pip because it isolates aider into its own venv and puts it on PATH automatically.",
-        "note": "After install, verify with `aider --version`. The first run will pick up API credentials from environment vars (OPENAI_API_KEY / ANTHROPIC_API_KEY) or from ~/.aider.conf.yml — Echobird's 'Update model config' flow writes the YAML for you."
+        "WARNING": "Prefer aider-install, the official curl / PowerShell installer, or uv. They isolate Aider and provision Python 3.12 when needed. aider-install can bootstrap from Python 3.8–3.13; direct pip / pipx installs support Python 3.9–3.12. Do not reject Python 3.13 when using the bootstrapper or install into an incompatible global Python. System package-manager builds may have incorrect dependencies.",
+        "note": "After install, verify with `aider --version`. The first run will pick up API credentials from environment vars (OPENAI_API_KEY / ANTHROPIC_API_KEY) or from ~/.aider.conf.yml — Echobird's 'Update model config' flow writes the YAML for you.",
+        "pipx (alternative, Python 3.9–3.12)": "python -m pip install pipx && pipx install aider-chat",
+        "uv (isolated Python 3.12 — recommended when uv is available)": "uv tool install --python python3.12 --with pip aider-chat@latest"
     },
     "install_flow": {
-        "summary": "Detect Python 3.10+ → install pipx if missing → pipx install aider-chat → verify",
+        "summary": "Use the official isolated installer → refresh PATH → verify aider.",
         "agent_steps": [
-            "Detect OS and verify Python ≥ 3.10 with `python --version` / `python3 --version`. If missing or older, install Python first via the platform's package manager (winget Python.Python.3.12, brew install python@3.12, apt install python3 python3-pip, etc.).",
-            "Prefer pipx — `python -m pip install pipx` then `python -m pipx ensurepath`, then `pipx install aider-chat`.",
-            "If pipx isn't available and the user is OK with a global pip install, `python -m pip install -U --upgrade-strategy only-if-needed aider-chat` works (official).",
-            "After install, run `aider --version` to confirm. If the command isn't found, instruct the user to restart their shell so PATH updates take effect.",
-            "Tell the user that model selection happens via Echobird's App Manager — clicking 'Update model config' writes ~/.aider.conf.yml with the chosen base URL / API key / model."
+            "Detect OS. Prefer the official curl / PowerShell one-liner; it installs Aider with Python 3.12 if needed. If uv is already available, use the uv tool command instead.",
+            "If using an existing Python 3.8–3.13, run `python -m pip install aider-install`, then `aider-install` as a separate command. The bootstrapper creates an isolated Python 3.12 environment.",
+            "pipx is an alternative only with a supported Python 3.9–3.12 interpreter. Do not use plain global pip as the default.",
+            "After install, refresh PATH and run `aider --version`. Preserve ~/.aider.conf.yml and existing model credentials."
         ],
         "tell_user": [
-            "Python prerequisite (and how to install if missing)",
-            "That `aider` is now on PATH (may need a shell restart)",
-            "That ~/.aider.conf.yml is the config file Echobird writes when applying a model"
+            "Install method and the verified Aider version",
+            "Whether a new terminal is needed to pick up PATH changes"
         ]
     },
     "network_requirements": {
@@ -37,6 +36,6 @@
         }
     },
     "identity_guard": {
-        "description": "Aider is an open-source CLI coding agent (paul-gauthier / Aider-AI on GitHub) that supports OpenAI, Anthropic, and many OpenAI-compatible endpoints. It is NOT Aider Pro / aider.app / any commercial fork — install ONLY via pip/pipx/brew from the canonical `aider-chat` package."
+        "description": "Aider is an open-source CLI coding agent (paul-gauthier / Aider-AI on GitHub) that supports OpenAI, Anthropic, and many OpenAI-compatible endpoints. It is NOT Aider Pro / aider.app / any commercial fork — install ONLY via the official installers or pip/uv/pipx using the canonical `aider-chat` package."
     }
 }

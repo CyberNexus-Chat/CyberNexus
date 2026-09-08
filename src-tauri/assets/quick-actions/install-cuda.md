@@ -70,26 +70,27 @@ If `nvidia-smi` failed in Step 0:
 ## Step 2: User picks the Toolkit version
 
 **Do NOT pick the version for the user.** Fetch NVIDIA's archive and
-present the top 8 versions; the user chooses. If their pick is
-incompatible with their driver, the install will fail — that's their
-environment problem, not ours to silently work around.
+present the top 8 stable versions; the user chooses. Check the selected
+Toolkit's driver and GPU requirements before downloading it.
 
 ### 2a. Fetch the top 8 versions from NVIDIA archive
 
 ```powershell
 $archive = (Invoke-WebRequest 'https://developer.nvidia.com/cuda-toolkit-archive' -UseBasicParsing).Content
-$versions = New-Object System.Collections.Generic.List[string]
-$rx = [regex]::Matches($archive, '/cuda-(\d+)-(\d+)-(\d+)-download-archive')
+$releasePages = @{}
+$rx = [regex]::Matches($archive, '<a\s+href="(?<path>/cuda-(?:downloads|\d+-\d+-\d+-download-archive))"[^>]*>\s*CUDA Toolkit\s+(?<version>\d+\.\d+\.\d+)(?<suffix>[^<]*)</a>')
 foreach ($m in $rx) {
-    $v = "$($m.Groups[1].Value).$($m.Groups[2].Value).$($m.Groups[3].Value)"
-    if (-not $versions.Contains($v)) { $versions.Add($v) }
-    if ($versions.Count -ge 8) { break }
+    if ($m.Groups['suffix'].Value -match '(?i)preview|beta|\brc\b') { continue }
+    $v = $m.Groups['version'].Value
+    $releasePages[$v] = 'https://developer.nvidia.com' + $m.Groups['path'].Value
 }
-# $versions now holds e.g. @("13.2.1", "13.2.0", "13.1.2", "13.1.1",
-#                              "13.0.3", "13.0.2", "12.9.2", "12.9.1")
+$allVersions = @($releasePages.Keys | Sort-Object { [version]$_ } -Descending)
+$versions = @($allVersions | Select-Object -First 8)
+# Keep the full stable list for finding an older GPU-compatible recommendation.
+# The latest release links to /cuda-downloads, not a versioned archive URL.
 ```
 
-If the fetch fails (network down, NVIDIA unreachable): tell the user
+If the fetch fails or returns no stable versions: tell the user
 to fix VPN/proxy and try again, or visit
 `https://developer.nvidia.com/cuda-toolkit-archive` manually. Stop.
 
@@ -102,7 +103,8 @@ try {
     $m = [regex]::Match(($smi -join "`n"), 'CUDA Version:\s*(\d+\.\d+)')
     if ($m.Success) { $ceiling = $m.Groups[1].Value }
 } catch { }
-# $ceiling is e.g. "12.6" — the max CUDA major.minor this driver allows
+# $ceiling is the driver's advertised CUDA API version, not a hard
+# Toolkit-installation limit. Minor-version compatibility may apply.
 ```
 
 ### 2c. Detect GPU + recommend a CUDA version (★)
@@ -125,20 +127,30 @@ Classify architecture from `$gpuName` and apply the recommendation rule:
 |---|---|---|---|
 | `GTX 9..` / `GTX TITAN X` | Maxwell | sm_5x | latest **12.x** (13.x dropped Maxwell) |
 | `GTX 10..` / `TITAN Xp` | Pascal | sm_6x | latest **12.x** in driver ceiling |
-| `RTX 20..` / `TITAN RTX` / `GTX 16..` | Turing | sm_7x | latest **12.x** in driver ceiling |
+| `RTX 20..` / `TITAN RTX` / `GTX 16..` | Turing | sm_75 | latest **12.x** in driver ceiling |
 | `RTX 30..` / `A100` | Ampere | sm_8x | latest **12.x** in driver ceiling |
 | `RTX 40..` / `L40` / `H100` | Ada / Hopper | sm_8.9/9.0 | latest **12.x** in driver ceiling |
-| `RTX 50..` / `B100` / `B200` | Blackwell | sm_120 | latest **13.x** in driver ceiling — needed for native sm_120 kernels |
+| `RTX 50..` | Blackwell | sm_120 | compatible **12.8+** or **13.x**, after checking the Toolkit release notes |
+| `B200` / `GB200` | Blackwell | sm_100 | compatible **12.8+** or **13.x**, after checking the Toolkit release notes |
 
 Recommendation logic:
 1. If GPU is Blackwell **and** driver ceiling ≥ 13.0 → ★ = the highest
-   13.x in the fetched `$versions` list.
-2. Otherwise → ★ = the highest version in `$versions` whose
+   stable 13.x in `$allVersions` within the driver's advertised version.
+2. Otherwise → ★ = the highest version in `$allVersions` whose
    major.minor ≤ `$ceiling` AND whose major ≤ 12 (cap at 12.x for
    pre-Blackwell to avoid forcing driver upgrade for marginal gain).
-3. If no `$versions` entry satisfies the rule (e.g. driver ceiling <
-   12.0) → no ★, instead annotate the menu with a "your driver is
-   too old for any listed version, please upgrade driver" note.
+   Blackwell additionally requires a Toolkit supporting the specific GPU;
+   do not recommend a version below 12.8 based only on the driver number.
+3. Confirm the GPU in NVIDIA's compute-capability table and the selected
+   release's supported targets. If no candidate is confirmed, show no ★
+   and explain which compatibility requirement still needs checking.
+4. If `$recommended` is outside the top 8, append it to `$versions` so
+   users with older GPUs can actually choose the recommended release.
+
+This is a conservative recommendation, not proof that higher minor
+versions cannot run. Check NVIDIA's driver compatibility guide for the
+actual minimum driver and PTX limitations. CUDA 13.1+ Windows Toolkits
+do not bundle a display driver; upgrading the Toolkit does not upgrade it.
 
 Store the recommended version string in `$recommended` (e.g. `"12.6.3"`).
 
@@ -149,7 +161,7 @@ language; keep version numbers and letter keys verbatim). Annotate
 each version with markers:
 
 - `★ 适合你的显卡` (or English equivalent) if version == `$recommended`
-- `⚠ 驱动只支持到 <ceiling>` if version's major.minor > `$ceiling`
+- `⚠ 高于驱动报告的 CUDA <ceiling>，需核对兼容性` if version's major.minor > `$ceiling`
 
 **No engine-aware markers.** The user installs CUDA modules here;
 matching the engine afterwards is a separate concern (the engine
@@ -159,22 +171,22 @@ it in your reply).
 ```
 请选择要安装的 CUDA Toolkit 版本(NVIDIA 官方最新 8 个):
 
-  [A] 13.2.1   ⚠ 驱动只支持到 12.6
-  [B] 13.2.0   ⚠ 驱动只支持到 12.6
-  [C] 13.1.2   ⚠ 驱动只支持到 12.6
-  [D] 13.1.1   ⚠ 驱动只支持到 12.6
-  [E] 13.0.3   ⚠ 驱动只支持到 12.6
-  [F] 13.0.2   ⚠ 驱动只支持到 12.6
-  [G] 12.9.2   ⚠ 驱动只支持到 12.6
-  [H] 12.9.1   ⚠ 驱动只支持到 12.6
+  [A] 13.2.1   ⚠ 需核对驱动兼容性
+  [B] 13.2.0   ⚠ 需核对驱动兼容性
+  [C] 13.1.2   ⚠ 需核对驱动兼容性
+  [D] 13.1.1   ⚠ 需核对驱动兼容性
+  [E] 13.0.3   ⚠ 需核对驱动兼容性
+  [F] 13.0.2   ⚠ 需核对驱动兼容性
+  [G] 12.9.2   ⚠ 需核对驱动兼容性
+  [H] 12.9.1   ⚠ 需核对驱动兼容性
   [I] 12.6.3   ★ 适合你的 GTX 1060(Pascal,驱动 560.94)
 
   [N] 我自己去 NVIDIA 网站下,不用你装
 
 提示:
 - ★ 是基于你的显卡 + 驱动给的最优推荐
-- ⚠ 是超过你当前驱动上限的版本,NVIDIA 安装器会拒装。要装更新版本,
-  请先升级驱动
+- ⚠ 是高于驱动报告版本的 Toolkit，需要核对 NVIDIA 的驱动兼容表。
+  Toolkit 安装成功不代表运行兼容；较新版本也不会自动升级驱动。
 
 输入字母:
 ```
@@ -282,27 +294,24 @@ try {
 
 ### 4c. Resolve the canonical .exe URL for the user's pick (do NOT guess)
 
-`$cudaVersion` is the version the user picked in Step 2 (e.g.
-`"13.2.1"`). The CUDA installer filename embeds **both** the CUDA
-version AND the driver version that bundles with it — e.g.
-`cuda_12.6.3_561.17_windows.exe`. You cannot construct this from
-the CUDA version alone. Always parse it from the version-specific
-download archive page.
+`$cudaVersion` is the version the user picked in Step 2. Older filenames
+include a driver version (`cuda_12.6.3_561.17_windows.exe`); CUDA 13.1+
+does not bundle the Windows driver and uses filenames such as
+`cuda_13.3.1_windows.exe`. Resolve the URL from the selected official page.
 
 ```powershell
-# Construct the version-specific archive URL from the picked version.
-# Pattern: /cuda-<X>-<Y>-<Z>-download-archive
-$versionPath = $cudaVersion -replace '\.', '-'
-$downloadPage = "https://developer.nvidia.com/cuda-$versionPath-download-archive"
+# Use the actual link captured in Step 2, including /cuda-downloads for latest.
+$downloadPage = $releasePages[$cudaVersion]
 
 # Fetch the page. Apply target_os/target_arch/target_version query if
 # the page needs them to render the Windows section:
 $pageHtml = (Invoke-WebRequest "$downloadPage`?target_os=Windows&target_arch=x86_64&target_version=11&target_type=exe_local" -UseBasicParsing).Content
+$pageHtml = [System.Net.WebUtility]::HtmlDecode($pageHtml)
 
-# Regex-grep the .exe URL. It will match:
-# https://developer.download.nvidia.com/compute/cuda/<X.Y.Z>/local_installers/cuda_<X.Y.Z>_<DRIVER>_windows.exe
+# Match this exact Toolkit version, with an optional bundled-driver suffix.
+$escapedVersion = [regex]::Escape($cudaVersion)
 $canonicalUrl = ([regex]::Match($pageHtml,
-    'https://developer\.download\.nvidia\.com/compute/cuda/[\d\.]+/local_installers/cuda_[\d\.]+_[\d\.]+_windows\.exe')).Value
+    "https://developer\.download\.nvidia\.com/compute/cuda/$escapedVersion/local_installers/cuda_$escapedVersion(?:_[\d\.]+)?_windows\.exe")).Value
 ```
 
 **Do NOT** probe multiple `local_installers/` paths by guessing —
@@ -313,13 +322,13 @@ If the page is unreachable or the regex doesn't match:
 - Tell the user `developer.nvidia.com` is unreachable from this
   network, or the page format changed. Ask them to fix VPN/proxy,
   or download CUDA <picked version> manually from
-  `https://developer.nvidia.com/cuda-$versionPath-download-archive`
+  the selected `$downloadPage`
   and run the installer themselves. Stop.
 
 ### 4d. Mirror speed test + download
 
 Take the canonical URL from 4c and extract its **path tail**:
-`<X.Y.Z>/local_installers/cuda_<X.Y.Z>_<DRIVER>_windows.exe`.
+`<X.Y.Z>/local_installers/<official-installer-filename>`.
 Append this tail to each mirror prefix in the list below, then
 race a 2 MB Range download against each to find the fastest mirror
 for THIS user's network. Whoever wins gets the full download.
@@ -421,13 +430,16 @@ Common failure modes:
 # Resolve InstallDir from the registry for the version the user picked.
 $mm = ($cudaVersion -split '\.')[0..1] -join '.'
 $cudaPath = (Get-ItemProperty "HKLM:\SOFTWARE\NVIDIA Corporation\GPU Computing Toolkit\CUDA\v$mm" -ErrorAction SilentlyContinue).InstallDir
+if (-not $cudaPath) { throw "CUDA v$mm installation directory was not registered" }
+$cudaPath = [Environment]::ExpandEnvironmentVariables($cudaPath)
 
-# Confirm cudart64_*.dll is reachable
-Test-Path "$cudaPath\bin\cudart64_*.dll"
-Get-ChildItem C:\Windows\System32\cudart64_*.dll -ErrorAction SilentlyContinue
+# Verify the selected Toolkit, not a DLL left behind by another version.
+if (-not (Test-Path "$cudaPath\bin\cudart64_*.dll")) { throw "CUDA runtime DLL was not installed in $cudaPath" }
 
-# Confirm nvcc in a fresh shell that inherits the new env
-cmd /c "nvcc --version"
+# Child shells inherit this process's old PATH. Use the installed binary.
+if (-not (Test-Path "$cudaPath\bin\nvcc.exe" -PathType Leaf)) { throw "CUDA compiler was not installed in $cudaPath" }
+& "$cudaPath\bin\nvcc.exe" --version
+if ($LASTEXITCODE -ne 0) { throw "Installed nvcc verification failed" }
 ```
 
 If all checks pass → success. If `cudart64_*.dll` is still nowhere to
@@ -461,9 +473,9 @@ in the main UI.
 ## Hard Rules
 
 - **User picks the version, agent only recommends with ★** — Step 2
-  lists the NVIDIA archive's top 8 versions. The agent classifies the
+  lists the NVIDIA archive's top 8 stable versions. The agent classifies the
   user's GPU + driver and marks the GPU-optimal version with ★
-  (Blackwell → 13.x; pre-Blackwell → highest 12.x in driver ceiling).
+  using Step 2c, appending an older compatible recommendation when needed.
   **But the user picks** — never auto-pick, never skip the menu, never
   short-circuit on the assumption that ★ is what they want. If their
   pick fails (driver too old, etc.), fail loud and explain what went

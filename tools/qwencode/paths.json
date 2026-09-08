@@ -15,6 +15,7 @@
     "detectByConfigDir": false,
     "paths": {
         "win32": [
+            "%LOCALAPPDATA%\\qwen-code\\bin\\qwen.cmd",
             "%APPDATA%\\npm\\qwen.cmd",
             "%USERPROFILE%\\.local\\bin\\qwen.exe",
             "%USERPROFILE%\\.bun\\bin\\qwen.exe",

@@ -2,15 +2,15 @@
     "id": "codex",
     "displayName": "Codex CLI (OpenAI)",
     "homepage": "https://github.com/openai/codex",
-    "docs": "https://github.com/openai/codex#readme",
+    "docs": "https://learn.chatgpt.com/docs/codex/cli",
     "github": "https://github.com/openai/codex",
     "install": {
-        "npm (all platforms — recommended)": "npm install -g @openai/codex",
         "curl (macOS / Linux)": "curl -fsSL https://chatgpt.com/codex/install.sh | sh",
         "powershell (Windows)": "powershell -ExecutionPolicy ByPass -c \"irm https://chatgpt.com/codex/install.ps1 | iex\"",
-        "brew (macOS / Linux)": "brew install --cask codex",
         "WARNING": "The npm package name is EXACTLY '@openai/codex'. Do NOT confuse with '@anthropic-ai/claude-code' (that is Claude Code, a completely different tool). Do NOT install 'codex' alone (wrong package).",
-        "note": "Codex CLI is OpenAI's open-source coding agent (built in Rust, distributed via npm). Requires Node.js >= 22. After install, verify with 'codex --version'. On Windows, run directly in PowerShell — do NOT use WSL. Codex is a LOCAL-ONLY CLI tool — it cannot be deployed on remote servers."
+        "note": "Prefer the official standalone curl / PowerShell installer; it does not require Node.js. npm remains supported: check `npm view @openai/codex@latest engines --json` before provisioning Node, rather than imposing a requirement on standalone installs. Verify with `codex --version`. Use native PowerShell for EchoBird’s Windows CLI integration. Upstream also supports WSL and Linux hosts; a WSL installation is separate from the native Windows installation EchoBird detects.",
+        "npm (all platforms)": "npm install -g @openai/codex",
+        "brew (macOS)": "brew install --cask codex"
     },
     "network_requirements": {
         "test_urls": ["https://registry.npmjs.org/@openai/codex", "https://github.com/openai/codex"],

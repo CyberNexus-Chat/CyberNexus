@@ -70,18 +70,18 @@ Then verify compatibility:
 
 | Agent | Supported Platforms | Action if Incompatible |
 |-------|-------------------|----------------------|
-| OpenClaw | All platforms — **requires Node.js >= 22.14.0 (HARD REQUIREMENT — v22.12.x and below fail at runtime)** | Before any install: run `node --version`. If not found or < 22.14.0 → install/upgrade Node.js first (see Step 1b below). Only then proceed. |
-| Hermes Desktop | Windows, macOS, Linux | Official install = a script served from the OFFICIAL domain (`iex (irm https://hermes-agent.nousresearch.com/install.ps1)` on Windows; `curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash` elsewhere) — gives the `hermes` CLI; the Electron GUI is OPT-IN via `-IncludeDesktop` / the Hermes-Setup.exe wrapper. In mainland China the build can still FAIL on the github.com clone / PortableGit / nodejs.org downloads (the script fetch itself is NOT blocked); drive the China-mirror flow in the Hermes install reference (`install_flow.agent_steps`), do NOT refuse Windows. |
-| Claude Code (CLI) | All platforms (macOS/Linux: curl or brew; Windows: powershell or winget — npm is DEPRECATED) | Supported everywhere, choose install method by OS |
-| Codex (CLI) | All platforms (npm: `npm i -g @openai/codex`) | Verify Node.js is present; on Windows the global npm path resolves via `%APPDATA%\npm`. |
-| ChatGPT | macOS, Windows only | Install via the official installer or Microsoft Store — see Desktop App section below. |
+| OpenClaw | Windows, macOS, Linux | Use the embedded reference's current Node requirements and installer with onboarding disabled; manual npm commands depend on the npm version. |
+| Hermes Desktop | Windows, macOS, Linux | Prefer the official desktop installer on Windows/macOS. Plain scripts install the CLI; use the desktop flag or `hermes desktop` for the GUI. See the Hermes reference for platform prerequisites. |
+| Claude Code (CLI) | Windows, macOS, Linux | Native installers are preferred; npm remains supported. Homebrew casks are macOS-only. |
+| Codex (CLI) | Windows, macOS, Linux | Prefer the standalone installer; Node is only needed for the npm alternative. |
+| ChatGPT / Claude Desktop | Windows, macOS, supported Linux desktops | Check each reference for Linux preview/beta distribution and architecture requirements. |
 
 **Windows install UX rule**: When the user is on Windows, do NOT present A/B option choices. Instead:
 1. Default to native Windows installation — show what will be installed and how
 2. Ask the user to confirm: "Ready to install? (Y/N)"
 3. Add a brief note in parentheses: *(Tip: For best performance and full feature support, running on macOS or Linux is recommended.)*
 
-> ⚠️ **ALL agents listed above (including Claude Code) CAN be installed on ALL platforms — macOS, Linux, AND Windows.** Claude Code is NOT limited to macOS/Linux. On Windows, install with `irm https://claude.ai/install.ps1 | iex` (PowerShell) or `winget install Anthropic.ClaudeCode`. On macOS/Linux, use `curl -fsSL https://claude.ai/install.sh | bash`. When connected to a remote server, install it there using the appropriate command for that server's OS.
+CLI installation targets the machine the user selected, including a remote server when requested. Desktop applications need a graphical session and the supported OS/architecture from their own install reference.
 
 ### Step 1b: Node.js Version Check (MANDATORY for OpenClaw and any npm-based agent)
 
@@ -91,33 +91,11 @@ Before installing any npm-based agent, verify Node.js is installed and meets the
 node --version
 ```
 
-**Required minimum versions:**
-| Agent | Min Node.js |
-|-------|-------------|
-| OpenClaw | **>= 22.14.0** (CRITICAL: 22.12.x fails at runtime) |
-| Codex (CLI) | >= 18.0.0 (npm install path) |
+Use the requirement in the tool's embedded install reference. For a manual npm install, also inspect `npm view <exact-package>@latest engines --json` and `npm --version` when reachable; newer package releases can raise the requirement. Do not treat a minimum for one tool as a universal Node version.
 
-**If Node.js is missing or too old:**
+If Node is missing or incompatible, prefer the tool's official bootstrapper when it provisions Node. Otherwise install a current compatible LTS through the existing Node version manager or the official nodejs.org download for the target architecture. On Windows, `winget install --id OpenJS.NodeJS.LTS -e` is an option when available. Do not hardcode an old Node ZIP URL or always choose x64 on ARM64.
 
-- **Linux/macOS**: Use [nvm](https://github.com/nvm-sh/nvm) for clean version management:
-  ```bash
-  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
-  source ~/.nvm/nvm.sh
-  nvm install 22
-  nvm use 22
-  node --version   # Must show >= 22.14.0
-  ```
-- **Windows (PowerShell — install official LTS from nodejs.org)**:
-  ```powershell
-  Invoke-WebRequest -Uri "https://nodejs.org/dist/v22.14.0/node-v22.14.0-win-x64.zip" -OutFile "$env:TEMP\node.zip"
-  Expand-Archive -Path "$env:TEMP\node.zip" -DestinationPath "C:\nodejs" -Force
-  $nodePath = "C:\nodejs\node-v22.14.0-win-x64"
-  [Environment]::SetEnvironmentVariable("PATH", "$nodePath;" + [Environment]::GetEnvironmentVariable("PATH", "Machine"), "Machine")
-  & "$nodePath\node.exe" --version   # Verify >= 22.14.0
-  ```
-  > ⚠️ After updating PATH on Windows, remind the user to **close and reopen any terminals/apps** so the new PATH takes effect.
-
-**Do NOT proceed with OpenClaw installation until `node --version` confirms >= 22.14.0.**
+Refresh the current session's PATH and re-run `node --version` before continuing. Tell the user if other open terminals/apps need restarting. Standalone installers that do not require Node must not be blocked by this check.
 
 ---
 
@@ -216,7 +194,7 @@ When `npm install` or other downloads time out or are very slow:
 ### Installing Unknown or New Agents
 If the user asks to install an agent you don't have a specific workflow for:
 1. **FIRST**, check the **Embedded Install References** section appended to this prompt — every supported tool's install JSON is bundled there. Do NOT `web_fetch` `https://echobird.ai/api/tools/install/...`; that content is already in this prompt.
-2. If the tool is not in the embedded list, use `web_fetch` to read its official docs or npm page BEFORE doing anything
+2. Use `web_fetch` on the official docs/repository when the tool is not in the embedded list, when its reference explicitly requires current download links or repository setup instructions, or when an install failure indicates an outdated endpoint, package, prerequisite, or installer option. Keep the bundled path as the offline default; verify replacements before retrying and never guess a URL or package name.
 3. Check npm: `https://www.npmjs.com/package/<agent-name>`
 4. If not found on npm, search GitHub: `https://github.com/search?q=<agent-name>&type=repositories`
 5. Read the README or documentation to find CORRECT install instructions

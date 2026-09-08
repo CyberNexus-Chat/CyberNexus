@@ -25,6 +25,7 @@
     "installHints": {
         "windowsDisplayNames": ["ChatGPT", "Codex"],
         "windowsPublisher": "OpenAI",
-        "macosAppName": "ChatGPT"
+        "macosAppName": "ChatGPT",
+        "linuxDesktopNames": ["ChatGPT", "chatgpt"]
     }
 }

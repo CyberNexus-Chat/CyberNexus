@@ -6,11 +6,11 @@
     "github": "https://github.com/anthropics/claude-code",
     "install": {
         "curl (macOS / Linux — recommended)": "curl -fsSL https://claude.ai/install.sh | bash",
-        "brew (macOS / Linux)": "brew install --cask claude-code",
         "powershell (Windows — recommended)": "irm https://claude.ai/install.ps1 | iex",
         "winget (Windows)": "winget install Anthropic.ClaudeCode",
         "npm (all platforms — still officially listed)": "npm install -g @anthropic-ai/claude-code",
-        "note": "Official docs still list `npm install -g @anthropic-ai/claude-code` as a valid method, but the native installers above (curl / brew / powershell / winget) are RECOMMENDED: they auto-update and install the build EchoBird's launcher expects. After install, first-time setup MUST add allowedTools to settings for non-interactive use. See first_run below."
+        "note": "Native curl / PowerShell installs auto-update. Homebrew and WinGet require their package-manager upgrade commands by default. npm is still supported and installs the same native binary through optional dependencies; it requires Node.js 22+ at install time. Keep optional dependencies and the package postinstall enabled. Linux apt / dnf / apk instructions are also available at the official setup docs. Verify installation before starting account setup.",
+        "brew (macOS)": "brew install --cask claude-code"
     },
     "network_requirements": {
         "test_urls": ["https://claude.ai", "https://github.com/anthropics/claude-code"],
@@ -21,22 +21,13 @@
         "mirrors": {}
     },
     "first_run": {
-        "description": "Claude Code requires TWO config files for non-interactive use: (1) ~/.claude.json to skip onboarding, (2) ~/.claude/settings.json for tool permissions and API config. Without these, Claude Code will hang waiting for interactive prompts.",
-        "claude_json": {
-            "path": "~/.claude.json",
-            "description": "MUST be created FIRST. Skips onboarding wizard.",
-            "required": {
-                "hasCompletedOnboarding": true
-            }
-        },
+        "description": "Confirm installation with `claude --version` and `claude doctor`. For first-time authentication, launch `claude` in the user’s terminal and follow the account or configured-provider flow.",
         "settings_json": {
             "path": "~/.claude/settings.json",
-            "description": "Tool permissions. Without allowedTools, Claude Code prompts for folder trust and tool approvals interactively.",
-            "required": {
-                "allowedTools": ["Edit", "Write", "Bash", "Read", "MultiEdit", "Glob", "Grep", "LS", "TodoRead", "TodoWrite", "WebFetch", "NotebookRead", "NotebookEdit"]
-            }
+            "description": "Current permission rules use permissions.allow / permissions.ask / permissions.deny. The old top-level allowedTools field is not the settings schema. Installation alone does not require granting tools or rewriting onboarding state. Preserve existing settings; configure task-specific permissions only when needed for an authorized task.",
+            "docs": "https://code.claude.com/docs/en/settings"
         },
-        "setup_script": "python3 -c \"\nimport json, os\n# Step 1: ~/.claude.json - skip onboarding\ncpath = os.path.expanduser('~/.claude.json')\ncc = {}\nif os.path.exists(cpath):\n    with open(cpath) as f: cc = json.load(f)\ncc['hasCompletedOnboarding'] = True\nwith open(cpath, 'w') as f: json.dump(cc, f, indent=2)\nprint('~/.claude.json: onboarding skipped')\n# Step 2: ~/.claude/settings.json - tool permissions\nspath = os.path.expanduser('~/.claude/settings.json')\nos.makedirs(os.path.dirname(spath), exist_ok=True)\nsc = {}\nif os.path.exists(spath):\n    with open(spath) as f: sc = json.load(f)\nif 'allowedTools' not in sc:\n    sc['allowedTools'] = ['Edit','Write','Bash','Read','MultiEdit','Glob','Grep','LS','TodoRead','TodoWrite','WebFetch','NotebookRead','NotebookEdit']\nwith open(spath, 'w') as f: json.dump(sc, f, indent=2)\nprint('settings.json: allowedTools set')\n\"",
-        "verify": "claude --version   # confirms install; if the native installer ran, `claude doctor` also checks install health"
+        "verify": "claude --version",
+        "diagnostics": "claude doctor"
     }
 }

@@ -2,26 +2,28 @@
     "id": "chatgptdesktop",
     "displayName": "ChatGPT",
     "homepage": "https://openai.com/codex/",
-    "docs": "https://developers.openai.com/codex/app",
+    "docs": "https://learn.chatgpt.com/docs/app",
     "kind": "desktop_app",
-    "platforms": ["windows", "macos"],
+    "platforms": [
+        "windows",
+        "macos",
+        "linux"
+    ],
     "install": {
         "windows_winget": "winget install --id 9PLM9XGG6VKS --source msstore --accept-package-agreements --accept-source-agreements",
         "windows_download": "Open https://openai.com/codex/ in the browser, click the Windows download. Saves to %USERPROFILE%\\Downloads by default.",
         "macos_download": "Open https://openai.com/codex/ in the browser, click the macOS download (.dmg). Saves to ~/Downloads by default.",
-        "linux": "Not supported. ChatGPT desktop is Windows / macOS only.",
-        "note": "This is a GUI desktop application (Microsoft Store / MSIX on Windows). Always tell the user the download location and ask them to follow the install wizard themselves."
+        "linux": "Linux preview: download the x64 / ARM64 .deb or .rpm linked at https://learn.chatgpt.com/docs/linux/linux-app. Supported desktops: Ubuntu 24.04/26.04 LTS, Debian 13, Fedora 43/44. From Downloads install the selected .deb with apt or .rpm with dnf; launch `chatgpt`. The package registers the signed OpenAI update repository.",
+        "note": "GUI desktop application. Windows uses the Microsoft Store package; macOS uses the official Apple Silicon build. Linux preview uses the official .deb / .rpm for the supported distribution and architecture. Report installer location for manual downloads and verify the app opens."
     },
     "install_flow": {
-        "summary": "Download installer → user double-clicks → user clicks through the install wizard",
+        "summary": "Detect OS and architecture → install the Store / macOS / Linux package → verify the app opens.",
         "agent_steps": [
-            "Detect OS first.",
-            "Windows: prefer `winget install --id 9PLM9XGG6VKS --source msstore` if winget is available.",
-            "macOS / Windows manual: download installer to ~/Downloads (or %USERPROFILE%\\Downloads).",
-            "After download finishes, tell the user the EXACT file path.",
-            "Open the installer (`Start-Process` / `open`).",
-            "Tell the user: 'ChatGPT 安装向导已打开,请按向导点击下一步完成安装。' / 'ChatGPT installer opened — follow the wizard to finish.'",
-            "Do NOT try to automate the GUI wizard."
+            "Detect OS and architecture first. macOS requires the Apple Silicon build; Linux preview supports the distributions and architectures listed in the Linux docs.",
+            "Windows: prefer `winget install --id 9PLM9XGG6VKS --source msstore` if available. Verify the package install result; no manual installer wizard is required for this path.",
+            "macOS: download the official app linked from https://learn.chatgpt.com/docs/app to ~/Downloads, report its path, and open it for the user to install.",
+            "Linux: use https://learn.chatgpt.com/docs/linux/linux-app to select the matching .deb / .rpm. Install with apt / dnf from the download directory. Let the user run sudo if elevation is unavailable.",
+            "Verify ChatGPT is present in the application menu and opens; the Linux launcher is `chatgpt`. Sign-in takes place inside the app."
         ],
         "tell_user": [
             "Download location (full path)",

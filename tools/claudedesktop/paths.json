@@ -27,6 +27,7 @@
     "installHints": {
         "windowsDisplayNames": ["Claude"],
         "windowsPublisher": "Anthropic",
-        "macosAppName": "Claude"
+        "macosAppName": "Claude",
+        "linuxDesktopNames": ["Claude", "claude-desktop"]
     }
 }

@@ -167,8 +167,11 @@ pub fn build_embedded_refs_section() -> String {
     out.push_str(
         "The references below are bundled with the EchoBird app. **PREFER \
          them over `web_fetch`** — many users choose smart-install precisely \
-         because their network is unreliable. Only fall back to `web_fetch` \
-         for tools not in this list.\n\n",
+         because their network is unreliable. Use `web_fetch` for tools not \
+         in this list, when a reference explicitly requires current download \
+         links or repository setup instructions, or when an install failure indicates \
+         an outdated endpoint, package, prerequisite, or installer option. \
+         Verify replacements against the tool's official docs/repository.\n\n",
     );
 
     out.push_str("### Tool Install JSONs\n\n");

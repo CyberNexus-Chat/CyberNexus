@@ -2,57 +2,52 @@
     "id": "hermes",
     "displayName": "Hermes Desktop",
     "homepage": "https://hermes-agent.nousresearch.com/desktop",
-    "docs": "https://hermes-agent.nousresearch.com/docs/",
+    "docs": "https://hermes-agent.nousresearch.com/docs/getting-started/installation/",
     "github": "https://github.com/NousResearch/hermes-agent",
     "kind": "desktop_app",
     "platforms": ["windows", "macos", "linux"],
     "install": {
-        "summary": "Open-source AI agent by Nous Research (MIT). The install is a script served from the OFFICIAL domain (hermes-agent.nousresearch.com) that provisions uv -> Python -> Git -> Node.js 22 -> clones the repo -> Python/Node deps -> agent-browser (Playwright Chromium). The Electron desktop GUI is OPT-IN: add `-IncludeDesktop` to the script, or run the signed Hermes-Setup.exe wrapper that passes that flag.",
-        "default_path": "Windows: `iex (irm https://hermes-agent.nousresearch.com/install.ps1)` in PowerShell — this is the OFFICIAL, PRIMARY path and works for the majority of users (overseas / unrestricted networks — the core audience). macOS/Linux: `curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash`. To ALSO get the desktop GUI, append `-IncludeDesktop` to the script, or run the Hermes-Setup.exe (Windows) / .dmg (macOS) wrapper from https://hermes-agent.nousresearch.com/desktop.",
-        "official_is_a_bootstrapper": "The official Windows installer is a PowerShell script served from the OFFICIAL domain (hermes-agent.nousresearch.com/install.ps1) — NOT raw.githubusercontent.com, so fetching the script itself is NOT the CN blocker. It pipes only the uv installer (`irm https://astral.sh/uv/install.ps1 | iex`), then provisions Python 3.11 (uv), Git/PortableGit (github.com release), Node.js 22 (nodejs.org), clones github.com/NousResearch/hermes-agent, installs Python/Node deps and agent-browser (Playwright Chromium). Desktop GUI is OPT-IN: the script's `-IncludeDesktop` builds the Electron app; Hermes-Setup.exe is the signed Tauri wrapper that passes it. In mainland China WITHOUT a VPN the build can hang on the github.com clone / PortableGit release / nodejs.org / astral.sh hops (GFW-blocked, e.g. stuck at '0 of 0 steps'). That case is handled by the user-triggered FALLBACK in install_flow — NOT by probing the network up front (a reachable github does not predict success, and probing is unreliable on the intermittent GFW)."
+        "summary": "For Hermes Desktop on Windows/macOS, prefer the official desktop installer. Plain install.ps1 / install.sh installs the CLI; include the desktop flag when the GUI is required.",
+        "windows_download": "Download the Windows installer linked at https://hermes-agent.nousresearch.com/desktop and run it. It provisions the CLI and desktop app.",
+        "macos_download": "Download the macOS installer linked at https://hermes-agent.nousresearch.com/desktop (macOS 12+).",
+        "windows_script_with_desktop": "& ([scriptblock]::Create((irm https://hermes-agent.nousresearch.com/install.ps1))) -IncludeDesktop",
+        "unix_script_with_desktop": "curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash -s -- --include-desktop",
+        "windows_cli_only": "iex (irm https://hermes-agent.nousresearch.com/install.ps1)",
+        "unix_cli_only": "curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash",
+        "existing_cli_to_desktop": "hermes desktop",
+        "note": "The official bootstrapper provisions its own dependencies. Their versions and layout vary by platform; do not force Node 22 or skip managed uv based on an unrelated system installation. Non-Windows script installs need Git; Linux also needs curl and xz-utils, plus g++ / build-essential for desktop native modules. Desktop builds and later browser-tool downloads still depend on their upstream hosts. Fetching the first script does not prove every download will succeed."
     },
     "cli": {
         "detect_command": "hermes --version",
-        "note": "The core install yields a `hermes` CLI on PATH (oneshot: `hermes chat -q \"<message>\" --quiet`). The desktop GUI is a separate opt-in build; primary user-facing form is the CLI (or the GUI if `-IncludeDesktop`/Hermes-Setup.exe was used)."
+        "note": "The CLI and Desktop are separate verification targets. `hermes desktop` builds and launches the GUI from an existing CLI installation."
     },
     "install_flow": {
-        "summary": "DEFAULT: run the official installer script (works for the overseas / unrestricted majority — the core users). Before you run it, PROACTIVELY tell the user that if it fails or hangs (common in mainland China without a VPN), they should say so — and you will then re-install via the China-mirror method (the FALLBACK steps). Do NOT probe network reachability to choose a path: just default to the official installer and let a user-reported failure trigger the mirror fallback.",
+        "summary": "Use the desktop installer or a script with the desktop flag → verify CLI and desktop separately.",
         "agent_steps": [
-            "Desktop app — LOCAL machine only. If connected to a remote server, switch to the local server first.",
-            "Detect OS (PowerShell `$IsWindows` / `uname -s`).",
-            "DEFAULT — run the OFFICIAL installer (do NOT probe the network first). Windows: `iex (irm https://hermes-agent.nousresearch.com/install.ps1)` in PowerShell. macOS/Linux: `curl -fsSL https://hermes-agent.nousresearch.com/install.sh | bash`. For the Electron desktop GUI on top, append `-IncludeDesktop` to the script — or run the signed Hermes-Setup.exe (Windows) / .dmg (macOS) wrapper from https://hermes-agent.nousresearch.com/desktop, which passes that flag for you.",
-            "PROACTIVE FALLBACK OFFER — before running it, tell the user plainly (in their language): I'm running the official Hermes installer; BUT if it fails or hangs — common in mainland China without a VPN (stalls on the github.com clone or the PortableGit / nodejs.org downloads) — just tell me and I'll re-install it via the China-mirror method instead. Then run it and hand off; do NOT keep polling or running `--version` to check.",
-            "FALLBACK — run the steps A-D below ONLY when the user reports the official installer failed / hung / could not download. Same robust mirror flow, just on demand instead of by default.",
-            "STEP A — set China package mirrors as environment variables for the install session: PyPI -> `UV_DEFAULT_INDEX=https://pypi.tuna.tsinghua.edu.cn/simple` and `PIP_INDEX_URL=https://pypi.tuna.tsinghua.edu.cn/simple`; uv's Python download -> `UV_PYTHON_INSTALL_MIRROR=https://registry.npmmirror.com/-/binary/python-build-standalone`; npm -> `npm_config_registry=https://registry.npmmirror.com`; Node.js portable -> `https://registry.npmmirror.com/-/binary/node/`; Electron -> `ELECTRON_MIRROR=https://registry.npmmirror.com/-/binary/electron/`; Playwright -> `PLAYWRIGHT_DOWNLOAD_HOST=https://registry.npmmirror.com/-/binary/playwright`.",
-            "STEP B — route git through a reachable GitHub proxy so the repo clone AND the PortableGit github.com release download succeed: `git config --global url.\"https://<working-gh-proxy>/https://github.com/\".insteadOf \"https://github.com/\"`. GitHub proxies (ghproxy-class) are volatile — pick one that currently responds; or pre-install Git (`winget install Git.Git`) so the script skips the PortableGit download, or use npmmirror's `git-for-windows` mirror.",
-            "STEP C — the install SCRIPT itself is served from the OFFICIAL domain (hermes-agent.nousresearch.com/install.ps1), so NO mirror is needed to fetch it. Run `iex (irm https://hermes-agent.nousresearch.com/install.ps1)` in the SAME session as the STEP A env vars and STEP B git proxy. If the piped uv step (`irm https://astral.sh/uv/install.ps1 | iex`) stalls (astral.sh can be unreachable from CN), pre-install uv yourself first (winget `astral-sh.uv`) so the script finds it and skips that fetch.",
-            "STEP D — watch the install actually PROGRESS — if it stalls on a hop, read the log to find the blocked host and point that one host at its mirror (github.com clone / PortableGit release -> STEP B proxy or npmmirror git-for-windows; nodejs.org -> npmmirror node binary mirror). pip / npm / electron / playwright downloads follow the STEP A env vars.",
-            "BOUNDED LATITUDE + SECURITY: mirrors (gh-proxy / npmmirror) come and go — if a hop fails, find an alternative working mirror at runtime rather than giving up; you may improvise. BUT the script you run is the OFFICIAL one served from hermes-agent.nousresearch.com — do not substitute a modified/untrusted script from anywhere else, and NEVER recommend a specific commercial VPN.",
-            "VERIFY: after install, `hermes --version` confirms the CLI is on PATH. If the desktop GUI was requested (via `-IncludeDesktop` / Hermes-Setup.exe), the Electron app is built under %LOCALAPPDATA%\\hermes (Windows) / the app bundle (macOS).",
-            "Tell the user plainly what was installed (the `hermes` CLI — and the desktop GUI if `-IncludeDesktop`/Hermes-Setup.exe was used), where, and how to launch it."
+            "Detect the target OS and architecture. Install a GUI on a machine with a desktop session; a requested headless server install uses the CLI-only path.",
+            "Windows/macOS: prefer the official desktop installer linked from the product page. Tell the user its download path and open it for them. Windows script alternative: use the scriptblock command with -IncludeDesktop; appending the flag to iex does not pass it to the downloaded script.",
+            "Linux: check Git, curl, xz-utils and the desktop compiler prerequisites, then use install.sh with --include-desktop. For an existing CLI install, `hermes desktop` builds and launches the GUI.",
+            "Inspect the installer result. If it fails, report the failing host or stage and use the user’s proxy or an approved package mirror for that dependency. Keep the official bootstrapper and its managed dependency layout. Do not replace repository URLs globally or choose an arbitrary GitHub proxy.",
+            "Verify `hermes --version`. If Desktop was requested, also verify its application entry or built desktop artifact exists and opens; a CLI version alone does not confirm Desktop installation.",
+            "Report the actual installed location and launch command (`hermes desktop` for the GUI)."
         ],
         "tell_user": [
-            "Which path was used — the official installer (default) or the China-mirror fallback",
-            "Upfront, before running the official installer: that they should report a failure/hang so you can switch to the mirror method",
-            "That the `hermes` CLI is the core install; the desktop GUI is opt-in via `-IncludeDesktop` (or Hermes-Setup.exe), and whether you included it",
-            "Install location and how to launch"
+            "Install method and actual location",
+            "Whether both CLI and Desktop were verified",
+            "Any unfinished interactive installer step or failed dependency download"
         ]
     },
     "network_requirements": {
-        "note": "These hosts are what the build TOUCHES — NOT a checklist to probe-and-gate on. Do NOT decide the path by testing them; default to the official installer and use the mirror FALLBACK only when the user reports a failure. Listed so you know which host maps to which mirror if a fallback hop stalls.",
-        "blocked_regions": {
-            "zh-CN": "The official Windows installer script is served from the OFFICIAL domain (hermes-agent.nousresearch.com/install.ps1) — NOT raw.githubusercontent.com — so fetching the script itself is fine in mainland China. What the build touches and CAN stall on: the piped uv installer (astral.sh), the github.com repo clone, the PortableGit github.com release, nodejs.org, plus PyPI/npm/Electron/Playwright CDNs — most throttled/blocked in CN (os error 10054 / RST). Fallback bypass: run the official script with China package mirrors set (Tsinghua PyPI; npmmirror for node/npm/electron/playwright/python-build-standalone; a GitHub proxy for the git clone and PortableGit download) and, if astral.sh stalls, pre-install uv. See install_flow.agent_steps STEP A-D."
-        },
+        "test_urls": [
+            "https://hermes-agent.nousresearch.com",
+            "https://github.com/NousResearch/hermes-agent",
+            "https://astral.sh",
+            "https://nodejs.org"
+        ],
+        "note": "Dependency downloads can fail independently. Diagnose the actual failing stage; use session-scoped proxy or approved mirror settings and retain the official installer.",
         "mirrors": {
-            "github_clone": "git insteadOf via a ghproxy-class proxy (volatile — verify at runtime)",
-            "uv": "pre-install uv (winget astral-sh.uv) if the piped astral.sh/uv/install.ps1 stalls",
             "pypi": "https://pypi.tuna.tsinghua.edu.cn/simple",
-            "npm": "https://registry.npmmirror.com",
-            "node": "https://registry.npmmirror.com/-/binary/node/",
-            "electron": "https://registry.npmmirror.com/-/binary/electron/",
-            "playwright": "https://registry.npmmirror.com/-/binary/playwright",
-            "python-build-standalone": "https://registry.npmmirror.com/-/binary/python-build-standalone",
-            "git-for-windows": "https://registry.npmmirror.com/-/binary/git-for-windows/"
+            "npm": "https://registry.npmmirror.com"
         }
     }
 }

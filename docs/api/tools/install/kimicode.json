@@ -8,7 +8,7 @@
         "curl (macOS / Linux — recommended)": "curl -fsSL https://code.kimi.com/kimi-code/install.sh | bash",
         "npm (all platforms)": "npm install -g @moonshot-ai/kimi-code",
         "PowerShell (Windows)": "irm https://code.kimi.com/kimi-code/install.ps1 | iex",
-        "note": "CLI coding agent by Moonshot AI (Kimi). The binary is `kimi` (curl installs to ~/.kimi-code/bin and prepends it to PATH; restart the shell or source the rc file before verifying). Built on Pi's pi-tui TUI library but a SEPARATE product — do NOT install `pi` or `@earendil-works/pi-coding-agent`. On Windows, Git for Windows is required (Kimi Code uses bundled Git Bash); set KIMI_SHELL_PATH if bash.exe is in a custom location."
+        "note": "CLI coding agent by Moonshot AI (Kimi). The binary is `kimi` (curl installs to ~/.kimi-code/bin and prepends it to PATH; restart the shell or source the rc file before verifying). Built on Pi's pi-tui TUI library but a SEPARATE product — do NOT install `pi` or `@earendil-works/pi-coding-agent`. On Windows, Git for Windows is required (Kimi Code uses bundled Git Bash); set KIMI_SHELL_PATH if bash.exe is in a custom location. Native installers do not require Node.js; the npm alternative requires Node.js 22.19.0+. Verify with `kimi --version`."
     },
     "network_requirements": {
         "test_urls": [

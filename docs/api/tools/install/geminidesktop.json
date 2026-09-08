@@ -9,12 +9,12 @@
         "macos_download": "Open https://gemini.google/mac/ in the browser to download the official .dmg. Saves to ~/Downloads by default.",
         "windows": "NOT SUPPORTED. Gemini Desktop is macOS-only. If the user is on Windows or Linux, tell them: 'Gemini Desktop only supports macOS. Use the web version at https://gemini.google.com/ on Windows / Linux.'",
         "linux": "NOT SUPPORTED. Gemini Desktop is macOS-only.",
-        "note": "Mac-only GUI desktop application. Tell the user the download location and ask them to follow the install steps (drag Gemini.app to /Applications)."
+        "note": "Requires Apple Silicon and macOS 15.0 (Sequoia) or later. Intel Macs, Windows, and Linux are not supported by this native app. Tell the user the download location and drag Gemini.app to /Applications, then verify the app opens."
     },
     "install_flow": {
         "summary": "Download .dmg → user double-clicks → drags Gemini.app to /Applications",
         "agent_steps": [
-            "Verify OS is macOS first. If not, refuse with the message above.",
+            "Check macOS version and architecture first: require macOS 15.0+ and Apple Silicon. If unsupported, use https://gemini.google.com/ in a browser.",
             "Download the .dmg to ~/Downloads using `curl -L -o`.",
             "After download finishes, tell the user the EXACT file path (e.g. '~/Downloads/Gemini.dmg').",
             "Open the .dmg with `open ~/Downloads/Gemini.dmg`.",

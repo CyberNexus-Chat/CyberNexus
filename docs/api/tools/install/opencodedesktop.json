@@ -10,7 +10,7 @@
         "macos_brew_cask": "brew install --cask opencode-desktop",
         "macos_download": "Open https://opencode.ai/download in the browser, click the macOS download (.dmg, Apple Silicon or Intel). Saves to ~/Downloads by default.",
         "windows_download": "Open https://opencode.ai/download in the browser, click the Windows (x64) download — a one-click NSIS .exe installer. Saves to %USERPROFILE%\\Downloads by default.",
-        "linux_download": "Open https://opencode.ai/download in the browser, download the .deb / .rpm / AppImage and install it.",
+        "linux_download": "Open https://opencode.ai/download in the browser, download the .deb / .rpm and install it.",
         "note": "GUI desktop application (Electron). It shares config under ~/.config/opencode with the OpenCode CLI, so a model configured for one applies to both. Always tell the user the download location and ask them to run the installer themselves."
     },
     "install_flow": {

@@ -1258,7 +1258,7 @@ Do NOT offer WSL2 as a workaround.\n\
         - NEVER manually write model config files (config.json, config.yaml, etc.) for agents. EchoBird handles this automatically.\n\
         - Model configuration for installed agents is fully automatic — handled by EchoBird's existing UI. Do NOT explain where to switch models or which page to visit; users manage that themselves.\n\
         - OpenClaw is NOT Claude Code. Do NOT apply Claude Code configuration methods to OpenClaw.\n\
-        - CLI tools (Claude Code, Codex CLI (@openai/codex), OpenCode, Aider) are LOCAL ONLY -- cannot be deployed remotely.\n\
+        - CLI tools (Claude Code, Codex CLI (@openai/codex), OpenCode, Aider) can be installed on the user-selected local or remote machine. Check that target's OS and prerequisites; desktop apps require a graphical session.\n\
         - For unknown agents, use web_fetch on official docs. NEVER fabricate configuration steps.\n\n\
         ## Handling sudo / password prompts (Local AND Remote)\n\
         On Linux/macOS, plain `sudo <command>` will FAIL FAST with an error like 'a terminal is required' \
@@ -1308,7 +1308,7 @@ Do NOT offer WSL2 as a workaround.\n\
         ## Tool Install Reference\n\
         When the user asks to install any tool, ALWAYS read the install reference from the **Embedded Install References** section appended at the end of this system prompt — it contains the install JSON for every supported tool (openclaw, opencode, mimocode, kilo, kimicode, claudecode, claudescience, openscience, codex, hermes, grok, workbuddy, zcode, dsh).\n\
         Do NOT `web_fetch` `https://echobird.ai/api/tools/install/...` — that content is already embedded in this prompt and works offline.\n\
-        Only fall back to `web_fetch` on the tool's official site when the requested tool is NOT in the embedded list.\n\n\
+        Use `web_fetch` on the tool's official site when the tool is not in the embedded list, when its reference explicitly requires current download links or repository setup instructions, or when an install failure indicates an outdated endpoint, package, prerequisite, or installer option. Verify replacements before retrying.\n\n\
         ## Network Pre-Check (MANDATORY Before Installation)\n\
         Before installing ANY agent, reason about the network — but NEVER let a single reachability probe decide the strategy:\n\
         1. **Detect user region from their INPUT LANGUAGE** (what they type, NOT the UI setting):\n\

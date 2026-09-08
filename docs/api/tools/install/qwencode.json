@@ -7,15 +7,17 @@
     "kind": "cli",
     "platforms": ["windows", "macos", "linux"],
     "install": {
-        "npm (all platforms — recommended)": "npm install -g @qwen-code/qwen-code@latest",
+        "curl (macOS / Linux — official standalone installer)": "curl -fsSL https://qwen-code-assets.oss-cn-hangzhou.aliyuncs.com/installation/install-qwen-standalone.sh | bash",
+        "powershell (Windows — official standalone installer)": "irm https://qwen-code-assets.oss-cn-hangzhou.aliyuncs.com/installation/install-qwen-standalone.ps1 | iex",
+        "npm (all platforms — alternative)": "npm install -g @qwen-code/qwen-code@latest",
         "WARNING": "The npm package name is EXACTLY '@qwen-code/qwen-code'. Do NOT install 'qwen-code' or 'qwen' alone (wrong packages). The CLI binary that lands on PATH is `qwen` (not `qwen-code`).",
-        "note": "Qwen Code is Alibaba's open-source coding agent CLI (a fork of Gemini CLI tuned for Qwen models). Requires Node.js ≥ 20. After install, verify with `qwen --version`. Config lives at ~/.qwen/settings.json — Echobird's 'Update model config' flow writes it for you."
+        "note": "Prefer the official standalone installer for the target platform. The standalone archive does not require a separate Node installation; if the Unix script falls back to npm because the archive is unavailable, that branch requires Node.js 22+ and npm. Manual npm installation has the same requirement. After install, refresh PATH and run `qwen --version`. Config remains ~/.qwen/settings.json."
     },
     "install_flow": {
-        "summary": "Detect Node ≥ 20 → npm install -g @qwen-code/qwen-code@latest → verify",
+        "summary": "Official standalone installer or Node 22+ with npm → refresh PATH → verify",
         "agent_steps": [
-            "Detect OS and verify Node.js ≥ 20 with `node --version`. If missing or older, install Node via nvm / winget OpenJS.NodeJS / brew install node first.",
-            "Run `npm install -g @qwen-code/qwen-code@latest`.",
+            "Detect OS and architecture, then run the matching official standalone installer. Only check/provision Node.js 22+ and npm when using the npm alternative or its fallback branch.",
+            "npm alternative: run `npm install -g @qwen-code/qwen-code@latest`. On Windows, the standalone installer creates %LOCALAPPDATA%\\qwen-code\\bin\\qwen.cmd; use that full path if the current shell has stale PATH.",
             "After install, run `qwen --version` to confirm. The CLI binary is `qwen`, not `qwen-code` — point this out to avoid confusion.",
             "Tell the user that model selection happens via Echobird's App Manager — clicking 'Update model config' writes ~/.qwen/settings.json with the chosen base URL / API key / model."
         ],

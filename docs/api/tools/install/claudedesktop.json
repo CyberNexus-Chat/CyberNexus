@@ -4,42 +4,42 @@
     "homepage": "https://claude.com/download",
     "docs": "https://support.claude.com/en/articles/10065433-install-claude-desktop",
     "kind": "desktop_app",
-    "platforms": ["windows", "macos"],
+    "platforms": [
+        "windows",
+        "macos",
+        "linux"
+    ],
     "install": {
         "windows_winget": "winget install --id Anthropic.Claude --accept-package-agreements --accept-source-agreements",
-        "windows_download": "Global / unblocked networks only: open https://claude.com/download to get the official installer (.exe). Default save location: %USERPROFILE%\\Downloads. In mainland China this page is effectively always blocked — use the winget path instead.",
-        "macos_download": "Global / unblocked networks only: open https://claude.com/download to get the official installer (.dmg). Default save location: ~/Downloads.",
-        "linux": "Not supported. Claude Desktop is Windows / macOS only.",
-        "note": "GUI desktop app — installation finishes through a graphical wizard. On Windows, winget is the PREFERRED PRIMARY: it pulls the official MSIX straight from Anthropic's CDN (downloads.claude.ai), which usually resolves WITHOUT a VPN even when the claude.com web page is blocked, and it installs the MSIX build EchoBird's launcher expects. Always tell the user the download location and let them click through the wizard."
+        "windows_download": "Open https://claude.com/download and select Windows x64 or arm64. Save the official installer under Downloads.",
+        "macos_download": "Open https://claude.com/download and get the macOS installer. Save it under ~/Downloads.",
+        "linux": "Linux beta supports Ubuntu 22.04+ / Debian 12+, x86_64 or arm64. Follow https://code.claude.com/docs/en/desktop-linux to register Anthropic’s signed apt repository, then run `sudo apt update` and `sudo apt install claude-desktop`. Fedora/Arch are not officially supported by Desktop.",
+        "note": "Use the official download links or package-manager manifest. WinGet still downloads from Anthropic’s CDN; it does not guarantee access on a blocked network. Linux launches with `claude-desktop` and updates through apt. A GUI session is required."
     },
     "install_flow": {
-        "summary": "Windows: winget (primary — official MSIX from Anthropic CDN, the no-VPN path) → manual claude.com (global/unblocked) → blocked-region fallback where the agent may find an alternative reachable source. macOS: claude.com, or an alternative source if blocked.",
+        "summary": "Detect OS and architecture → install the official package → verify the desktop app launches.",
         "agent_steps": [
-            "Detect OS via `uname -s` (or PowerShell `$IsWindows`).",
-            "WINDOWS PRIMARY (always try FIRST — do NOT skip it in favour of a manual claude.com download): `winget install --id Anthropic.Claude --accept-package-agreements --accept-source-agreements`. winget fetches the official MSIX from Anthropic's CDN (downloads.claude.ai), which is the path that usually succeeds in mainland China WITHOUT a VPN and installs the MSIX build EchoBird's launcher can resolve.",
-            "WINDOWS, if `winget` is not on PATH: install/repair 'App Installer' first (Microsoft Store, or the microsoft/winget-cli GitHub release), then retry the winget command. A missing winget is the usual reason mainland users get stranded, so bootstrapping it is worth the extra step.",
-            "macOS, and global / unblocked Windows manual: download the official installer from https://claude.com/download into the Downloads folder (`curl -L -o` on macOS). This is the normal path for users OUTSIDE blocked regions.",
-            "BLOCKED-REGION FALLBACK — only when BOTH the winget/CDN path AND claude.com are unreachable (effectively guaranteed for mainland China without a proxy): you ARE permitted to leave this script and improvise. Find any reachable source serving the SAME official Anthropic installer (e.g. a working download accelerator/proxy in front of downloads.claude.ai), or ask the user whether they have a proxy/VPN you can configure. Note: reputable open-source mirrors (Tsinghua / USTC / Aliyun) do NOT host Claude Desktop, so do not waste time there. SECURITY GUARDRAIL: if you use any third-party / non-official source, tell the user plainly that it is unofficial and verify the download (size / signature) before running it; NEVER silently install an untrusted binary, and NEVER recommend a specific commercial VPN.",
-            "After a MANUAL download finishes, tell the user the EXACT file path (e.g. 'Saved to ~/Downloads/Claude-Setup.exe'). For winget there is no manual file — it installs silently.",
-            "Open a manually-downloaded installer for the user (`Start-Process` on Windows, `open` on macOS). Skip this for winget installs.",
-            "Tell the user (manual installs only): '安装向导已打开,请按照向导点击下一步完成安装。' / 'The installer is open — please follow the wizard to finish.'",
-            "Do NOT try to automate the GUI wizard."
+            "Check OS and architecture. Linux requires Ubuntu 22.04+ or Debian 12+ on x86_64/arm64 and a desktop session.",
+            "Windows: use winget Anthropic.Claude when available; otherwise select the matching official installer at https://claude.com/download. macOS: use that page’s macOS download.",
+            "Linux: read https://code.claude.com/docs/en/desktop-linux for the signed apt repository commands and key fingerprint; verify the signing key, add the repository, then install claude-desktop. The docs also provide a direct .deb fallback. Let the user run sudo commands if elevation is unavailable.",
+            "For manual Windows/macOS downloads, report the full saved path and open the installer for the user to finish. For package-manager installs, inspect the exit result.",
+            "Verify Claude appears in the application menu and opens. First sign-in remains in Claude. On Linux, verify the installed package and `claude-desktop` launcher.",
+            "If an official download is unreachable, diagnose that host and use the user’s configured proxy; do not assume WinGet bypasses the blocked host."
         ],
         "tell_user": [
-            "Which path was used (winget / official claude.com download / alternative source)",
-            "Download location (full path) when a manual installer was fetched",
-            "If a non-official source was used, that it is unofficial and should be verified",
-            "That they should click through the wizard themselves (manual installs only)"
+            "Install method and version when available",
+            "Saved installer location, if manual",
+            "Whether installation and the first launch completed"
         ]
     },
     "identity_guard": {
-        "description": "Claude Desktop is Anthropic's GUI app. The ONLY official sources are winget `Anthropic.Claude` (preferred — pulls the official MSIX from downloads.claude.ai) or https://claude.com/download. Do NOT install from claude.ai/download: it may serve a different / legacy installer that EchoBird's launcher (MSIX AUMID shell:AppsFolder\\Claude_pzs8sxrjxfjjc!Claude) cannot start, which surfaces as the launch opening a stray Explorer window instead of the app. Claude Desktop is also DIFFERENT from Claude Code (the `@anthropic-ai/claude-code` CLI) — do not conflate their install sources."
+        "description": "Claude Desktop is Anthropic’s GUI app. Select the official desktop download or Anthropic.Claude / claude-desktop package, not the Claude Code CLI package."
     },
     "network_requirements": {
-        "test_urls": ["https://downloads.claude.ai", "https://claude.com"],
-        "blocked_regions": {
-            "zh-CN": "claude.com (the download web page) is ~always blocked in mainland China — do NOT rely on it. winget pulls the installer from downloads.claude.ai (Anthropic's CDN), which is the best no-VPN path but is ALSO geo-blocked on some Chinese networks (Anthropic restricts CN IPs). There is NO official China mirror for Claude Desktop; when even the CDN is blocked, the only options are a proxy/VPN or an alternative reachable source the agent locates at runtime."
-        },
+        "test_urls": [
+            "https://claude.com",
+            "https://downloads.claude.ai"
+        ],
         "mirrors": {}
     }
 }

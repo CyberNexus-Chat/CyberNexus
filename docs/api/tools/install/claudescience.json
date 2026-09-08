@@ -8,7 +8,7 @@
     "install": {
         "macos_download_arm": "https://downloads.claude.ai/claude-science/latest/mac-arm64.dmg",
         "macos_download_x64": "https://downloads.claude.ai/claude-science/latest/mac-x64.dmg",
-        "linux_curl": "curl -fL https://downloads.claude.ai/claude-science/latest/linux-x64 -o ~/.local/bin/claude-science && chmod +x ~/.local/bin/claude-science",
+        "linux_curl": "mkdir -p ~/.local/bin && curl -fL https://downloads.claude.ai/claude-science/latest/linux-x64 -o ~/.local/bin/claude-science && chmod +x ~/.local/bin/claude-science",
         "linux_download": "https://downloads.claude.ai/claude-science/latest/linux-x64",
         "note": "Claude Science is macOS + Linux only (no Windows build). After install, launch with `claude-science serve` — it starts the local daemon and opens the web UI in the browser. Science requires a Claude account login on first launch; EchoBird does not manage models or login for it (Science uses the user's own Claude subscription)."
     },
@@ -18,7 +18,7 @@
             "Detect OS and architecture first. Claude Science has NO Windows build — if the user is on Windows, tell them Science is macOS + Linux only (WSL2 is possible but EchoBird will not manage a WSL2 install).",
             "macOS (Apple Silicon): download https://downloads.claude.ai/claude-science/latest/mac-arm64.dmg, mount it, drag Claude Science.app to /Applications.",
             "macOS (Intel): download https://downloads.claude.ai/claude-science/latest/mac-x64.dmg, same steps.",
-            "Linux x64: run `curl -fL https://downloads.claude.ai/claude-science/latest/linux-x64 -o ~/.local/bin/claude-science && chmod +x ~/.local/bin/claude-science` (ensure ~/.local/bin is on PATH; create it if missing).",
+            "Linux x64: run `mkdir -p ~/.local/bin && curl -fL https://downloads.claude.ai/claude-science/latest/linux-x64 -o ~/.local/bin/claude-science && chmod +x ~/.local/bin/claude-science` (ensure ~/.local/bin is on PATH; create it if missing).",
             "After install, tell the user to launch with `claude-science serve` in a terminal — it starts the daemon and opens the web UI. First launch requires Claude account login.",
             "EchoBird lists Claude Science as a tool card (Utility category, 'no model config supported') — it does NOT switch models for Science. Science uses the user's own Claude subscription."
         ],

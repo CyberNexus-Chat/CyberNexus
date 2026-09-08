@@ -7,16 +7,16 @@
     "platforms": ["macos", "linux", "windows"],
     "install": {
         "npm_global": "npm install -g @deepseek-ai/dsh",
-        "npx": "npx @deepseek-ai/dsh",
-        "note": "DeepSeek Harness (`dsh`) is DeepSeek's open-source agent harness, currently in developer preview (npm 0.1.0-rc.x, breaking changes expected). It runs a local web server (`dsh web`) served at http://127.0.0.1:3080 and you open that URL in a browser. It requires Node.js >= 22.19 (or >= 24). EchoBird configures models by writing ~/.dsh/settings.yaml (an `echobird` provider route under `llm-pi-ai.providers` plus an `agent-default-model` selector) and ~/.dsh/.credentials.yaml (the `ECHOBIRD_API_KEY` credential) — both YAML. `dsh` hot-reloads settings.yaml, but EchoBird still restarts the tracked instance on model switch so the change is deterministic."
+        "npx": "npx @deepseek-ai/dsh web",
+        "note": "DeepSeek Harness (`dsh`) is DeepSeek's open-source agent harness, currently in developer preview (breaking changes expected). It runs a local web server (`dsh web`) served at http://127.0.0.1:3080 and you open that URL in a browser. Its source requires Node.js ^22.19.0 || >=24.0.0 (22.19.0+ within 22.x, or 24+; Node 23 is excluded). EchoBird configures models by writing ~/.dsh/settings.yaml (an `echobird` provider route under `llm-pi-ai.providers` plus an `agent-default-model` selector) and ~/.dsh/.credentials.yaml (the `ECHOBIRD_API_KEY` credential) — both YAML. `dsh` hot-reloads settings.yaml, but EchoBird still restarts the tracked instance on model switch so the change is deterministic."
     },
     "install_flow": {
         "summary": "Install the `dsh` binary onto PATH via npm (global or npx), then launch with `dsh web` to start the local backend, and open http://127.0.0.1:3080 in a browser.",
         "agent_steps": [
-            "Check Node.js version first: `node --version` must be >= 22.19 (or >= 24). If it is older, tell the user to upgrade Node before continuing — `dsh` will not boot on older runtimes.",
+            "Check `node --version` against the official engine range ^22.19.0 || >=24.0.0: accept 22.x from 22.19.0, or 24.0.0 and later; do not accept Node 23. Upgrade an incompatible Node before continuing.",
             "Preferred path (all platforms): if npm is available, run `npm install -g @deepseek-ai/dsh`. This puts `dsh` on PATH. Verify with `dsh --version`.",
             "Fallback: run via `npx @deepseek-ai/dsh web` (downloads on demand, no global install). This is fine for one-off launches but re-resolves each run.",
-            "After install, launch with `dsh web` in a terminal. It binds 127.0.0.1:3080 and does NOT auto-open a browser — open http://127.0.0.1:3080 yourself (or let EchoBird's Start button open it). The server is loopback-only; `--host 0.0.0.0` is not supported yet.",
+            "After install, launch with `dsh web` in a terminal. A local launch opens the browser automatically; `--no-open` suppresses it. An SSH launch prints the URL for the SSH client or editor to forward. The default URL is http://127.0.0.1:3080.",
             "Model config lives in `~/.dsh/settings.yaml` (provider routes under `llm-pi-ai.providers` + `agent-default-model`) and `~/.dsh/.credentials.yaml` (API keys). When the user picks a model in EchoBird, EchoBird writes an `echobird` provider route (displayName EchoBird, `apiKeyEnv: ECHOBIRD_API_KEY`, `api: anthropic-messages` or `openai-completions`, `baseURL` + `models`) and sets `agent-default-model` to `echobird/<model>`, and stores the key under `ECHOBIRD_API_KEY` in `.credentials.yaml`. The chosen model becomes the default for new sessions."
         ],
         "tell_user": [

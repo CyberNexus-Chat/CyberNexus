@@ -7,7 +7,8 @@
     "install": {
         "curl (macOS / Linux — recommended)": "curl -fsSL https://mimo.xiaomi.com/install | bash",
         "npm (all platforms)": "npm install -g @mimo-ai/cli",
-        "note": "CLI coding agent by Xiaomi, forked from OpenCode. The binary is `mimo` (curl installs to ~/.mimocode/bin and updates PATH; restart the shell or source the rc file before verifying). Windows: use npm. Do NOT install `opencode-ai` — MiMo Code is a separate product with its own npm package `@mimo-ai/cli`."
+        "note": "CLI coding agent by Xiaomi, forked from OpenCode. The binary is `mimo` (curl installs to ~/.mimocode/bin and updates PATH; restart the shell or source the rc file before verifying). Windows: use the official PowerShell installer or npm. Do NOT install `opencode-ai` — MiMo Code is a separate product with its own npm package `@mimo-ai/cli`.",
+        "powershell (Windows — recommended)": "powershell -ep Bypass -c \"irm https://mimo.xiaomi.com/install.ps1 | iex\""
     },
     "network_requirements": {
         "test_urls": [

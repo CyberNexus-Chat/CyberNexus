@@ -4,22 +4,24 @@
     "homepage": "https://www.trae.cn/",
     "docs": "https://docs.trae.cn/ide/",
     "kind": "ide",
-    "platforms": ["windows", "macos"],
+    "platforms": [
+        "windows",
+        "macos",
+        "linux"
+    ],
     "install": {
         "windows_download": "Open https://www.trae.cn/download in the browser, click the Windows installer. Saves to %USERPROFILE%\\Downloads by default.",
         "macos_download": "Open https://www.trae.cn/download in the browser, click the macOS download (.dmg). Saves to ~/Downloads by default.",
-        "linux": "Not supported. Trae CN is Windows / macOS only.",
+        "linux_download": "Open https://www.trae.cn/download and select the TRAE IDE Linux .deb / .rpm matching the architecture and distribution. Install the downloaded package with apt / dnf / zypper. The download center also lists other TRAE products; select the IDE for this tool card.",
         "note": "GUI IDE by ByteDance — China-region build of Trae. Echobird does NOT switch its model; model selection lives inside the app."
     },
     "install_flow": {
-        "summary": "Download installer → user double-clicks → user clicks through the install wizard",
+        "summary": "Select the IDE installer for the target OS and architecture → install → verify the application entry.",
         "agent_steps": [
-            "Detect OS first. If Linux, refuse with the message above.",
-            "Download the installer to the user's Downloads folder using `Invoke-WebRequest` (Windows) or `curl -L -o` (macOS).",
-            "After download finishes, tell the user the EXACT file path.",
-            "Open the installer (`Start-Process` on Windows, `open` on macOS).",
-            "Tell the user: 'Trae CN 安装向导已打开,请按向导点击下一步完成安装。' / 'The Trae CN installer is open — follow the wizard to finish.'",
-            "Do NOT try to automate the GUI wizard."
+            "Detect OS and architecture first. The official download center supports Windows, macOS, and Linux.",
+            "Open https://www.trae.cn/download and select the TRAE IDE for this tool card. Keep the international / China build distinct from other products in the download center.",
+            "Save the matching installer to Downloads and report the exact path. Windows/macOS: open it and let the user complete the installer. Linux: install the downloaded .deb / .rpm with the distro package manager.",
+            "Verify the selected IDE is present in the application menu and opens."
         ],
         "tell_user": [
             "Download location (full path)",
