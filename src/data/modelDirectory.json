@@ -349,6 +349,7 @@
         "claude-opus-5",
         "claude-sonnet-5",
         "claude-fable-5",
+        "claude-fable-5-1",
         "claude-haiku-4-5",
         "gpt-5.5",
         "gpt-5.6-luna",
@@ -367,6 +368,7 @@
       "modelId": "claude-opus-5",
       "modelIds": [
         "claude-opus-5",
+        "claude-fable-5-1",
         "grok-4.6",
         "qwen3.8-max",
         "gemini-3.7-flash",
