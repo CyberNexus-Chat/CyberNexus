@@ -54,13 +54,7 @@
     </td>
     <td>
       <a href="https://88api.ai/sign-up?aff=knFS"><strong>88API Token聚合平台</strong></a><br/>
-      感谢 <strong>88API</strong> 赞助了本项目!<br/>
-      🧠 聚合 GPT、Claude、Gemini、Grok、DeepSeek、Kimi、GLM 等语言与编程模型;<br/>
-      🎨 图片模型:GPT-Image、Gemini、Grok 等;<br/>
-      🎬 视频模型:Seedance、Veo、MiniMax Hailuo H3、Kling、Grok 等;<br/>
-      🎙️ 语音能力:Whisper、TTS 等。从文案、出图、改图,到视频生成与配音;<br/>
-      🎁 新用户注册送体验额度,可以检测模型能力。站内有人工客服值守!<br/>
-      👉 海外企业资质运营,稳定不跑路,提供正规发票,充值比例 1:1
+      感谢 <strong>88API</strong> 赞助了本项目!88API 是一站式 Token 聚合平台:一个 API Key 即可稳定接入 GPT、Claude、Gemini、Grok、DeepSeek、Kimi、GLM 等语言与编程模型,以及 GPT-Image、Gemini、Grok 等图片模型,Seedance、Veo、MiniMax Hailuo H3、Kling 等视频模型和 Whisper、TTS 等语音能力,从文案、出图、改图到视频生成与配音全覆盖。新用户注册送体验额度,可先检测模型能力;站内有人工客服值守。海外企业资质运营、稳定不跑路,支持正规发票,充值比例 1:1。
     </td>
   </tr>
 </table>

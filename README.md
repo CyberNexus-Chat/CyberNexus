@@ -56,13 +56,7 @@
     </td>
     <td>
       <a href="https://88api.ai/sign-up?aff=knFS"><strong>88API</strong></a> — AI token aggregation platform<br/>
-      Thanks to <strong>88API</strong> for sponsoring this project!<br/>
-      🧠 Aggregates language &amp; coding models — GPT, Claude, Gemini, Grok, DeepSeek, Kimi, GLM and more;<br/>
-      🎨 Image models — GPT-Image, Gemini, Grok and more;<br/>
-      🎬 Video models — Seedance, Veo, MiniMax Hailuo H3, Kling, Grok and more;<br/>
-      🎙️ Speech — Whisper, TTS and more — from copywriting and image generation/editing to video generation and voice-overs;<br/>
-      🎁 New users get free trial credits to test model capabilities — human support on site!<br/>
-      👉 Operated with overseas corporate credentials — stable and dependable, official invoices, 1:1 top-up ratio.
+      Thanks to <strong>88API</strong> for sponsoring this project! 88API is a one-stop token aggregation platform: a single API key provides stable access to language &amp; coding models — GPT, Claude, Gemini, Grok, DeepSeek, Kimi, GLM and more — along with image models (GPT-Image, Gemini, Grok), video models (Seedance, Veo, MiniMax Hailuo H3, Kling) and speech (Whisper, TTS), covering everything from copywriting and image creation/editing to video generation and voice-overs. New users get free trial credits to test model capabilities, with human support on site. Operated with overseas corporate credentials — stable and dependable, official invoices, and a 1:1 top-up ratio.
     </td>
   </tr>
 </table>
