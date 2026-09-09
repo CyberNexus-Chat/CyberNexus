@@ -95,21 +95,6 @@
       "region": "global"
     },
     {
-      "name": "优云智算(V4-Flash)",
-      "url": "https://passport.compshare.cn/register?referral_code=LlOJAWughXiDXtP9v1Srra",
-      "baseUrl": "https://cp.compshare.cn/v1",
-      "anthropicUrl": "https://cp.compshare.cn",
-      "modelId": "glm-5.2",
-      "modelIds": [
-        "glm-5.2",
-        "MiniMax-M2.7",
-        "deepseek-v4-flash-0731",
-        "deepseek-v4-flash-vision-exp",
-        "kimi-k2.6"
-      ],
-      "region": "cn"
-    },
-    {
       "name": "BytePlus",
       "url": "https://www.byteplus.com/",
       "baseUrl": "https://ark.ap-southeast.bytepluses.com/api/coding/v3",

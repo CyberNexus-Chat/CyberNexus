@@ -32,15 +32,6 @@
 <table>
   <tr>
     <td width="150" align="center">
-      <a href="https://passport.compshare.cn/register?referral_code=LlOJAWughXiDXtP9v1Srra"><img src="public/icons/sponsors/compshare.png" width="92" alt="优云智算 CompShare" /></a>
-    </td>
-    <td>
-      <a href="https://passport.compshare.cn/register?referral_code=LlOJAWughXiDXtP9v1Srra"><strong>优云智算 CompShare</strong></a><br/>
-      感谢 <strong>优云智算</strong> 赞助了本项目!优云智算是 UCloud 旗下 AI 云平台,提供稳定、全面的国内外模型 API,仅一个 key 即可调用。主打包月、按次的高性价比国模 Coding Plan 套餐,支持 GLM5.2;同时提供官转稳定海外模型。支持接入 Claude Code、Codex 及 API 调用,支持企业高并发、7×24 技术支持、自助开票。通过<a href="https://passport.compshare.cn/register?referral_code=LlOJAWughXiDXtP9v1Srra">此链接</a>注册的用户,可得<strong>免费 5 元平台体验金</strong>!
-    </td>
-  </tr>
-  <tr>
-    <td width="150" align="center">
       <a href="https://go.apimart.ai/gh-echobird"><img src="docs/sponsors/apimart.png" width="140" alt="APIMart" /></a>
     </td>
     <td>

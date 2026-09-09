@@ -34,15 +34,6 @@
 <table>
   <tr>
     <td width="150" align="center">
-      <a href="https://passport.compshare.cn/register?referral_code=LlOJAWughXiDXtP9v1Srra"><img src="public/icons/sponsors/compshare.png" width="92" alt="优云智算 CompShare" /></a>
-    </td>
-    <td>
-      <a href="https://passport.compshare.cn/register?referral_code=LlOJAWughXiDXtP9v1Srra"><strong>优云智算 CompShare</strong></a><br/>
-      Thanks to <strong>CompShare (优云智算)</strong> for sponsoring EchoBird! CompShare is UCloud's AI cloud platform, offering stable, comprehensive access to domestic and overseas model APIs through a single API key. Its flagship Coding Plan (monthly or pay-per-call) delivers great value and supports GLM5.2, alongside officially-proxied stable overseas models. Plug it into Claude Code, Codex, or call the API directly — with enterprise-grade concurrency, 24/7 support, and self-service invoicing. Sign up via <a href="https://passport.compshare.cn/register?referral_code=LlOJAWughXiDXtP9v1Srra">this link</a> to get a <strong>¥5 free platform credit</strong>!
-    </td>
-  </tr>
-  <tr>
-    <td width="150" align="center">
       <a href="https://go.apimart.ai/gh-echobird"><img src="docs/sponsors/apimart.png" width="140" alt="APIMart" /></a>
     </td>
     <td>

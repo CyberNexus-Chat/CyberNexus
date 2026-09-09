@@ -13,12 +13,8 @@ export const getModelIcon = (name: string, modelId?: string): string | null => {
   const modelIdText = (modelId || '').toLowerCase();
 
   // Provider/directory rows do not pass a real modelId. In that case the
-  // vendor name must win over model-family words embedded in the title, e.g.
-  // 「优云智算(支持GLM-5.2)」should show the 优云智算 logo, not GLM.
+  // vendor name must win over model-family words embedded in the title.
   if (!modelIdText) {
-    if (['compshare', '优云智算', '优云'].some((kw) => nameText.includes(kw))) {
-      return './icons/models/compshare.png';
-    }
     if (['ccvibe', 'cc vibe', 'cc-vibe'].some((kw) => nameText.includes(kw))) {
       return './icons/models/ccvibe.png';
     }
@@ -78,12 +74,11 @@ export const getModelIcon = (name: string, modelId?: string): string | null => {
     // stays below the model-brand rules.
     [['opencode', 'open code'], 'opencode'],
     // Resellers (pure compute providers that host third-party models, e.g.
-    // Compshare/UCloud 优云智算, CC Vibe) go LAST. A model card carries a modelId that
-    // identifies the actual model brand (glm/kimi/deepseek/minimax), and the
-    // model logo must win. The vendor logo only matches when the modelId has no
-    // recognized brand — such as provider rows, which pass modelId=''. Model ID
-    // and vendor are separate concerns; do not move resellers above model brands.
-    [['compshare', '优云智算', '优云'], 'compshare'],
+    // CC Vibe) go LAST. A model card carries a modelId that identifies the
+    // actual model brand (glm/kimi/deepseek/minimax), and the model logo must
+    // win. The vendor logo only matches when the modelId has no recognized
+    // brand — such as provider rows, which pass modelId=''. Model ID and vendor
+    // are separate concerns; do not move resellers above model brands.
     [['ccvibe', 'cc vibe', 'cc-vibe'], 'ccvibe'],
     // 88API — token aggregation relay hosting many model brands; matches on
     // its own name only, so it never outranks a recognized model brand above.
@@ -97,7 +92,6 @@ export const getModelIcon = (name: string, modelId?: string): string | null => {
       if (icon === 'worldrouter') return './icons/models/worldrouter.png';
       if (icon === 'b-ai') return './icons/models/b-ai.ico';
       if (icon === 'agnes') return './icons/models/agnes.png';
-      if (icon === 'compshare') return './icons/models/compshare.png';
       if (icon === 'ccvibe') return './icons/models/ccvibe.png';
       if (icon === '88api') return './icons/models/88api.png';
       if (icon === 'apimart') return './icons/models/apimart.png';
