@@ -193,8 +193,8 @@ const en: Translations = {
   'model.deleteTitle': 'DELETE MODEL',
   'model.deleteConfirm':
     'This model configuration will be permanently removed. This action cannot be undone.',
-  'model.providers': 'Model Providers',
-  'model.relays': 'Model Relays',
+  'model.providers': 'Providers',
+  'model.relays': 'Relay Stations',
   'model.config': 'Config',
   'model.usage': 'Usage',
   'model.noUsageData': 'No usage data available',

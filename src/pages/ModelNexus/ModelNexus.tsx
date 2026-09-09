@@ -1048,7 +1048,7 @@ function ProviderRow({ entry, onAdd }: { entry: DirectoryEntry; onAdd: () => voi
 }
 
 export function ModelNexusPanel() {
-  const { locale } = useI18n();
+  const { t, locale } = useI18n();
 
   // Bundled JSON paints immediately, remote swaps in if newer content
   // is available. Failure modes (remote down + cache miss): backend
@@ -1074,14 +1074,25 @@ export function ModelNexusPanel() {
     };
   }, []);
 
-  // Merged right-panel list, no tab switcher — one scrolling list. Sort relays
-  // + providers together by locale region (relays listed first, so within a
-  // region they stay above providers): zh locales surface the cn 中转站 on top,
-  // other locales surface global entries first with the cn 中转站 below.
-  const list = useMemo(
-    () => sortByLocale([...relays, ...providers], locale),
-    [locale, providers, relays]
-  );
+  // One scrolling list under two headed sections (no tab switcher). Group order
+  // flips with the UI language: zh locales put the 中转站 (cn) section on top;
+  // other locales surface the providers (global) section first, 中转站 below.
+  const sections = useMemo(() => {
+    const relaysSorted = sortByLocale(relays, locale);
+    const providersSorted = sortByLocale(providers, locale);
+    const cnFirst = locale.toLowerCase().startsWith('zh');
+    const ordered: { key: string; title: string; entries: DirectoryEntry[] }[] = cnFirst
+      ? [
+          { key: 'relays', title: t('model.relays'), entries: relaysSorted },
+          { key: 'providers', title: t('model.providers'), entries: providersSorted },
+        ]
+      : [
+          { key: 'providers', title: t('model.providers'), entries: providersSorted },
+          { key: 'relays', title: t('model.relays'), entries: relaysSorted },
+        ];
+    // Hide a group the directory doesn't currently provide.
+    return ordered.filter((s) => s.entries.length > 0);
+  }, [locale, providers, relays, t]);
   const { setNewModelForm, setEditingModelId, setShowAddModelModal } = useModelNexus();
 
   const handleAddFromEntry = useCallback(
@@ -1104,11 +1115,22 @@ export function ModelNexusPanel() {
 
   return (
     <div className="flex-1 p-2 overflow-y-auto">
-      <div className="space-y-2">
-        {list.map((entry) => (
-          <ProviderRow key={entry.name} entry={entry} onAdd={() => handleAddFromEntry(entry)} />
-        ))}
-      </div>
+      {sections.map((section) => (
+        <div key={section.key} className="mb-3">
+          <div className="px-1 pb-1.5 flex items-center gap-2">
+            <span className="flex-1 h-px bg-cyber-border/60" />
+            <span className="text-[11px] font-semibold uppercase tracking-wider text-cyber-text-secondary whitespace-nowrap">
+              {section.title}
+            </span>
+            <span className="flex-1 h-px bg-cyber-border/60" />
+          </div>
+          <div className="space-y-2">
+            {section.entries.map((entry) => (
+              <ProviderRow key={entry.name} entry={entry} onAdd={() => handleAddFromEntry(entry)} />
+            ))}
+          </div>
+        </div>
+      ))}
     </div>
   );
 }

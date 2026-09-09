@@ -222,8 +222,8 @@ const ja: Partial<Translations> = {
   'server.removeDirectoryConfirm':
     'リストから 1 つのディレクトリを除去します。ローカルファイルは削除されません。',
   'download.location': 'ダウンロード先：',
-  'model.providers': 'モデルプロバイダー',
-  'model.relays': 'モデル中継',
+  'model.providers': 'プロバイダー',
+  'model.relays': '中継ステーション',
   'btn.refreshUsage': '使用量を更新',
   'model.config': '設定',
   'model.usage': '使用量',
