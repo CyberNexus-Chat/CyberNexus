@@ -85,6 +85,9 @@ export const getModelIcon = (name: string, modelId?: string): string | null => {
     // and vendor are separate concerns; do not move resellers above model brands.
     [['compshare', '优云智算', '优云'], 'compshare'],
     [['ccvibe', 'cc vibe', 'cc-vibe'], 'ccvibe'],
+    // 88API — token aggregation relay hosting many model brands; matches on
+    // its own name only, so it never outranks a recognized model brand above.
+    [['88api'], '88api'],
   ];
 
   for (const [keywords, icon] of iconMap) {
@@ -94,6 +97,7 @@ export const getModelIcon = (name: string, modelId?: string): string | null => {
       if (icon === 'agnes') return './icons/models/agnes.png';
       if (icon === 'compshare') return './icons/models/compshare.png';
       if (icon === 'ccvibe') return './icons/models/ccvibe.png';
+      if (icon === '88api') return './icons/models/88api.png';
       if (icon === 'byteplus') return './icons/models/byteplus.png';
       if (icon === 'qianwen') return './icons/models/qianwen.png';
       return `./icons/models/${icon}.svg`;

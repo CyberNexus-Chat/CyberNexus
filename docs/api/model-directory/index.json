@@ -411,6 +411,27 @@
         "deepseek-v4-flash-vision-exp"
       ],
       "region": "cn"
+    },
+    {
+      "name": "88API",
+      "url": "https://88api.ai/sign-up?aff=knFS",
+      "baseUrl": "https://88api.ai/v1",
+      "anthropicUrl": "https://88api.ai",
+      "modelId": "claude-opus-5",
+      "modelIds": [
+        "claude-opus-5",
+        "claude-sonnet-5",
+        "claude-fable-5",
+        "claude-fable-5-1",
+        "gpt-5.6-sol",
+        "gpt-6-astra",
+        "grok-4.6",
+        "glm-5.3",
+        "kimi-k3",
+        "deepseek-v4-flash",
+        "deepseek-v4-pro"
+      ],
+      "region": "cn"
     }
   ]
 }

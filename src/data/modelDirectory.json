@@ -389,6 +389,49 @@
         "kimi-k2.7"
       ],
       "region": "cn"
+    },
+    {
+      "name": "APIMart",
+      "url": "https://go.apimart.ai/gh-echobird",
+      "baseUrl": "https://api.apimart.ai/v1",
+      "anthropicUrl": "https://api.apimart.ai",
+      "modelId": "claude-opus-5",
+      "modelIds": [
+        "claude-opus-5",
+        "grok-4.6",
+        "qwen3.8-max",
+        "gemini-3.7-flash",
+        "kimi-k3",
+        "minimax-m3",
+        "glm-5.3",
+        "mimo-v2.5-pro",
+        "gpt-5.6-sol",
+        "deepseek-v4-pro",
+        "deepseek-v4-flash",
+        "deepseek-v4-flash-vision-exp"
+      ],
+      "region": "cn"
+    },
+    {
+      "name": "88API",
+      "url": "https://88api.ai/sign-up?aff=knFS",
+      "baseUrl": "https://88api.ai/v1",
+      "anthropicUrl": "https://88api.ai",
+      "modelId": "claude-opus-5",
+      "modelIds": [
+        "claude-opus-5",
+        "claude-sonnet-5",
+        "claude-fable-5",
+        "claude-fable-5-1",
+        "gpt-5.6-sol",
+        "gpt-6-astra",
+        "grok-4.6",
+        "glm-5.3",
+        "kimi-k3",
+        "deepseek-v4-flash",
+        "deepseek-v4-pro"
+      ],
+      "region": "cn"
     }
   ]
 }
