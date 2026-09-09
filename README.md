@@ -50,6 +50,21 @@
       Thanks to <strong>APIMart</strong> for sponsoring this project! APIMart is a low-cost API platform for AI image &amp; video generation — GPT-Image-2 from $0.006/image, 160+ images per dollar. One async API covers both image and video: submit a task, get an ID, fetch results via polling or callback. Batch tens of thousands of images without timeouts, switch models without changing code. Pay-as-you-go with no monthly fee — <a href="https://go.apimart.ai/gh-echobird">sign up here</a> to get started.
     </td>
   </tr>
+  <tr>
+    <td width="150" align="center">
+      <a href="https://88api.ai/sign-up?aff=knFS"><img src="docs/sponsors/88api.png" width="92" alt="88API" /></a>
+    </td>
+    <td>
+      <a href="https://88api.ai/sign-up?aff=knFS"><strong>88API</strong></a> — AI token aggregation platform<br/>
+      Thanks to <strong>88API</strong> for sponsoring this project!<br/>
+      🧠 Aggregates language &amp; coding models — GPT, Claude, Gemini, Grok, DeepSeek, Kimi, GLM and more;<br/>
+      🎨 Image models — GPT-Image, Gemini, Grok and more;<br/>
+      🎬 Video models — Seedance, Veo, MiniMax Hailuo H3, Kling, Grok and more;<br/>
+      🎙️ Speech — Whisper, TTS and more — from copywriting and image generation/editing to video generation and voice-overs;<br/>
+      🎁 New users get free trial credits to test model capabilities — human support on site!<br/>
+      👉 Operated with overseas corporate credentials — stable and dependable, official invoices, 1:1 top-up ratio.
+    </td>
+  </tr>
 </table>
 
 ---

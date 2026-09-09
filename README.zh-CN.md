@@ -48,6 +48,21 @@
       感谢 <strong>APIMart</strong> 赞助了本项目!APIMart 是专注 AI 图片/视频生成的低价 API 平台,GPT-Image-2 低至 $0.006/张,1 美元可出图 160+ 张。图片、视频一套异步 API 通吃,提交任务拿 ID、回调取结果,跑批万张不超时、换模型不改代码。按量付费、无月费,通过<a href="https://go.apimart.ai/gh-echobird">此链接</a>注册即可开用。
     </td>
   </tr>
+  <tr>
+    <td width="150" align="center">
+      <a href="https://88api.ai/sign-up?aff=knFS"><img src="docs/sponsors/88api.png" width="92" alt="88API Token聚合平台" /></a>
+    </td>
+    <td>
+      <a href="https://88api.ai/sign-up?aff=knFS"><strong>88API Token聚合平台</strong></a><br/>
+      感谢 <strong>88API</strong> 赞助了本项目!<br/>
+      🧠 聚合 GPT、Claude、Gemini、Grok、DeepSeek、Kimi、GLM 等语言与编程模型;<br/>
+      🎨 图片模型:GPT-Image、Gemini、Grok 等;<br/>
+      🎬 视频模型:Seedance、Veo、MiniMax Hailuo H3、Kling、Grok 等;<br/>
+      🎙️ 语音能力:Whisper、TTS 等。从文案、出图、改图,到视频生成与配音;<br/>
+      🎁 新用户注册送体验额度,可以检测模型能力。站内有人工客服值守!<br/>
+      👉 海外企业资质运营,稳定不跑路,提供正规发票,充值比例 1:1
+    </td>
+  </tr>
 </table>
 
 ---
