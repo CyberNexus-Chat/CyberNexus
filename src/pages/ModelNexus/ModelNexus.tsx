@@ -1074,10 +1074,12 @@ export function ModelNexusPanel() {
     };
   }, []);
 
-  // Merged right-panel list: relays (中转站) on top, then providers (厂商),
-  // each group locale-sorted. No tab switcher — one scrolling list.
+  // Merged right-panel list, no tab switcher — one scrolling list. Sort relays
+  // + providers together by locale region (relays listed first, so within a
+  // region they stay above providers): zh locales surface the cn 中转站 on top,
+  // other locales surface global entries first with the cn 中转站 below.
   const list = useMemo(
-    () => [...sortByLocale(relays, locale), ...sortByLocale(providers, locale)],
+    () => sortByLocale([...relays, ...providers], locale),
     [locale, providers, relays]
   );
   const { setNewModelForm, setEditingModelId, setShowAddModelModal } = useModelNexus();
