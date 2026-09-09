@@ -1048,8 +1048,7 @@ function ProviderRow({ entry, onAdd }: { entry: DirectoryEntry; onAdd: () => voi
 }
 
 export function ModelNexusPanel() {
-  const { t, locale } = useI18n();
-  const [panelTab, setPanelTab] = useState<'providers' | 'relays'>('providers');
+  const { locale } = useI18n();
 
   // Bundled JSON paints immediately, remote swaps in if newer content
   // is available. Failure modes (remote down + cache miss): backend
@@ -1075,9 +1074,11 @@ export function ModelNexusPanel() {
     };
   }, []);
 
+  // Merged right-panel list: relays (中转站) on top, then providers (厂商),
+  // each group locale-sorted. No tab switcher — one scrolling list.
   const list = useMemo(
-    () => sortByLocale(panelTab === 'providers' ? providers : relays, locale),
-    [panelTab, locale, providers, relays]
+    () => [...sortByLocale(relays, locale), ...sortByLocale(providers, locale)],
+    [locale, providers, relays]
   );
   const { setNewModelForm, setEditingModelId, setShowAddModelModal } = useModelNexus();
 
@@ -1100,39 +1101,13 @@ export function ModelNexusPanel() {
   );
 
   return (
-    <>
-      <div className="h-10 px-2 flex items-center justify-between bg-transparent">
-        <div className="flex gap-1">
-          <button
-            onClick={() => setPanelTab('providers')}
-            className={`px-3.5 py-2 text-[14px] font-semibold rounded transition-colors ${
-              panelTab === 'providers'
-                ? 'bg-cyber-elevated text-cyber-text'
-                : 'text-cyber-text-secondary hover:text-cyber-text'
-            }`}
-          >
-            {t('model.providers')}
-          </button>
-          <button
-            onClick={() => setPanelTab('relays')}
-            className={`px-3.5 py-2 text-[14px] font-semibold rounded transition-colors ${
-              panelTab === 'relays'
-                ? 'bg-cyber-elevated text-cyber-text'
-                : 'text-cyber-text-secondary hover:text-cyber-text'
-            }`}
-          >
-            {t('model.relays')}
-          </button>
-        </div>
+    <div className="flex-1 p-2 overflow-y-auto">
+      <div className="space-y-2">
+        {list.map((entry) => (
+          <ProviderRow key={entry.name} entry={entry} onAdd={() => handleAddFromEntry(entry)} />
+        ))}
       </div>
-      <div className="flex-1 p-2 overflow-y-auto">
-        <div className="space-y-2">
-          {list.map((entry) => (
-            <ProviderRow key={entry.name} entry={entry} onAdd={() => handleAddFromEntry(entry)} />
-          ))}
-        </div>
-      </div>
-    </>
+    </div>
   );
 }
 

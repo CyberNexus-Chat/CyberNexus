@@ -328,9 +328,7 @@
         "kimi-k2.6"
       ],
       "region": "cn"
-    }
-  ],
-  "relays": [
+    },
     {
       "name": "OpenRouter",
       "url": "https://openrouter.ai",
@@ -338,23 +336,9 @@
       "anthropicUrl": "",
       "modelId": "",
       "region": "global"
-    },
-    {
-      "name": "WorldRouter",
-      "url": "https://www.worldrouter.ai",
-      "baseUrl": "https://inference-api.worldrouter.ai/v1",
-      "anthropicUrl": "https://inference-api.worldrouter.ai",
-      "modelId": "",
-      "region": "global"
-    },
-    {
-      "name": "B.ai",
-      "url": "https://b.ai",
-      "baseUrl": "https://api.theb.ai/v1",
-      "anthropicUrl": "",
-      "modelId": "",
-      "region": "global"
-    },
+    }
+  ],
+  "relays": [
     {
       "name": "CC Vibe",
       "url": "https://echobird.ai/ccvibe/",

@@ -66,8 +66,6 @@ export const getModelIcon = (name: string, modelId?: string): string | null => {
     [['granite', 'ibm'], 'granite'],
     [['meta'], 'meta'],
     [['openrouter'], 'openrouter'],
-    [['worldrouter'], 'worldrouter'],
-    [['b.ai', 'bai'], 'b-ai'],
     [['agnes'], 'agnes'],
     // OpenCode (Zen / Go) — a gateway hosting many vendors' models, matched
     // by the provider-row name. The model brand in the id must win, so this
@@ -89,8 +87,6 @@ export const getModelIcon = (name: string, modelId?: string): string | null => {
 
   for (const [keywords, icon] of iconMap) {
     if (keywords.some((kw) => text.includes(kw))) {
-      if (icon === 'worldrouter') return './icons/models/worldrouter.png';
-      if (icon === 'b-ai') return './icons/models/b-ai.ico';
       if (icon === 'agnes') return './icons/models/agnes.png';
       if (icon === 'ccvibe') return './icons/models/ccvibe.png';
       if (icon === '88api') return './icons/models/88api.png';
