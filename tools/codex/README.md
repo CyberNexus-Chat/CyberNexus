@@ -15,7 +15,7 @@ The proxy itself — Responses ↔ Chat Completions translation, model-id rewrit
                   Responses SSE                       Chat SSE                       
 ```
 
-1. **`apply_codex`** (in `src-tauri/src/services/tool_config_manager.rs`) writes the canonical 12-line `~/.codex/config.toml` so Codex sees `base_url = "http://127.0.0.1:53682/v1"` and `wire_api = "responses"`.
+1. **`apply_codex`** (in `src-tauri/src/services/tool_config_manager/codex.rs`) writes the canonical 12-line `~/.codex/config.toml` so Codex sees `base_url = "http://127.0.0.1:53682/v1"` and `wire_api = "responses"`.
 2. **`spawn_proxy_task`** binds `127.0.0.1:53682` on Tauri startup and serves `POST /v1/responses`. The handler reads `~/.echobird/codex.json` fresh on every request to pick up model / API key / upstream URL switches without restarting anything.
 3. **Translation**: incoming Responses-shape request becomes a Chat Completions request, gets forwarded to the user's provider, and the streaming response is translated back to Responses-shape SSE on the way out.
 4. **Smart spoof**: Codex's `gpt-5.4` model id is rewritten to the real upstream model id before forwarding, then mirrored back on the response so Codex's bookkeeping stays consistent.
@@ -73,5 +73,5 @@ Install ChatGPT from <https://openai.com/codex> or the Microsoft Store. EchoBird
 
 ## Related
 
-- `src-tauri/src/services/tool_config_manager.rs` — writes the canonical `~/.codex/config.toml`
+- `src-tauri/src/services/tool_config_manager/codex.rs` — writes the canonical `~/.codex/config.toml`
 - `src-tauri/src/services/process_manager.rs` — `start_codex_native` spawns Codex CLI / Desktop after the pre-flight checks

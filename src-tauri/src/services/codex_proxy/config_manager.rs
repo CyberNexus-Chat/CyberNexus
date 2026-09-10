@@ -6,7 +6,7 @@
 //                                 end-to-end (canonical 12-line template
 //                                 with base_url = http://127.0.0.1:53682/v1
 //                                 and wire_api = "responses"). `apply_codex`
-//                                 in tool_config_manager.rs writes this
+//                                 in tool_config_manager/codex.rs writes this
 //                                 whenever Codex is selected; this module
 //                                 provides a defensive read-and-rewrite-
 //                                 if-drifted helper used by
@@ -44,7 +44,7 @@ pub const RELAY_FILENAME: &str = "codex.json";
 pub const CODEX_CONFIG_FILENAME: &str = "config.toml";
 
 /// The base_url Codex sees. The same value is baked into
-/// `apply_codex` over in `tool_config_manager.rs` — keep them in sync.
+/// `apply_codex` over in `tool_config_manager/codex.rs` — keep them in sync.
 #[allow(dead_code)]
 pub fn codex_proxy_url() -> String {
     format!("http://127.0.0.1:{CODEX_PROXY_PORT}/v1")

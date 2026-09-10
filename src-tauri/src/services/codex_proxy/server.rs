@@ -9,7 +9,7 @@
 // Per-request relay read: the file is fetched fresh every time so
 // EchoBird model switches take effect without restarting Codex or the
 // proxy. config.toml's base_url is permanently `http://127.0.0.1:53682/v1`
-// (see `apply_codex` in tool_config_manager.rs), so Codex's view never
+// (see `apply_codex` in tool_config_manager/codex.rs), so Codex's view never
 // changes either.
 
 use std::convert::Infallible;
