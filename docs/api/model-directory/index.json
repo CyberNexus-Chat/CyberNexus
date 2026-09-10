@@ -355,6 +355,7 @@
         "gpt-5.6-luna",
         "gpt-5.6-sol",
         "gpt-5.6-terra",
+        "gpt-6-astra",
         "glm-5.3",
         "kimi-k2.7"
       ],
@@ -377,6 +378,7 @@
         "glm-5.3",
         "mimo-v2.5-pro",
         "gpt-5.6-sol",
+        "gpt-6-astra",
         "deepseek-v4-pro",
         "deepseek-v4-flash",
         "deepseek-v4-flash-vision-exp"
