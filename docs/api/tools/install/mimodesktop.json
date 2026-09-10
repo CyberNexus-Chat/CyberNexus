@@ -1,0 +1,38 @@
+{
+    "id": "mimodesktop",
+    "displayName": "MiMo Desktop (Beta)",
+    "homepage": "https://mimo.xiaomimimo.com/desktop/invite/",
+    "docs": "https://mimo.mi.com/docs/zh-CN/updates/feature/desktop",
+    "kind": "desktop_app",
+    "platforms": ["windows", "macos", "linux"],
+    "install": {
+        "windows_download": "https://mimocode-cdn.xiaomimimo.com/mimocode/mimodesktop/XiaomiMiMo-latest-x64-setup.exe",
+        "macos_download": "https://mimocode-cdn.xiaomimimo.com/mimocode/mimodesktop/XiaomiMiMo-latest-arm64.dmg",
+        "linux_download": "https://mimocode-cdn.xiaomimimo.com/mimocode/mimodesktop/XiaomiMiMo-latest-x64.AppImage",
+        "note": "Beta desktop application. Windows download is x64; macOS download is Apple Silicon ARM64 only; Linux download is x64. Do not use the ARM DMG on an Intel Mac or assume an unavailable architecture has an installer. The supplied Linux URL returned HTTP 404 on 2026-09-10; check availability before each install and report an unavailable release instead of claiming success."
+    },
+    "install_flow": {
+        "summary": "Detect OS and architecture -> check official download -> install -> verify the desktop executable",
+        "agent_steps": [
+            "Detect OS, CPU architecture and existing installation first. On Windows, match registry Uninstall DisplayName prefix 'Xiaomi MiMo' (the display name includes a version). Resolve DisplayIcon or the uninstaller's sibling Xiaomi MiMo.exe so custom install drives work. Do not reinstall an existing working copy.",
+            "Check the matching official download URL before downloading. If it returns 404 or is unsupported for this architecture, explain that the beta build is unavailable and show the official homepage. Do not substitute MiMo Code CLI or a third-party build.",
+            "Download the matching installer to the user's Downloads directory and report its full path.",
+            "Windows x64: run the NSIS installer with Start-Process -FilePath <installer> -ArgumentList '/S' -WindowStyle Hidden -Wait -PassThru for a per-user silent install. Inspect its exit code, then confirm the Xiaomi MiMo.exe path through the registry. If installation requires interactive setup or system approval, open the installer and explain the remaining step; do not report completion before the executable is verified.",
+            "macOS ARM64: mount the DMG read-only with hdiutil attach -nobrowse, copy Xiaomi MiMo.app into ~/Applications with ditto, detach the mounted volume, then verify the app bundle. Use open to launch the copied app. Handle macOS first-launch approval through the normal system UI.",
+            "Linux x64: only after a successful availability check, download the AppImage to ~/.local/bin/mimodesktop.AppImage, mark it executable and verify that it launches. Report missing runtime dependencies if launch fails.",
+            "Refresh EchoBird's tool detection. First launch may require beta access or Xiaomi sign-in; installation does not grant an invitation."
+        ],
+        "tell_user": [
+            "The exact installer and installed application paths",
+            "Whether installation was verified, or the precise remaining step",
+            "This is the Xiaomi MiMo Desktop beta. EchoBird's Apply & Launch restarts it to load the model; Modify Only requires a manual restart. Existing tasks can retain their own model."
+        ]
+    },
+    "identity_guard": {
+        "description": "MiMo Desktop (MiMo 桌面端 in EchoBird) is Xiaomi's Electron desktop application, officially named Xiaomi MiMo and installed as Xiaomi MiMo.exe / Xiaomi MiMo.app. It is separate from MiMo CLI (also known as MiMo Code; npm @mimo-ai/cli, command mimo). They share provider definitions in ~/.config/mimocode/mimocode.jsonc, but Desktop selects its model in the Electron userData preferences.json. Do not install the CLI when the user requests the desktop app."
+    },
+    "network_requirements": {
+        "test_urls": ["https://mimocode-cdn.xiaomimimo.com", "https://mimo.xiaomimimo.com"],
+        "mirrors": {}
+    }
+}

@@ -1,0 +1,5 @@
+{
+    "configFile": "~/.config/mimocode/mimocode.jsonc",
+    "format": "json",
+    "custom": true
+}

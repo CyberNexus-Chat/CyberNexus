@@ -1,13 +1,13 @@
 {
     "id": "mimocode",
-    "displayName": "MiMo Code (CLI)",
+    "displayName": "MiMo CLI",
     "homepage": "https://mimo.xiaomi.com/mimocode/",
     "docs": "https://mimo.xiaomi.com/mimocode/start",
     "github": "https://github.com/XiaomiMiMo/MiMo-Code",
     "install": {
         "curl (macOS / Linux — recommended)": "curl -fsSL https://mimo.xiaomi.com/install | bash",
         "npm (all platforms)": "npm install -g @mimo-ai/cli",
-        "note": "CLI coding agent by Xiaomi, forked from OpenCode. The binary is `mimo` (curl installs to ~/.mimocode/bin and updates PATH; restart the shell or source the rc file before verifying). Windows: use the official PowerShell installer or npm. Do NOT install `opencode-ai` — MiMo Code is a separate product with its own npm package `@mimo-ai/cli`.",
+        "note": "MiMo CLI is EchoBird's display name for MiMo Code, Xiaomi's CLI coding agent forked from OpenCode. It is separate from MiMo Desktop (MiMo 桌面端 / Xiaomi MiMo); desktop requests use the mimodesktop install reference. The binary is `mimo` (curl installs to ~/.mimocode/bin and updates PATH; restart the shell or source the rc file before verifying). Windows: use the official PowerShell installer or npm. Do NOT install `opencode-ai` — MiMo Code is a separate product with its own npm package `@mimo-ai/cli`.",
         "powershell (Windows — recommended)": "powershell -ep Bypass -c \"irm https://mimo.xiaomi.com/install.ps1 | iex\""
     },
     "network_requirements": {

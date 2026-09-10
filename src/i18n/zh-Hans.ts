@@ -247,11 +247,13 @@ const zhHans: Partial<Translations> = {
   'toolCat.utility': '工具',
   'toolCat.science': '科研',
   'agent.modelsTab': '模型',
-  'aiDesktop.notInstalled': '未安装',
   'aiDesktop.officialWebsite': '官方网站：',
   'aiDesktop.githubRepository': 'GitHub 仓库：',
-  'aiDesktop.hideUninstalled': '隐藏未安装',
-  'aiDesktop.showUninstalled': '显示未安装',
+  'aiDesktop.desktopView': '已安装',
+  'aiDesktop.installView': '未安装',
+  'aiDesktop.installHint': '选择应用后，点击“一键安装”。',
+  'aiDesktop.emptyDesktop': '暂无已安装应用，可切换到“未安装”添加应用。',
+  'aiDesktop.emptyInstall': '所有应用均已安装。',
   'agent.codexRelayLabel': 'API Router',
   'agent.codexRelayHint':
     '由 API 中转站或 API Router 提供的数据转发方案，第三方模型开启则全量接入，但可能会被工具判定为“外乡人”。',
@@ -292,6 +294,8 @@ const zhHans: Partial<Translations> = {
   'store.ready': '✓ 就绪',
   'key.encrypted': '已全局加密，任何环境改变 API Key 将自毁',
   'key.destroyed': '检测到环境已改变，API Key 已自毁，请重新输入',
+  'hint.mimoDesktopBeta':
+    '测试版：设置新任务默认模型。“应用并启动”会重启程序；“仅修改”需手动重启。已有任务可能保留原模型。',
   'hint.devInvite':
     '切换 ChatGPT / Codex CLI / Claude 桌面端 / Claude Code 的模型后，请保持 EchoBird 运行。',
   'hint.myProjects':

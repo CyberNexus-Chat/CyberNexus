@@ -21,8 +21,6 @@ import { CSS } from '@dnd-kit/utilities';
 import {
   Server as ServerIcon,
   Box as BoxIcon,
-  Eye,
-  EyeOff,
   ExternalLink,
   RefreshCw,
   Settings,
@@ -45,7 +43,7 @@ import {
 
 export const AppManagerTitleActions: React.FC = () => {
   const { t } = useI18n();
-  const { scanTools, isScanning, showUninstalled, setShowUninstalled } = useAppManager();
+  const { scanTools, isScanning, viewMode, setViewMode } = useAppManager();
 
   return (
     <div className="ml-auto flex-shrink-0 flex items-center gap-2">
@@ -61,21 +59,22 @@ export const AppManagerTitleActions: React.FC = () => {
       >
         <Settings size={16} />
       </button>
-      {/* Toggle the "未安装" section on the desktop. Eye = shown, eye-off =
-          hidden (accent-tinted border + icon so the collapsed state reads). */}
-      <button
-        onClick={() => setShowUninstalled(!showUninstalled)}
-        aria-label={
-          showUninstalled ? t('aiDesktop.hideUninstalled') : t('aiDesktop.showUninstalled')
-        }
-        className={`flex items-center justify-center w-9 h-9 border rounded-md transition-colors outline-none ${
-          showUninstalled
-            ? 'border-cyber-border/50 text-cyber-text-secondary hover:text-cyber-text hover:bg-cyber-text/10'
-            : 'border-cyber-accent/50 text-cyber-accent hover:bg-cyber-accent/10'
-        }`}
-      >
-        {showUninstalled ? <Eye size={16} /> : <EyeOff size={16} />}
-      </button>
+      <div className="flex gap-1 border border-cyber-border rounded-button overflow-hidden">
+        {(['desktop', 'install'] as const).map((mode) => (
+          <button
+            key={mode}
+            onClick={() => setViewMode(mode)}
+            aria-pressed={viewMode === mode}
+            className={`px-3 py-1.5 text-sm font-mono transition-colors ${
+              viewMode === mode
+                ? 'bg-cyber-elevated text-cyber-text'
+                : 'text-cyber-text-secondary hover:text-cyber-text'
+            }`}
+          >
+            {t(mode === 'desktop' ? 'aiDesktop.desktopView' : 'aiDesktop.installView')}
+          </button>
+        ))}
+      </div>
       <button
         onClick={scanTools}
         disabled={isScanning}
@@ -251,14 +250,8 @@ const SortableDesktopIcon: React.FC<DesktopIconProps> = ({ tool, selected, onCli
 
 export const AppManagerMain: React.FC = () => {
   const { t } = useI18n();
-  const {
-    detectedTools,
-    isScanning,
-    selectedTool,
-    setSelectedTool,
-    aiInstallableIds,
-    showUninstalled,
-  } = useAppManager();
+  const { detectedTools, isScanning, selectedTool, setSelectedTool, aiInstallableIds, viewMode } =
+    useAppManager();
   // Active category tab for the "未安装" section. 'ALL' shows every
   // uninstalled app; the other tabs filter by category.
   const [activeUninstalledCat, setActiveUninstalledCat] = useState('ALL');
@@ -338,6 +331,11 @@ export const AppManagerMain: React.FC = () => {
     ];
   }, [uninstalled]);
 
+  // Installing the last app in a category removes its tab; return to All.
+  if (activeUninstalledCat !== 'ALL' && !uninstalledCats.includes(activeUninstalledCat)) {
+    setActiveUninstalledCat('ALL');
+  }
+
   // Apps shown under the active tab. AI-installable first, then the
   // within-category tiebreaker, then name.
   const visibleUninstalled = useMemo(() => {
@@ -381,10 +379,10 @@ export const AppManagerMain: React.FC = () => {
           ))}
         </div>
       ) : (
-        <div className="flex-1 overflow-y-auto pulse-scroll pr-1 scrollbar-stable">
+        <div key={viewMode} className="flex-1 overflow-y-auto">
           {/* Installed — flat draggable grid, no section header (per spec) */}
-          {installedOrdered.length > 0 && (
-            <div className={showUninstalled && uninstalled.length > 0 ? 'mb-8' : ''}>
+          {viewMode === 'desktop' && installedOrdered.length > 0 && (
+            <div>
               <DndContext
                 sensors={sensors}
                 collisionDetection={closestCenter}
@@ -418,45 +416,41 @@ export const AppManagerMain: React.FC = () => {
             </div>
           )}
 
-          {/* Not installed — category tabs switch the grid; hidden on demand
-              via the eye toggle in the page title bar for a cleaner view */}
-          {showUninstalled && uninstalled.length > 0 && (
+          {/* Install view — category tabs filter the uninstalled apps. */}
+          {viewMode === 'install' && uninstalled.length > 0 && (
             <section>
-              <div className="flex items-center gap-3 mb-3 flex-wrap">
-                <h3 className="text-sm font-bold tracking-wider text-cyber-text flex-shrink-0">
-                  {t('aiDesktop.notInstalled')}
-                </h3>
-                <span className="text-xs text-cyber-text-muted flex-shrink-0">
-                  {uninstalled.length}
-                </span>
-                <div className="flex gap-1">
+              <div className="mb-5 flex flex-wrap gap-1">
+                <button
+                  onClick={() => setActiveUninstalledCat('ALL')}
+                  className={`px-3 py-1.5 text-[13px] transition-colors outline-none ${
+                    activeUninstalledCat === 'ALL'
+                      ? 'text-cyber-text font-bold border-b-2 border-cyber-border'
+                      : 'text-cyber-text-secondary hover:text-cyber-text'
+                  }`}
+                >
+                  {t('toolCat.all')}
+                </button>
+                {uninstalledCats.map((cat) => (
                   <button
-                    onClick={() => setActiveUninstalledCat('ALL')}
+                    key={cat}
+                    onClick={() => setActiveUninstalledCat(cat)}
                     className={`px-3 py-1.5 text-[13px] transition-colors outline-none ${
-                      activeUninstalledCat === 'ALL'
+                      activeUninstalledCat === cat
                         ? 'text-cyber-text font-bold border-b-2 border-cyber-border'
                         : 'text-cyber-text-secondary hover:text-cyber-text'
                     }`}
                   >
-                    {t('toolCat.all')}
+                    {t(catLabelKey(cat))}
                   </button>
-                  {uninstalledCats.map((cat) => (
-                    <button
-                      key={cat}
-                      onClick={() => setActiveUninstalledCat(cat)}
-                      className={`px-3 py-1.5 text-[13px] transition-colors outline-none ${
-                        activeUninstalledCat === cat
-                          ? 'text-cyber-text font-bold border-b-2 border-cyber-border'
-                          : 'text-cyber-text-secondary hover:text-cyber-text'
-                      }`}
-                    >
-                      {t(catLabelKey(cat))}
-                    </button>
-                  ))}
-                </div>
+                ))}
               </div>
               <div className={gridClass}>{visibleUninstalled.map(renderIcon)}</div>
             </section>
+          )}
+          {(viewMode === 'desktop' ? installed.length === 0 : uninstalled.length === 0) && (
+            <p className="py-12 text-center text-sm text-cyber-text-secondary">
+              {t(viewMode === 'desktop' ? 'aiDesktop.emptyDesktop' : 'aiDesktop.emptyInstall')}
+            </p>
           )}
         </div>
       )}
@@ -867,7 +861,7 @@ function RoutingToggle({ label, hint, checked, onChange }: RoutingToggleProps) {
 // ===== Right Panel (config panel with tabs) =====
 
 export const AppManagerPanel: React.FC = () => {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const {
     selectedToolData,
     selectedTool,
@@ -919,7 +913,9 @@ export const AppManagerPanel: React.FC = () => {
           </span>
         </div>
         {selectedToolData && (
-          <span className="text-[10px] text-cyber-text">{selectedToolData.name}</span>
+          <span className="text-[10px] text-cyber-text">
+            {toolDisplayName(selectedToolData, locale)}
+          </span>
         )}
       </div>
 
@@ -1042,8 +1038,10 @@ export const AppManagerPanel: React.FC = () => {
 // ===== Bottom Bar (launch area) =====
 
 export const AppManagerBottom: React.FC = () => {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
+  const activePage = useNavigationStore((s) => s.activePage);
   const {
+    viewMode,
     selectedTool,
     selectedToolData,
     toolModelConfig,
@@ -1062,6 +1060,7 @@ export const AppManagerBottom: React.FC = () => {
   // install prompt. Model config / launch are meaningless until the tool is
   // actually on the machine.
   const isUninstalled = !!selectedToolData && !selectedToolData.installed;
+  const isInstallAction = isUninstalled || (activePage === 'apps' && viewMode === 'install');
   const hasModelSelected = !!(selectedTool && toolModelConfig[selectedTool]);
   // What will a click actually do?
   //  - "Apply" runs only when the user picked a model AND agreed to the config-write policy.
@@ -1076,7 +1075,7 @@ export const AppManagerBottom: React.FC = () => {
   // Uninstalled → install flow; otherwise the existing launch/apply flow.
   const handlePrimaryClick = () => {
     if (isUninstalled && selectedToolData) {
-      onGoToMother(selectedTool!, selectedToolData.displayName || selectedToolData.name);
+      onGoToMother(selectedTool!, toolDisplayName(selectedToolData, locale));
       return;
     }
     void handleLaunch();
@@ -1102,19 +1101,21 @@ export const AppManagerBottom: React.FC = () => {
               : 'bg-cyber-accent text-white border-cyber-accent hover:bg-cyber-accent-secondary hover:border-cyber-accent-secondary shadow-cyber-accent/30'
           }`}
         >
-          {isUninstalled
+          {isInstallAction
             ? t('btn.installOneClick')
             : willLaunch
               ? t('btn.launchApp')
               : t('btn.modifyOnly')}
         </button>
-        {/* Checkboxes — for tools that don't support model config (desktop apps,
-                    IDE plugins) or aren't installed yet the boxes stay visible but go
-                    gray + un-clickable, so the layout doesn't shift and the user
-                    understands why the toggles are inert. */}
+        {/* Reserve the controls' space while installing so the action stays aligned.
+            Apps without model configuration keep the controls visible but disabled. */}
         <div
           className={`flex flex-col gap-2 ${
-            noModelConfig || isUninstalled ? 'opacity-40 pointer-events-none' : ''
+            isInstallAction
+              ? 'invisible pointer-events-none'
+              : noModelConfig
+                ? 'opacity-40 pointer-events-none'
+                : ''
           }`}
         >
           {/* Apply & Launch checkbox */}
@@ -1204,8 +1205,16 @@ export const AppManagerBottom: React.FC = () => {
 // "应用桌面" and "我的AI项目" without duplicating the rest of the row.
 const PageAwareHint: React.FC = () => {
   const { t } = useI18n();
+  const { selectedTool, viewMode } = useAppManager();
   const activePage = useNavigationStore((s) => s.activePage);
-  const key = activePage === 'myProjects' ? 'hint.myProjects' : 'hint.devInvite';
+  const key =
+    activePage === 'myProjects'
+      ? 'hint.myProjects'
+      : viewMode === 'install'
+        ? 'aiDesktop.installHint'
+        : selectedTool === 'mimodesktop'
+          ? 'hint.mimoDesktopBeta'
+          : 'hint.devInvite';
   return <div className="flex-1 text-[15px] font-medium text-cyber-accent">{t(key)}</div>;
 };
 

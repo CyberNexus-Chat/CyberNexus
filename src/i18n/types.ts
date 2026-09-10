@@ -217,11 +217,13 @@ export type TKey =
   | 'freeModels.router.limitReached'
 
   // App Manager
-  | 'aiDesktop.notInstalled'
   | 'aiDesktop.officialWebsite'
   | 'aiDesktop.githubRepository'
-  | 'aiDesktop.hideUninstalled'
-  | 'aiDesktop.showUninstalled'
+  | 'aiDesktop.desktopView'
+  | 'aiDesktop.installView'
+  | 'aiDesktop.installHint'
+  | 'aiDesktop.emptyDesktop'
+  | 'aiDesktop.emptyInstall'
   | 'agent.badge.smart'
   | 'agent.badge.local'
   | 'agent.selectTool'
@@ -312,6 +314,7 @@ export type TKey =
   | 'key.destroyed'
   // Developer invite hint
   | 'hint.devInvite'
+  | 'hint.mimoDesktopBeta'
   // Mother Agent
   | 'mother.selectModel'
   | 'mother.hintInstall'

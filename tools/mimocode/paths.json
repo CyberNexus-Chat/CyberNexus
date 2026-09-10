@@ -1,5 +1,5 @@
 {
-    "name": "MiMo Code",
+    "name": "MiMo CLI",
     "category": "CLI Code",
     "apiProtocol": [
         "openai"

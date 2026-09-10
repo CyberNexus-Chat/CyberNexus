@@ -8,6 +8,7 @@ use std::path::{Path, PathBuf};
 use crate::services::codex_catalog;
 use crate::services::tool_manager;
 
+mod mimodesktop;
 mod omp;
 
 /// Model info to apply to a tool
@@ -326,6 +327,7 @@ pub async fn apply_model_to_tool(tool_id: &str, model_info: ModelInfo) -> ApplyR
         // MiMo Code (Xiaomi fork of OpenCode): same provider schema,
         // own config at ~/.config/mimocode/mimocode.json(c).
         "mimocode" => return apply_mimocode(&model_info),
+        "mimodesktop" => return mimodesktop::apply(&model_info),
 
         // Kilo Code (Kilo fork of OpenCode): same provider schema,
         // own config at ~/.config/kilo/kilo.json.
@@ -438,6 +440,9 @@ pub async fn restore_tool_to_official(tool_id: &str) -> ApplyResult {
     if tool_id == "mimocode" {
         return restore_mimocode_to_official();
     }
+    if tool_id == "mimodesktop" {
+        return mimodesktop::restore();
+    }
     if tool_id == "kilo" {
         return restore_kilo_to_official();
     }
@@ -508,6 +513,7 @@ pub async fn get_tool_model_info(tool_id: &str) -> Option<ModelInfo> {
         "openclaw" => return read_openclaw(),
         "opencode" | "opencodedesktop" => return read_opencode(),
         "mimocode" => return read_mimocode(),
+        "mimodesktop" => return mimodesktop::read(),
         "kilo" => return read_kilo(),
         "openscience" => return read_openscience(),
         "dsh" => return read_dsh(),

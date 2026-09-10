@@ -213,14 +213,12 @@ export const AppManagerProvider: React.FC<AppManagerProviderProps> = ({ children
   const [claude1mMode, setClaude1mModeRaw] = useState<boolean>(() =>
     readBool('echobird_claudecode_1m_mode', false)
   );
-  // Whether the "未安装" section is visible on the desktop. Default on;
-  // hiding it gives a cleaner installed-only view. Persisted across sessions.
-  const [showUninstalled, setShowUninstalledRaw] = useState<boolean>(() =>
-    readBool('echobird_appmgr_show_uninstalled', true)
-  );
-  const setShowUninstalled = (v: boolean) => {
-    setShowUninstalledRaw(v);
-    writeBool('echobird_appmgr_show_uninstalled', v);
+  const [viewMode, setViewModeRaw] = useState<'desktop' | 'install'>('desktop');
+  const setViewMode = (mode: 'desktop' | 'install') => {
+    if (mode === viewMode) return;
+    setViewModeRaw(mode);
+    setSelectedTool(null);
+    setApplyError(null);
   };
   // Tool model config (single selection - one model per tool)
   const [toolModelConfig, setToolModelConfig] = useState<Record<string, string | null>>({
@@ -241,7 +239,9 @@ export const AppManagerProvider: React.FC<AppManagerProviderProps> = ({ children
   };
 
   // Get selected tool data
-  const selectedToolData = detectedTools.find((t) => t.id === selectedTool);
+  const selectedToolData = detectedTools.find(
+    (t) => t.id === selectedTool && (!isActive || t.installed === (viewMode === 'desktop'))
+  );
 
   // Apply model config to backend (internalized from App.tsx).
   // `relayOverride` lets callers (most importantly setClaudeDesktopRelayMode)
@@ -642,8 +642,8 @@ export const AppManagerProvider: React.FC<AppManagerProviderProps> = ({ children
         handleLaunch,
         onGoToMother: handleGoToMother,
         aiInstallableIds,
-        showUninstalled,
-        setShowUninstalled,
+        viewMode,
+        setViewMode,
       }}
     >
       {children}

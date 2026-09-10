@@ -1,0 +1,36 @@
+{
+    "name": "MiMo Desktop",
+    "names": {
+        "zh-Hans": "MiMo 桌面端",
+        "zh-Hant": "MiMo 桌面端",
+        "ja": "MiMo デスクトップ"
+    },
+    "category": "Desktop",
+    "apiProtocol": ["openai"],
+    "docs": "https://mimo.mi.com/docs/zh-CN/updates/feature/desktop",
+    "website": "https://mimo.xiaomimimo.com/desktop/invite/",
+    "description": "Xiaomi MiMo Desktop beta. Configure the default model for new tasks. Apply & Launch restarts the app; Modify Only requires a manual restart.",
+    "command": "",
+    "configDir": "~/.config/mimocode",
+    "configFile": "~/.config/mimocode/mimocode.jsonc",
+    "requireConfigFile": false,
+    "paths": {
+        "win32": [
+            "%LOCALAPPDATA%\\Programs\\Xiaomi MiMo\\Xiaomi MiMo.exe",
+            "%LOCALAPPDATA%\\Programs\\xiaomi-mimo-desktop\\Xiaomi MiMo.exe"
+        ],
+        "darwin": [
+            "/Applications/Xiaomi MiMo.app/Contents/MacOS/Xiaomi MiMo",
+            "~/Applications/Xiaomi MiMo.app/Contents/MacOS/Xiaomi MiMo"
+        ],
+        "linux": [
+            "~/.local/bin/mimodesktop.AppImage",
+            "~/Applications/XiaomiMiMo-latest-x64.AppImage"
+        ]
+    },
+    "installHints": {
+        "windowsDisplayNamePrefixes": ["Xiaomi MiMo"],
+        "macosAppName": "Xiaomi MiMo",
+        "linuxDesktopNames": ["Xiaomi MiMo"]
+    }
+}

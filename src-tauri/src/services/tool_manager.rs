@@ -2268,6 +2268,19 @@ mod tests {
         );
     }
 
+    #[cfg(windows)]
+    #[test]
+    #[ignore = "machine-specific: requires Xiaomi MiMo Desktop to be installed"]
+    fn real_registry_finds_mimodesktop() {
+        let definition: crate::models::tool::PathsConfig =
+            serde_json::from_str(include_str!("../../../tools/mimodesktop/paths.json")).unwrap();
+        let path = super::scan_windows_registry(&definition.install_hints.unwrap())
+            .expect("Xiaomi MiMo registry entry should resolve to an executable");
+        assert!(super::is_windows_exe(&path));
+        assert!(path.to_lowercase().ends_with(r"\xiaomi mimo.exe"), "{path}");
+        println!("Detected Xiaomi MiMo Desktop: {path}");
+    }
+
     // ── tool-paths.json self-heal: a file seeded before a tool shipped (e.g.
     //    Kimi Code in v5.4.3) must gain that tool's default-path entry on the
     //    next open, while existing user edits + "_" note keys survive. ──
