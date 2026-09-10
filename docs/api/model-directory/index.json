@@ -390,8 +390,9 @@
       "url": "https://88api.ai/sign-up?aff=knFS",
       "baseUrl": "https://88api.ai/v1",
       "anthropicUrl": "https://88api.ai",
-      "modelId": "claude-opus-5",
+      "modelId": "deepseek-v4-flash",
       "modelIds": [
+        "deepseek-v4-flash",
         "claude-opus-5",
         "claude-sonnet-5",
         "claude-fable-5",
@@ -401,7 +402,6 @@
         "grok-4.6",
         "glm-5.3",
         "kimi-k3",
-        "deepseek-v4-flash",
         "deepseek-v4-pro"
       ],
       "region": "cn"
