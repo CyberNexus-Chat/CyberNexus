@@ -50,6 +50,8 @@
   </tr>
 </table>
 
+赞助联系：[hi@echobird.ai](mailto:hi@echobird.ai)
+
 ---
 
 ## 这是什么

@@ -52,6 +52,8 @@
   </tr>
 </table>
 
+Sponsorship contact: [hi@echobird.ai](mailto:hi@echobird.ai)
+
 ---
 
 ## What is EchoBird?

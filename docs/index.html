@@ -550,8 +550,13 @@
             gap: 6px;
         }
 
-        .theme-btn:hover {
+        .theme-btn:hover:not(:disabled) {
             color: var(--white);
+        }
+
+        .theme-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
         }
 
         .theme-btn.active {
@@ -829,15 +834,22 @@
         .tool-card .ico {
             width: 36px;
             height: 36px;
-            border-radius: 8px;
-            background: linear-gradient(135deg, rgba(215, 176, 111, 0.2), rgba(242, 230, 199, 0.08));
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--neon);
-            font-size: 16px;
             flex-shrink: 0;
-            border: 1px solid var(--border);
+        }
+
+        .tool-card .ico img {
+            display: block;
+            width: 36px;
+            height: 36px;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        .tool-card .ico img.mono {
+            filter: brightness(0) invert(1);
         }
 
         .tool-card .meta {
@@ -857,28 +869,53 @@
             color: var(--dim);
         }
 
-        .tool-card .badge-one {
-            margin-left: auto;
-            font-family: var(--mono);
-            font-size: 10px;
-            color: var(--neon);
-            background: rgba(215, 176, 111, 0.12);
-            border: 1px solid rgba(215, 176, 111, 0.32);
-            padding: 2px 7px;
-            border-radius: 4px;
+        /* ── Recommended API relays ── */
+        .relays-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+            gap: 14px;
+        }
+
+        .relay-card {
+            text-decoration: none;
+        }
+
+        .relay-card:focus-visible {
+            outline: 2px solid var(--neon);
+            outline-offset: 4px;
+        }
+
+        .relay-card .meta {
+            flex: 1;
+        }
+
+        .relay-card .name {
+            font-size: 16px;
+        }
+
+        .relay-card .desc {
+            margin-top: 4px;
+            color: var(--text);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .relay-card .relay-arrow {
+            color: var(--dim);
+            font-size: 14px;
             flex-shrink: 0;
         }
 
-        .tool-card .badge-cfg {
-            margin-left: auto;
-            font-family: var(--mono);
-            font-size: 10px;
-            color: var(--dim);
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            padding: 2px 7px;
-            border-radius: 4px;
-            flex-shrink: 0;
+        .relays-contact {
+            margin-top: 24px;
+            text-align: center;
+            color: var(--text);
+            font-size: 14px;
+        }
+
+        .relays-contact a {
+            color: var(--neon);
+            text-underline-offset: 3px;
         }
 
         /* ── Models bar ── */
@@ -1300,6 +1337,7 @@
                 'nav.showcase': '界面',
                 'nav.features': '功能',
                 'nav.tools': '支持工具',
+                'nav.relays': '中转站',
                 'nav.feedback': '问题反馈',
                 'nav.support': '请喝咖啡',
                 'nav.download': '下载',
@@ -1313,7 +1351,7 @@
                 'showcase.themeDark': '深色',
                 'showcase.news': 'AI 资讯 & 明星项目 — 每天的 AI 简报',
                 'showcase.model': '模型中心 — 模型数据中枢,一处配置四处生效',
-                'showcase.app': '应用管理 — 所有 AI / Agent 应用一键启动与管理',
+                'showcase.app': '应用桌面 — 所有 AI / Agent 应用一键启动与管理',
                 'showcase.localllm': '本地大模型 — 在自己机器上跑',
                 'showcase.agent': '安装与修复 — 用对话搞定部署和排障',
                 'hero.platforms': 'Windows · macOS · Linux · 免费',
@@ -1330,7 +1368,7 @@
                 'pillar1.li2': '内置启动器 — 不碰终端就能跑',
                 'pillar1.li3': '即插即用插件:丢一个 plugin.json 就能扩展新工具',
                 'pillar2.h3.html': '<span class="hl">模型中心</span>:一处配置,四处生效',
-                'pillar2.p': 'Model Nexus 是 EchoBird 的模型数据中枢。OpenAI、Anthropic、Gemini、DeepSeek、Ollama、API Router 统一管理 —— 配置一次,应用管理 / 我的 AI 项目 / Mother Agent / 本地大模型 全部立即生效。',
+                'pillar2.p': 'Model Nexus 是 EchoBird 的模型数据中枢。OpenAI、Anthropic、Gemini、DeepSeek、Ollama、API Router 统一管理 —— 配置一次,应用桌面 / 我的 AI 项目 / Mother Agent / 本地大模型 全部立即生效。',
                 'pillar2.li1': '双协议数据中枢:OpenAI API + Anthropic API 共存,按场景调用',
                 'pillar2.li2': '永远告别手动改 JSON / TOML / .env',
                 'pillar2.li3': '任意自定义 endpoint,一秒接入',
@@ -1340,7 +1378,14 @@
                 'pillar3.li2': '双协议代理:OpenAI + Anthropic 双端点同时可用',
                 'pillar3.li3': 'GGUF / HuggingFace 任意模型即拉即跑',
                 'tools.title': '原生支持你已经在用的工具',
-                'tools.sub': '25+ 主流 AI 工具,大部分一键安装 + 切换模型。',
+                'tools.sub': '28 款主流 AI 工具,大部分一键安装 + 切换模型。',
+                'tools.mimodesktop': 'MiMo 桌面端',
+                'relays.title': '优质中转站推荐',
+                'relays.sub': '模型中心已收录，获取 API Key 后即可接入你的 AI 工具。',
+                'relays.ccvibe.desc': 'Claude、GPT 等编程模型 API',
+                'relays.apimart.desc': '文本、图片与视频生成 API',
+                'relays.88api.desc': '一站式 AI 模型与 Token 聚合',
+                'relays.contact': '中转站申请：',
                 'models.title': '连接所有主流模型,统一在 Model Nexus',
                 'models.sub': 'Anthropic、OpenAI、Google、DeepSeek、Ollama、xAI…… 任何 OpenAI 兼容的 endpoint 都能接入。',
                 'models.custom': '任意自定义 endpoint',
@@ -1376,6 +1421,7 @@
                 'nav.showcase': 'Tour',
                 'nav.features': 'Features',
                 'nav.tools': 'Tools',
+                'nav.relays': 'API Relays',
                 'nav.feedback': 'Feedback',
                 'nav.support': 'Coffee ☕',
                 'nav.download': 'Download',
@@ -1389,7 +1435,7 @@
                 'showcase.themeDark': 'DARK',
                 'showcase.news': 'AI News & Star Projects — your daily AI brief',
                 'showcase.model': 'Model Nexus — unified model data hub, configure once',
-                'showcase.app': 'App Manager — one-click launch and management for every AI / Agent app',
+                'showcase.app': 'App Desktop — one-click launch and management for every AI / Agent app',
                 'showcase.localllm': 'Local LLM — run models on your own machine',
                 'showcase.agent': 'Install & Repair Agent — chat-driven setup and troubleshooting',
                 'hero.platforms': 'Windows · macOS · Linux · Free',
@@ -1406,7 +1452,7 @@
                 'pillar1.li2': 'Built-in launcher — never touch a terminal',
                 'pillar1.li3': 'Plug-and-play plugins: drop a plugin.json to add new tools',
                 'pillar2.h3.html': '<span class="hl">Model Nexus</span>: configure once, used everywhere',
-                'pillar2.p': 'Model Nexus is EchoBird\'s unified model data hub. OpenAI, Anthropic, Gemini, DeepSeek, Ollama, API Routers — manage them in one panel; App Manager / My AI Projects / Mother Agent / Local LLM all pick them up instantly.',
+                'pillar2.p': 'Model Nexus is EchoBird\'s unified model data hub. OpenAI, Anthropic, Gemini, DeepSeek, Ollama, API Routers — manage them in one panel; App Desktop / My AI Projects / Mother Agent / Local LLM all pick them up instantly.',
                 'pillar2.li1': 'Dual-protocol: OpenAI API + Anthropic API, per-agent override',
                 'pillar2.li2': 'Say goodbye to hand-editing JSON / TOML / .env forever',
                 'pillar2.li3': 'Any custom endpoint plugs in within a second',
@@ -1416,7 +1462,14 @@
                 'pillar3.li2': 'Dual-protocol proxy: OpenAI + Anthropic endpoints both available',
                 'pillar3.li3': 'Any GGUF / HuggingFace model — pull and run',
                 'tools.title': 'Native support for tools you already use',
-                'tools.sub': '25+ mainstream AI tools — most install + switch models in one click.',
+                'tools.sub': '28 mainstream AI tools — most install + switch models in one click.',
+                'tools.mimodesktop': 'MiMo Desktop',
+                'relays.title': 'Recommended API relays',
+                'relays.sub': 'Available in Model Nexus. Get an API key to connect your AI tools.',
+                'relays.ccvibe.desc': 'API access for Claude, GPT and more',
+                'relays.apimart.desc': 'APIs for text, image and video generation',
+                'relays.88api.desc': 'Unified AI model and token gateway',
+                'relays.contact': 'Apply for a listing:',
                 'models.title': 'Connect every mainstream model, unified in Model Nexus',
                 'models.sub': 'Anthropic, OpenAI, Google, DeepSeek, Ollama, xAI… any OpenAI-compatible endpoint plugs in.',
                 'models.custom': 'Any custom endpoint',
@@ -1510,6 +1563,7 @@
             <a href="#showcase" data-i18n="nav.showcase">界面</a>
             <a href="#features" data-i18n="nav.features">功能</a>
             <a href="#tools" data-i18n="nav.tools">支持工具</a>
+            <a href="#relays" data-i18n="nav.relays">中转站</a>
             <a href="https://github.com/edison7009/EchoBird/issues" target="_blank" data-i18n="nav.feedback">问题反馈</a>
             <a href="https://github.com/edison7009/EchoBird" target="_blank">GitHub</a>
             <a href="/support/" data-i18n="nav.support">请喝咖啡</a>
@@ -1578,7 +1632,7 @@
             <!-- Monitor: image only, no toolbar -->
             <div class="showcase-screen">
                 <div class="showcase-img-wrap" id="showcase-img-wrap">
-                    <img id="showcase-img" src="./screenshots/news-cn-dark.png" alt="EchoBird preview">
+                    <img id="showcase-img" src="./screenshots/desktop-cn-dark.png" alt="EchoBird preview">
                 </div>
             </div>
 
@@ -1588,12 +1642,21 @@
                     <button class="theme-btn active" data-theme="dark" type="button">
                         ☾&nbsp;<span data-i18n="showcase.themeDark">深色</span>
                     </button>
-                    <button class="theme-btn" data-theme="light" type="button">
+                    <button class="theme-btn" data-theme="light" type="button" disabled>
                         ☀&nbsp;<span data-i18n="showcase.themeLight">浅色</span>
                     </button>
                 </div>
                 <div class="showcase-tabs" role="tablist" aria-label="Pages">
-                <button class="showcase-tab active" data-tab="news" type="button"
+                <button class="showcase-tab active" data-tab="desktop" type="button"
+                        data-name-zh="应用桌面" data-name-en="App Desktop"
+                        data-desc-zh="启动 + 管理" data-desc-en="Launch + manage">
+                    <div class="tab-ico"><i class="fa-solid fa-desktop"></i></div>
+                    <div class="tab-meta">
+                        <div class="tab-name">应用桌面</div>
+                        <div class="tab-desc">启动 + 管理</div>
+                    </div>
+                </button>
+                <button class="showcase-tab" data-tab="news" type="button"
                         data-name-zh="AI 资讯" data-name-en="AI News"
                         data-desc-zh="每天的 AI 简报" data-desc-en="Daily AI brief">
                     <div class="tab-ico"><i class="fa-solid fa-newspaper"></i></div>
@@ -1609,15 +1672,6 @@
                     <div class="tab-meta">
                         <div class="tab-name">模型中心</div>
                         <div class="tab-desc">管理 + 一键测速</div>
-                    </div>
-                </button>
-                <button class="showcase-tab" data-tab="app" type="button"
-                        data-name-zh="应用管理" data-name-en="App Manager"
-                        data-desc-zh="启动 + 管理" data-desc-en="Launch + manage">
-                    <div class="tab-ico"><i class="fa-solid fa-bolt"></i></div>
-                    <div class="tab-meta">
-                        <div class="tab-name">应用管理</div>
-                        <div class="tab-desc">启动 + 管理</div>
                     </div>
                 </button>
                 <button class="showcase-tab" data-tab="localllm" type="button"
@@ -1677,7 +1731,7 @@
                 <div class="feature-num">/ 02 — HUB</div>
                 <h3 data-i18n-html="pillar2.h3.html"><span class="hl">模型中心</span>:一处配置,四处生效</h3>
                 <p data-i18n="pillar2.p">
-                    Model Nexus 是 EchoBird 的模型数据中枢。OpenAI、Anthropic、Gemini、DeepSeek、Ollama、API Router 统一管理 —— 配置一次,应用管理 / 我的 AI 项目 / Mother Agent / 本地大模型 全部立即生效。
+                    Model Nexus 是 EchoBird 的模型数据中枢。OpenAI、Anthropic、Gemini、DeepSeek、Ollama、API Router 统一管理 —— 配置一次,应用桌面 / 我的 AI 项目 / Mother Agent / 本地大模型 全部立即生效。
                 </p>
                 <ul>
                     <li><i class="fa-solid fa-check"></i> <span data-i18n="pillar2.li1">双协议:OpenAI API + Anthropic API,按 Agent 单独指定</span></li>
@@ -1710,36 +1764,74 @@
         <div class="section-head reveal">
             <div class="section-eyebrow">SUPPORTED AGENTS</div>
             <h2 class="section-title" data-i18n="tools.title">原生支持你已经在用的工具</h2>
-            <p class="section-sub" data-i18n="tools.sub">25+ 主流 AI 工具,大部分一键安装 + 切换模型。</p>
+            <p class="section-sub" data-i18n="tools.sub">28 款主流 AI 工具,大部分一键安装 + 切换模型。</p>
         </div>
         <div class="tools-grid reveal">
-            <div class="tool-card"><div class="ico"><i class="fa-solid fa-bolt"></i></div><div class="meta"><div class="name">OpenClaw</div></div><span class="badge-one">1-CLICK</span></div>
-            <div class="tool-card"><div class="ico"><i class="fa-solid fa-code"></i></div><div class="meta"><div class="name">Claude Code</div></div><span class="badge-one">1-CLICK</span></div>
-            <div class="tool-card"><div class="ico"><i class="fa-solid fa-terminal"></i></div><div class="meta"><div class="name">OpenCode</div></div><span class="badge-one">1-CLICK</span></div>
-            <div class="tool-card"><div class="ico"><i class="fa-solid fa-shield-halved"></i></div><div class="meta"><div class="name">Hermes Agent</div></div><span class="badge-one">1-CLICK</span></div>
-            <div class="tool-card"><div class="ico"><i class="fa-solid fa-cube"></i></div><div class="meta"><div class="name">Codex</div></div><span class="badge-one">1-CLICK</span></div>
-            <div class="tool-card"><div class="ico"><i class="fa-solid fa-pen-fancy"></i></div><div class="meta"><div class="name">Aider</div></div><span class="badge-cfg">CONFIG</span></div>
-            <div class="tool-card"><div class="ico"><i class="fa-solid fa-rocket"></i></div><div class="meta"><div class="name">Grok Build</div></div><span class="badge-one">1-CLICK</span></div>
-            <div class="tool-card"><div class="ico"><i class="fa-solid fa-moon"></i></div><div class="meta"><div class="name">Kimi Code</div></div><span class="badge-one">1-CLICK</span></div>
-            <div class="tool-card"><div class="ico"><i class="fa-solid fa-microchip"></i></div><div class="meta"><div class="name">MiMo Code</div></div><span class="badge-one">1-CLICK</span></div>
-            <div class="tool-card"><div class="ico"><i class="fa-solid fa-bolt"></i></div><div class="meta"><div class="name">Kilo Code</div></div><span class="badge-one">1-CLICK</span></div>
-            <div class="tool-card"><div class="ico"><i class="fa-solid fa-circle-notch"></i></div><div class="meta"><div class="name">Pi</div></div><span class="badge-one">1-CLICK</span></div>
-            <div class="tool-card"><div class="ico"><i class="fa-solid fa-feather"></i></div><div class="meta"><div class="name">QwenCode</div></div><span class="badge-one">1-CLICK</span></div>
-            <div class="tool-card"><div class="ico"><i class="fa-solid fa-comments"></i></div><div class="meta"><div class="name">ChatGPT</div></div><span class="badge-one">1-CLICK</span></div>
-            <div class="tool-card"><div class="ico"><i class="fa-solid fa-robot"></i></div><div class="meta"><div class="name">Claude Desktop</div></div><span class="badge-one">1-CLICK</span></div>
-            <div class="tool-card"><div class="ico"><i class="fa-solid fa-gem"></i></div><div class="meta"><div class="name">Gemini Desktop</div></div><span class="badge-one">1-CLICK</span></div>
-            <div class="tool-card"><div class="ico"><i class="fa-solid fa-window-maximize"></i></div><div class="meta"><div class="name">OpenCode Desktop</div></div><span class="badge-one">1-CLICK</span></div>
-            <div class="tool-card"><div class="ico"><i class="fa-solid fa-mug-hot"></i></div><div class="meta"><div class="name">Coffee CLI</div></div><span class="badge-one">1-CLICK</span></div>
-            <div class="tool-card"><div class="ico"><i class="fa-solid fa-briefcase"></i></div><div class="meta"><div class="name">WorkBuddy</div></div><span class="badge-one">1-CLICK</span></div>
-            <div class="tool-card"><div class="ico"><i class="fa-solid fa-code-branch"></i></div><div class="meta"><div class="name">ZCode</div></div><span class="badge-one">1-CLICK</span></div>
-            <div class="tool-card"><div class="ico"><i class="fa-solid fa-mouse-pointer"></i></div><div class="meta"><div class="name">Cursor</div></div><span class="badge-one">1-CLICK</span></div>
-            <div class="tool-card"><div class="ico"><i class="fa-solid fa-wand-magic-sparkles"></i></div><div class="meta"><div class="name">Trae</div></div><span class="badge-one">1-CLICK</span></div>
-            <div class="tool-card"><div class="ico"><i class="fa-solid fa-globe"></i></div><div class="meta"><div class="name">Trae CN</div></div><span class="badge-one">1-CLICK</span></div>
-            <div class="tool-card"><div class="ico"><i class="fa-solid fa-laptop-code"></i></div><div class="meta"><div class="name">Visual Studio Code</div></div><span class="badge-one">1-CLICK</span></div>
-            <div class="tool-card"><div class="ico"><i class="fa-solid fa-flask"></i></div><div class="meta"><div class="name">Claude Science</div></div><span class="badge-one">1-CLICK</span></div>
-            <div class="tool-card"><div class="ico"><i class="fa-solid fa-atom"></i></div><div class="meta"><div class="name">OpenScience</div></div><span class="badge-one">1-CLICK</span></div>
-            <div class="tool-card"><div class="ico"><i class="fa-solid fa-chart-line"></i></div><div class="meta"><div class="name">Vibe-Trading</div></div><span class="badge-one">1-CLICK</span></div>
+            <div class="tool-card"><div class="ico"><img src="./icons/tools/openclaw.svg" alt="" width="36" height="36" loading="lazy"></div><div class="meta"><div class="name">OpenClaw</div></div></div>
+            <div class="tool-card"><div class="ico"><img src="./icons/tools/claudecode.svg" alt="" width="36" height="36" loading="lazy"></div><div class="meta"><div class="name">Claude Code</div></div></div>
+            <div class="tool-card"><div class="ico"><img src="./icons/tools/opencode.svg" alt="" width="36" height="36" loading="lazy"></div><div class="meta"><div class="name">OpenCode</div></div></div>
+            <div class="tool-card"><div class="ico"><img src="./icons/tools/hermes.png" alt="" width="36" height="36" loading="lazy"></div><div class="meta"><div class="name">Hermes Agent</div></div></div>
+            <div class="tool-card"><div class="ico"><img src="./icons/tools/codex.svg" alt="" width="36" height="36" loading="lazy"></div><div class="meta"><div class="name">Codex</div></div></div>
+            <div class="tool-card"><div class="ico"><img src="./icons/tools/aider.png" alt="" width="36" height="36" loading="lazy"></div><div class="meta"><div class="name">Aider</div></div></div>
+            <div class="tool-card"><div class="ico"><img src="./icons/tools/grok.svg" alt="" width="36" height="36" loading="lazy" class="mono"></div><div class="meta"><div class="name">Grok Build</div></div></div>
+            <div class="tool-card"><div class="ico"><img src="./icons/tools/kimicode.png" alt="" width="36" height="36" loading="lazy"></div><div class="meta"><div class="name">Kimi Code</div></div></div>
+            <div class="tool-card"><div class="ico"><img src="./icons/tools/mimocode.png" alt="" width="36" height="36" loading="lazy"></div><div class="meta"><div class="name">MiMo Code</div></div></div>
+            <div class="tool-card"><div class="ico"><img src="./icons/tools/kilo.png" alt="" width="36" height="36" loading="lazy"></div><div class="meta"><div class="name">Kilo Code</div></div></div>
+            <div class="tool-card"><div class="ico"><img src="./icons/tools/pi.svg" alt="" width="36" height="36" loading="lazy"></div><div class="meta"><div class="name">Pi</div></div></div>
+            <div class="tool-card"><div class="ico"><img src="./icons/tools/omp.svg" alt="" width="36" height="36" loading="lazy"></div><div class="meta"><div class="name">Oh My Pi (OMP)</div></div></div>
+            <div class="tool-card"><div class="ico"><img src="./icons/tools/qwencode.svg" alt="" width="36" height="36" loading="lazy"></div><div class="meta"><div class="name">QwenCode</div></div></div>
+            <div class="tool-card"><div class="ico"><img src="./icons/tools/chatgptdesktop.svg" alt="" width="36" height="36" loading="lazy"></div><div class="meta"><div class="name">ChatGPT</div></div></div>
+            <div class="tool-card"><div class="ico"><img src="./icons/tools/claudedesktop.svg" alt="" width="36" height="36" loading="lazy"></div><div class="meta"><div class="name">Claude Desktop</div></div></div>
+            <div class="tool-card"><div class="ico"><img src="./icons/tools/geminidesktop.svg" alt="" width="36" height="36" loading="lazy"></div><div class="meta"><div class="name">Gemini Desktop</div></div></div>
+            <div class="tool-card"><div class="ico"><img src="./icons/tools/opencodedesktop.png" alt="" width="36" height="36" loading="lazy"></div><div class="meta"><div class="name">OpenCode Desktop</div></div></div>
+            <div class="tool-card"><div class="ico"><img src="./icons/tools/mimodesktop.png" alt="" width="36" height="36" loading="lazy"></div><div class="meta"><div class="name" data-i18n="tools.mimodesktop">MiMo 桌面端</div></div></div>
+            <div class="tool-card"><div class="ico"><img src="./icons/tools/coffeecli.png" alt="" width="36" height="36" loading="lazy"></div><div class="meta"><div class="name">Coffee CLI</div></div></div>
+            <div class="tool-card"><div class="ico"><img src="./icons/tools/workbuddy.png" alt="" width="36" height="36" loading="lazy"></div><div class="meta"><div class="name">WorkBuddy</div></div></div>
+            <div class="tool-card"><div class="ico"><img src="./icons/tools/zcode.svg" alt="" width="36" height="36" loading="lazy"></div><div class="meta"><div class="name">ZCode</div></div></div>
+            <div class="tool-card"><div class="ico"><img src="./icons/tools/cursor.svg" alt="" width="36" height="36" loading="lazy" class="mono"></div><div class="meta"><div class="name">Cursor</div></div></div>
+            <div class="tool-card"><div class="ico"><img src="./icons/tools/trae.svg" alt="" width="36" height="36" loading="lazy"></div><div class="meta"><div class="name">Trae</div></div></div>
+            <div class="tool-card"><div class="ico"><img src="./icons/tools/traecn.svg" alt="" width="36" height="36" loading="lazy"></div><div class="meta"><div class="name">Trae CN</div></div></div>
+            <div class="tool-card"><div class="ico"><img src="./icons/tools/vscode.svg" alt="" width="36" height="36" loading="lazy"></div><div class="meta"><div class="name">Visual Studio Code</div></div></div>
+            <div class="tool-card"><div class="ico"><img src="./icons/tools/claudescience.svg" alt="" width="36" height="36" loading="lazy"></div><div class="meta"><div class="name">Claude Science</div></div></div>
+            <div class="tool-card"><div class="ico"><img src="./icons/tools/openscience.png" alt="" width="36" height="36" loading="lazy"></div><div class="meta"><div class="name">OpenScience</div></div></div>
+            <div class="tool-card"><div class="ico"><img src="./icons/tools/vibe-trading.png" alt="" width="36" height="36" loading="lazy"></div><div class="meta"><div class="name">Vibe-Trading</div></div></div>
         </div>
+    </section>
+
+    <!-- Recommended API relays -->
+    <section id="relays" class="section">
+        <div class="section-head reveal">
+            <div class="section-eyebrow">RECOMMENDED API RELAYS</div>
+            <h2 class="section-title" data-i18n="relays.title">优质中转站推荐</h2>
+            <p class="section-sub" data-i18n="relays.sub">模型中心已收录，获取 API Key 后即可接入你的 AI 工具。</p>
+        </div>
+        <div class="relays-grid reveal">
+            <a class="tool-card relay-card" href="https://echobird.ai/ccvibe/" target="_blank" rel="noopener noreferrer">
+                <div class="ico"><img src="./icons/relays/ccvibe.png" alt="" width="36" height="36" loading="lazy"></div>
+                <div class="meta">
+                    <div class="name">CC Vibe</div>
+                    <p class="desc" data-i18n="relays.ccvibe.desc">Claude、GPT 等编程模型 API</p>
+                </div>
+                <i class="fa-solid fa-arrow-up-right-from-square relay-arrow" aria-hidden="true"></i>
+            </a>
+            <a class="tool-card relay-card" href="https://go.apimart.ai/gh-echobird" target="_blank" rel="noopener noreferrer sponsored">
+                <div class="ico"><img src="./icons/relays/apimart.png" alt="" width="36" height="36" loading="lazy"></div>
+                <div class="meta">
+                    <div class="name">APIMart</div>
+                    <p class="desc" data-i18n="relays.apimart.desc">文本、图片与视频生成 API</p>
+                </div>
+                <i class="fa-solid fa-arrow-up-right-from-square relay-arrow" aria-hidden="true"></i>
+            </a>
+            <a class="tool-card relay-card" href="https://88api.ai/sign-up?aff=knFS" target="_blank" rel="noopener noreferrer sponsored">
+                <div class="ico"><img src="./icons/relays/88api.png" alt="" width="36" height="36" loading="lazy"></div>
+                <div class="meta">
+                    <div class="name">88API</div>
+                    <p class="desc" data-i18n="relays.88api.desc">一站式 AI 模型与 Token 聚合</p>
+                </div>
+                <i class="fa-solid fa-arrow-up-right-from-square relay-arrow" aria-hidden="true"></i>
+            </a>
+        </div>
+        <p class="relays-contact reveal"><span data-i18n="relays.contact">中转站申请：</span> <a href="mailto:hi@echobird.ai">hi@echobird.ai</a></p>
     </section>
 
     <!-- Models bar -->
@@ -1875,15 +1967,20 @@
         // Showcase: tabbed product preview with light/dark switcher.
         // State lives at module scope so applyI18n() can re-render after a
         // language toggle without re-binding event handlers.
-        let showcaseTab = 'news';
+        let showcaseTab = 'desktop';
         let showcaseTheme = 'dark';
 
         function updateShowcase() {
             const lang = (document.documentElement.lang || 'zh-CN').toLowerCase().startsWith('zh') ? 'cn' : 'en';
+            const theme = showcaseTab === 'desktop' ? 'dark' : showcaseTheme;
+            document.querySelectorAll('.theme-btn').forEach(btn => {
+                btn.disabled = showcaseTab === 'desktop' && btn.dataset.theme === 'light';
+                btn.classList.toggle('active', btn.dataset.theme === theme);
+            });
             const img = document.getElementById('showcase-img');
             const wrap = document.getElementById('showcase-img-wrap');
             if (img && wrap) {
-                const next = `./screenshots/${showcaseTab}-${lang}-${showcaseTheme}.png`;
+                const next = `./screenshots/${showcaseTab}-${lang}-${theme}.png`;
                 if (img.getAttribute('src') !== next) {
                     wrap.classList.add('swapping');
                     const swap = () => {
@@ -1917,8 +2014,6 @@
             });
             document.querySelectorAll('.theme-btn').forEach(btn => {
                 btn.addEventListener('click', () => {
-                    document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
                     showcaseTheme = btn.dataset.theme;
                     updateShowcase();
                 });
