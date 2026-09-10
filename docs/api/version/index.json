@@ -1,6 +1,6 @@
 {
-  "version": "5.7.0",
-  "releaseDate": "2026-09-09",
+  "version": "5.7.1",
+  "releaseDate": "2026-09-10",
   "releaseNotes": "MiMo 桌面端支持与应用桌面优化，来了！\n\n## 新增\n\n- 新增 MiMo 桌面端的一键安装与一键切换模型，并明确区分 MiMo 桌面端与 MiMo CLI。\n\n## 优化\n\n- 应用桌面改为「已安装 / 未安装」切换，优化列表布局与滚动体验，并更新 MiMo 与 WorkBuddy 图标。\n- DeepSeek 官方模型列表更新为 `deepseek-flash` 和 `deepseek-v4-pro`。\n\n## 其它\n\n- 优质中转站的站长希望加入推荐列表，联系邮箱 hi@echobird.ai",
   "releaseNotesI18n": {
     "zh-cn": "MiMo 桌面端支持与应用桌面优化，来了！\n\n## 新增\n\n- 新增 MiMo 桌面端的一键安装与一键切换模型，并明确区分 MiMo 桌面端与 MiMo CLI。\n\n## 优化\n\n- 应用桌面改为「已安装 / 未安装」切换，优化列表布局与滚动体验，并更新 MiMo 与 WorkBuddy 图标。\n- DeepSeek 官方模型列表更新为 `deepseek-flash` 和 `deepseek-v4-pro`。\n\n## 其它\n\n- 优质中转站的站长希望加入推荐列表，联系邮箱 hi@echobird.ai",
