@@ -14,8 +14,8 @@
       "url": "https://www.deepseek.com",
       "baseUrl": "https://api.deepseek.com",
       "anthropicUrl": "https://api.deepseek.com/anthropic",
-      "modelId": "deepseek-v4-pro",
-      "modelIds": ["deepseek-v4-pro", "deepseek-v4-flash", "deepseek-v4-flash-vision-exp"],
+      "modelId": "deepseek-flash",
+      "modelIds": ["deepseek-flash", "deepseek-v4-pro"],
       "region": "cn"
     },
     {
